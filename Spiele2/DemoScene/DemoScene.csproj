@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainVisual.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
@@ -58,11 +60,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Resources\fragment.frag" />
-    <None Include="Resources\models\body_f.obj" />
-    <None Include="Resources\models\body_m.obj" />
     <None Include="Resources\models\cabin.obj" />
-    <None Include="Resources\models\deer.obj" />
-    <None Include="Resources\models\house.obj" />
+    <None Include="Resources\models\nyra.obj" />
+    <None Include="Resources\models\r2d2.obj" />
+    <None Include="Resources\models\rabbit.obj" />
+    <None Include="Resources\models\statue.obj" />
     <None Include="Resources\models\suzanne.obj" />
     <None Include="Resources\vertex.vert" />
   </ItemGroup>
@@ -82,7 +84,27 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\textures\rabbit_d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\rabbit_n.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\rabbit_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\r2d2_d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\statue_d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\r2d2_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\nyra_d.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

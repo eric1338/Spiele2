@@ -16,8 +16,13 @@ uniform vec3 light3Direction;
 uniform float light3Angle;
 uniform vec4 light3Color;
 
+uniform sampler2D texD;
+//uniform sampler2D texN;
+//uniform sampler2D texS;
+
 in vec3 pos;
 in vec3 n;
+in vec2 uvs;
 
 out vec4 color;
 
@@ -58,6 +63,9 @@ void main()
 				+ light3Color * specular(normal, light3l, v, 100);
 	}
 
+
+	color = texture2D(texD, uvs, 0.0);
+
 	//combine
-	color =  ambient + light1 + light2 + light3;
+	//color =  ambient + light1 + light2 + light3;
 }
