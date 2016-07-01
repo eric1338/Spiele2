@@ -11,7 +11,22 @@ namespace DemoScene
 {
 	class Program
 	{
+		
+		private MyWindow myWindow;
 
+		[STAThread]
+		public static void Main()
+		{
+			var app = new Program();
+			app.myWindow.Run();
+		}
+
+		private Program()
+		{
+			myWindow = new MyWindow();
+		}
+
+		/*
 		private GameWindow gameWindow;
 		private MainVisual visual;
 
@@ -37,10 +52,7 @@ namespace DemoScene
 
 		private void GameWindow_KeyDown(object sender, KeyboardKeyEventArgs e)
 		{
-			switch (e.Key)
-			{
-				case Key.Escape: gameWindow.Close(); break;
-			}
+			if (e.Key == Key.Escape) gameWindow.Close();
 		}
 
 		private void GameWindow_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -56,6 +68,7 @@ namespace DemoScene
 				visual.OrbitCamera.Tilt += 10 * e.YDelta / (float)gameWindow.Height;
 			}
 		}
+		*/
 
 	}
 

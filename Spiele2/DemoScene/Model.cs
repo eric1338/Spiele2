@@ -24,7 +24,8 @@ namespace DemoScene
 
 		public Model()
 		{
-
+			Position = Vector3.Zero;
+			Scale = 1;
 		}
 
 		public static Model CreateModel(byte[] objectData, Bitmap diffuseBitmap)

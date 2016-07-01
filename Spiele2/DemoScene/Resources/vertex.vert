@@ -6,16 +6,20 @@ in vec3 position;
 in vec3 normal;
 in vec2 uv;
 
+uniform vec3 instancePosition;
+uniform float instanceScale;
+
 out vec3 pos;
 out vec3 n;
 out vec2 uvs;
 
 void main() 
 {
-	pos = position;
+	vec3 posi = position * instanceScale + instancePosition;
+
+	pos = posi;
 	n = normal;
 	uvs = uv;
 
-	vec3 pos = position;
-	gl_Position = camera * vec4(pos, 1.0);
+	gl_Position = camera * vec4(posi, 1.0);
 }

@@ -1,0 +1,45 @@
+wichtig:
+von jedem Modell 2 Exemplare:
+mit _N und _S Textur und ohne
+
+Gravitation:
+Hoppelhase
+R2D2 von Spieler & x angezogen?
+Bälle/Planeten im Himmel
+
+Kamera:
+Spielersicht
+LookAt R2D2?
+Panorama -> Perspektivisch/das andere (mit sanftem Wechsel)
+
+Licht:
+Direktionales Licht -> Sonne/Mond mit Posi (Tagesablauf)
+Spotlight auf R2D2 togglen?
+einzelne Lichtquellen, wie bspw in Kürbissen
+Glühwürmchen!
+
+Wechsel zwischen Phong/dem anderen
+Geschmeidiger Übergang in Cellshading/Toonshading
+
+Sonstiges:
+Partikel: Nebel
+Wind iwie einbauen
+Skybox
+Texturierung an/ausschalten
+Wolken?
+
+
+Skeleton
+Vertex Blending
+
+
+
+DemoSettings
+
+Wind an / aus
+Lighting: Vertex / Fragment
+Shader: Std / Toon / Shell
+Gestirn: Aus / An
+Glühwürmchen: An / Aus
+Texturen: Aus / An / mit _N / mit _S
+Nebel: Aus / An evtl mit Shader

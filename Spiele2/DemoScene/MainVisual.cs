@@ -17,22 +17,56 @@ namespace DemoScene
 		public CameraOrbit OrbitCamera { get { return camera; } }
 
 		private List<Model> models = new List<Model>();
-		private Model currentModel;
 
+		private List<Tuple<VAO, Model>> geometries = new List<Tuple<VAO, Model>>();
+
+		private CameraOrbit camera = new CameraOrbit();
+		private ShaderFileDebugger shaderWatcher;
+
+		private VAO groundVAO;
+
+		public SunMoon SunMoon { get; set; }
+		
 		public MainVisual()
 		{
-			Model rabbit = Model.CreateModel(Resources.rabbit, Resources.rabbit_d);
-			Model r2d2 = Model.CreateModel(Resources.r2d2, Resources.r2d2_d);
-			Model statue = Model.CreateModel(Resources.statue, Resources.statue_d);
-			Model nyra = Model.CreateModel(Resources.nyra, Resources.nyra_d);
+			SunMoon = new SunMoon();
 
-			currentModel = rabbit;
+			Model rabbit = Model.CreateModel(Resources.rabbit, Resources.rabbit_d);
+			rabbit.Position = new Vector3(-3f, 0f, 0f);
+
+			Model r2d2 = Model.CreateModel(Resources.r2d2, Resources.r2d2_d);
+			r2d2.Position = new Vector3(-1f, 0f, 0f);
+
+			Model statue = Model.CreateModel(Resources.statue, Resources.statue_d);
+			statue.Position = new Vector3(1f, 0f, 0f);
+			//statue.Scale = 0.5f;
+
+			Model nyra = Model.CreateModel(Resources.nyra, Resources.nyra_d);
+			nyra.Position = new Vector3(3f, 0.3f, 0.0f);
+			nyra.Scale = 0.15f;
+
+			models.Add(rabbit);
+			models.Add(r2d2);
+			models.Add(statue);
+			models.Add(nyra);
 
 			shaderWatcher = new ShaderFileDebugger("../../DemoScene/Resources/vertex.vert"
 				, "../../DemoScene/Resources/fragment.frag"
 				, Resources.vertex, Resources.fragment);
 
-			geometry = CreateMesh(shaderWatcher.Shader);
+
+			Mesh groundMesh = new Mesh();
+			groundMesh.Add(Obj2Mesh.FromObj(Resources.nyra));
+			groundVAO = CreateVAO(groundMesh, shaderWatcher.Shader);
+
+			Model groundModel = new Model();
+			groundModel.ObjectMesh = groundMesh;
+
+			groundModel.DiffuseTexture = models[0].DiffuseTexture;
+
+			//models.Add(groundModel);
+
+			UpdateGeometries(shaderWatcher.Shader);
 
 			camera.FarClip = 2000;
 			camera.Distance = 5;
@@ -42,37 +76,25 @@ namespace DemoScene
 			GL.Enable(EnableCap.CullFace);
 		}
 
+		private void UpdateGeometries(Shader shader)
+		{
+			geometries.Clear();
+
+			foreach (Model model in models)
+			{
+				VAO vao = CreateVAO(model.ObjectMesh, shader);
+
+				geometries.Add(new Tuple<VAO, Model>(vao, model));
+			}
+		}
+
 		public void Render()
 		{
-			if (shaderWatcher.CheckForShaderChange())
-			{
-				//update geometry when shader changes
-				geometry = CreateMesh(shaderWatcher.Shader);
-			}
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-
-			GL.Color3(1f, 1f, 1f);
-			GL.Begin(PrimitiveType.Quads);
-			GL.Vertex3(-10, -1, 10);
-			GL.Vertex3(-10, -1, -10);
-			GL.Vertex3(10, -1, -10);
-			GL.Vertex3(10, -1, 10);
-			GL.End();
 
 			var shader = shaderWatcher.Shader;
 			shader.Begin();
-			
-			GL.Uniform3(shader.GetUniformLocation("light1Direction"), new Vector3(-1, -1, -1).Normalized());
-			GL.Uniform4(shader.GetUniformLocation("light1Color"), new Color4(1f, 1f, 1f, 1f));
-			GL.Uniform3(shader.GetUniformLocation("light2Position"), new Vector3(-1, -1, 1));
-			GL.Uniform4(shader.GetUniformLocation("light2Color"), new Color4(1f, .1f, .1f, 1f));
-			GL.Uniform3(shader.GetUniformLocation("light3Position"), new Vector3(-2, 2, 2));
-			GL.Uniform3(shader.GetUniformLocation("light3Direction"), new Vector3(1, -1, -1).Normalized());
-			GL.Uniform1(shader.GetUniformLocation("light3Angle"), MathHelper.DegreesToRadians(10f));
-			GL.Uniform4(shader.GetUniformLocation("light3Color"), new Color4(0, 0, 1f, 1f));
-			GL.Uniform4(shader.GetUniformLocation("ambientLightColor"), new Color4(.1f, .1f, .1f, 1f));
-			GL.Uniform4(shader.GetUniformLocation("materialColor"), new Color4(.7f, .9f, .7f, 1f));
+
 			Matrix4 cam = camera.CalcMatrix();
 			GL.UniformMatrix4(shader.GetUniformLocation("camera"), true, ref cam);
 			GL.Uniform3(shader.GetUniformLocation("cameraPosition"), camera.CalcPosition());
@@ -80,35 +102,55 @@ namespace DemoScene
 			//GL.Uniform1(shader.GetUniformLocation("texN"), texture_n.ID);
 			//GL.Uniform1(shader.GetUniformLocation("texS"), texture_s.ID);
 
+			GL.Uniform3(shader.GetUniformLocation("lightDirection"), SunMoon.GetLightDirection());
+			GL.Uniform3(shader.GetUniformLocation("lightColor"), SunMoon.GetLightColor());
 
-			Texture texture = currentModel.DiffuseTexture;
+			if (shaderWatcher.CheckForShaderChange())
+			{
+				Console.WriteLine("TEST");
 
-			GL.Uniform1(shader.GetUniformLocation("texD"), texture.ID);
+				//update geometry when shader changes
+				UpdateGeometries(shaderWatcher.Shader);
+			}
 
-			texture.BeginUse();
-			geometry.Draw();
-			texture.EndUse();
+			foreach (Tuple<VAO, Model> geometry in geometries)
+			{
+				Model model = geometry.Item2;
+
+				Texture texture = model.DiffuseTexture;
+
+				GL.Uniform1(shader.GetUniformLocation("texD"), texture.ID);
+
+				GL.Uniform3(shader.GetUniformLocation("instancePosition"), model.Position);
+				GL.Uniform1(shader.GetUniformLocation("instanceScale"), model.Scale);
+
+				texture.BeginUse();
+				geometry.Item1.Draw();
+				texture.EndUse();
+			}
+
+			Texture test = models[0].DiffuseTexture;
+
+			GL.Uniform1(shader.GetUniformLocation("texD"), test.ID);
+
+			GL.Uniform3(shader.GetUniformLocation("instancePosition"), Vector3.Zero);
+			GL.Uniform1(shader.GetUniformLocation("instanceScale"), 1f);
+			test.BeginUse();
+			//groundVAO.Draw();
+			test.EndUse();
 
 			shader.End();
 		}
 
-		private CameraOrbit camera = new CameraOrbit();
-		private ShaderFileDebugger shaderWatcher;
-		private VAO geometry;
-
-		private VAO CreateMesh(Shader shader)
+		private VAO CreateVAO(Mesh mesh, Shader shader)
 		{
-			//Mesh mesh = new Mesh();
-			//mesh.Add(Meshes.CreateSphere(.9f, 4));
-			//mesh.Add(Obj2Mesh.FromObj(Resources.nyra));
+			VAO vao = new VAO();
 
-			Mesh mesh = currentModel.ObjectMesh;
-
-			var vao = new VAO();
 			vao.SetAttribute(shader.GetAttributeLocation("position"), mesh.positions.ToArray(), VertexAttribPointerType.Float, 3);
 			vao.SetAttribute(shader.GetAttributeLocation("normal"), mesh.normals.ToArray(), VertexAttribPointerType.Float, 3);
 			vao.SetAttribute(shader.GetAttributeLocation("uv"), mesh.uvs.ToArray(), VertexAttribPointerType.Float, 2);
 			vao.SetID(mesh.ids.ToArray(), PrimitiveType.Triangles);
+
 			return vao;
 		}
 
