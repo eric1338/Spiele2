@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using DemoScene.Visual;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using System;
@@ -16,7 +17,7 @@ namespace DemoScene
 
 		private MainVisual visual;
 
-		public MyWindow() : base(1280, 800)
+		public MyWindow() : base(800, 800)
 		{
 			Title = "Spiele2 DemoScene";
 
@@ -70,6 +71,11 @@ namespace DemoScene
 			{
 				visual.SunMoon.IncreaseAngle();
 			}
+
+			if (inputManager.IsUserActionActive(UserAction.MoveForwards)) visual.Looki.MoveForwards();
+			if (inputManager.IsUserActionActive(UserAction.MoveBackwards)) visual.Looki.MoveBackwards();
+			if (inputManager.IsUserActionActive(UserAction.MoveLeft)) visual.Looki.MoveLeft();
+			if (inputManager.IsUserActionActive(UserAction.MoveRight)) visual.Looki.MoveRight();
 		}
 
 		private void MyWindow_RenderFrame(object sender, FrameEventArgs e)

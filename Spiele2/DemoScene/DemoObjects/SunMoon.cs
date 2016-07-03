@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DemoScene
+namespace DemoScene.DemoObjects
 {
 	class SunMoon
 	{
@@ -15,7 +15,7 @@ namespace DemoScene
 
 		private float myAngle = 0.2f;
 
-		private float intensity = 0.3f;
+		private float intensity = 0.4f;
 
 		private float xFactor = 20f;
 		private float yFactor = 18f;
@@ -32,7 +32,11 @@ namespace DemoScene
 		{
 			Vector3 lightColor = IsSunUp() ? sunLightColor : moonLightColor;
 
-			return lightColor * intensity;
+			Vector3 sunPos = GetSunPosition();
+			sunPos.Normalize();
+			float test = Math.Abs(sunPos.Y);
+
+			return lightColor * test * intensity;
 		}
 
 		public void IncreaseAngle()

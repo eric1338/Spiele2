@@ -9,6 +9,8 @@ in vec2 uv;
 uniform vec3 instancePosition;
 uniform float instanceScale;
 
+uniform float time;
+
 out vec3 pos;
 out vec3 n;
 out vec2 uvs;

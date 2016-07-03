@@ -61,11 +61,31 @@ namespace DemoScene {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap autumn {
+            get {
+                object obj = ResourceManager.GetObject("autumn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] cabin {
             get {
                 object obj = ResourceManager.GetObject("cabin", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] flagvertex {
+            get {
+                object obj = ResourceManager.GetObject("flagvertex", resourceCulture);
                 return ((byte[])(obj));
             }
         }

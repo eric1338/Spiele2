@@ -49,7 +49,8 @@
   <ItemGroup>
     <Compile Include="DemoObjects\Flag.cs" />
     <Compile Include="InputManager.cs" />
-    <Compile Include="MainVisual.cs" />
+    <Compile Include="Visual\LookAtCamera.cs" />
+    <Compile Include="Visual\MainVisual.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="MyWindow.cs" />
     <Compile Include="Program.cs" />
@@ -64,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Resources\flagvertex.vert" />
     <None Include="Resources\fragment.frag" />
     <None Include="Resources\models\cabin.obj" />
     <None Include="Resources\models\nyra.obj" />
@@ -109,6 +111,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\textures\nyra_d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\autumn.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

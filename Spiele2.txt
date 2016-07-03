@@ -1,11 +1,23 @@
-wichtig:
-von jedem Modell 2 Exemplare:
-mit _N und _S Textur und ohne
+ï»¿von jedem Modell 4 Exemplare:
+std
+mit _N und _S Textur
+Cell-Shading
+Toon-Shading
+
+12 Modelle im Viertelkreis aufgestellt (mit Drehung?)
+
+Wind in Blickrichtung von Spieler
+
+Flagge Flackergeschwindigkeit = Windgeschwindigkeit
+
+Inception-Effekt! (Ground als VAO)
 
 Gravitation:
 Hoppelhase
+
 R2D2 von Spieler & x angezogen?
-Bälle/Planeten im Himmel
+BÃ¤lle/Planeten im Himmel
+BÃ¤lle springen lassen (Gravitations-Indikator)
 
 Kamera:
 Spielersicht
@@ -15,19 +27,17 @@ Panorama -> Perspektivisch/das andere (mit sanftem Wechsel)
 Licht:
 Direktionales Licht -> Sonne/Mond mit Posi (Tagesablauf)
 Spotlight auf R2D2 togglen?
-einzelne Lichtquellen, wie bspw in Kürbissen
-Glühwürmchen!
+einzelne Lichtquellen, wie bspw in KÃ¼rbissen
+GlÃ¼hwÃ¼rmchen!
 
 Wechsel zwischen Phong/dem anderen
-Geschmeidiger Übergang in Cellshading/Toonshading
+Geschmeidiger Ãœbergang in Cellshading/Toonshading
 
 Sonstiges:
 Partikel: Nebel
 Wind iwie einbauen
 Skybox
 Texturierung an/ausschalten
-Wolken?
-
 
 Skeleton
 Vertex Blending
@@ -40,6 +50,6 @@ Wind an / aus
 Lighting: Vertex / Fragment
 Shader: Std / Toon / Shell
 Gestirn: Aus / An
-Glühwürmchen: An / Aus
+GlÃ¼hwÃ¼rmchen: An / Aus
 Texturen: Aus / An / mit _N / mit _S
 Nebel: Aus / An evtl mit Shader
