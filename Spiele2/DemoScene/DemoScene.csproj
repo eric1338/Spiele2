@@ -49,9 +49,10 @@
   <ItemGroup>
     <Compile Include="DemoObjects\Flag.cs" />
     <Compile Include="InputManager.cs" />
+    <Compile Include="Utils\ShaderAttributes.cs" />
     <Compile Include="Visual\LookAtCamera.cs" />
     <Compile Include="Visual\MainVisual.cs" />
-    <Compile Include="Model.cs" />
+    <Compile Include="Visual\Model.cs" />
     <Compile Include="MyWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,7 +62,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="DemoObjects\SunMoon.cs" />
-    <Compile Include="UserAction.cs" />
+    <Compile Include="Utils\UserAction.cs" />
+    <Compile Include="Visual\VaoFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

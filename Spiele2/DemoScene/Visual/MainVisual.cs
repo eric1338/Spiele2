@@ -21,14 +21,19 @@ namespace DemoScene.Visual
 
 		private List<Model> models = new List<Model>();
 
+		private float modelAngle = 0.0f;
+
 		private List<Tuple<VAO, Model>> geometries = new List<Tuple<VAO, Model>>();
 
 		private CameraOrbit camera = new CameraOrbit();
 		private ShaderFileDebugger shaderWatcher;
-		private ShaderFileDebugger shaderWatcher2;
+		private ShaderFileDebugger flagShaderWatcher;
 
 		private VAO groundVAO;
 		private Texture groundTexture;
+
+		VAO flagVao;
+		Texture flagTexture;
 
 		public SunMoon SunMoon { get; set; }
 		
@@ -61,14 +66,14 @@ namespace DemoScene.Visual
 				, "../../DemoScene/Resources/fragment.frag"
 				, Resources.vertex, Resources.fragment);
 
-			shaderWatcher2 = new ShaderFileDebugger("../../DemoScene/Resources/flagvertex.vert"
+			flagShaderWatcher = new ShaderFileDebugger("../../DemoScene/Resources/flagvertex.vert"
 				, "../../DemoScene/Resources/fragment.frag"
 				, Resources.flagvertex, Resources.fragment);
 
 
 			groundTexture = TextureLoader.FromBitmap(Resources.autumn);
 
-			flagVao = FlagTest(shaderWatcher.Shader);
+			flagVao = VaoFactory.Instance.CreateFlagVao(shaderWatcher.Shader);
 			flagTexture = models[3].DiffuseTexture;
 
 			UpdateGeometries(shaderWatcher.Shader);
@@ -87,13 +92,18 @@ namespace DemoScene.Visual
 
 			foreach (Model model in models)
 			{
-				VAO vao = CreateVAO(model.ObjectMesh, shader);
+				VAO vao = VaoFactory.Instance.CreateFromMesh(shader, model.ObjectMesh);
 
 				geometries.Add(new Tuple<VAO, Model>(vao, model));
 			}
 		}
 
 		float time = 0;
+
+		public void RotateModels()
+		{
+			modelAngle += 0.02f;
+		}
 
 		public void Render()
 		{
@@ -132,11 +142,18 @@ namespace DemoScene.Visual
 				UpdateGeometries(shaderWatcher.Shader);
 			}
 
+			float angle = 0.4f;
+
 			foreach (Tuple<VAO, Model> geometry in geometries)
 			{
 				Model model = geometry.Item2;
 
 				Texture texture = model.DiffuseTexture;
+
+				Matrix3 rotation = Matrix3.CreateRotationY(modelAngle + angle);
+				GL.UniformMatrix3(shader.GetUniformLocation("instanceRotation"), false, ref rotation);
+
+				angle += 0.3f;
 
 				GL.Uniform1(shader.GetUniformLocation("texD"), texture.ID);
 
@@ -168,31 +185,43 @@ namespace DemoScene.Visual
 
 			shader.End();
 
-			Shader shader2 = shaderWatcher2.Shader;
-
-			shader2.Begin();
-
-			GL.Uniform1(shader2.GetUniformLocation("time"), time);
-			GL.UniformMatrix4(shader2.GetUniformLocation("camera"), true, ref cam);
-			GL.Uniform3(shader2.GetUniformLocation("cameraPosition"), camera.CalcPosition());
-
-			GL.Uniform1(shader2.GetUniformLocation("texD"), test.ID);
-
-			GL.Uniform3(shader2.GetUniformLocation("lightDirection"), SunMoon.GetLightDirection());
-			GL.Uniform3(shader2.GetUniformLocation("lightColor"), SunMoon.GetLightColor());
-
-			GL.Uniform3(shader2.GetUniformLocation("instancePosition"), Vector3.Zero);
-			GL.Uniform1(shader2.GetUniformLocation("instanceScale"), 1f);
-
-			test.BeginUse();
-			flagVao.Draw();
-			test.EndUse();
-
-			shader2.End();
+			RenderFlag(cam);
 		}
 
-		VAO flagVao;
-		Texture flagTexture;
+
+		private void RenderFlag(Matrix4 cam)
+		{
+			Shader flagShader = flagShaderWatcher.Shader;
+
+			flagShader.Begin();
+
+			Texture flagTexture = models[1].DiffuseTexture;
+
+			GL.Uniform1(flagShader.GetUniformLocation("time"), time);
+			GL.UniformMatrix4(flagShader.GetUniformLocation("camera"), true, ref cam);
+			GL.Uniform3(flagShader.GetUniformLocation("cameraPosition"), camera.CalcPosition());
+
+			GL.Uniform1(flagShader.GetUniformLocation("texD"), flagTexture.ID);
+
+			GL.Uniform3(flagShader.GetUniformLocation("lightDirection"), SunMoon.GetLightDirection());
+			GL.Uniform3(flagShader.GetUniformLocation("lightColor"), SunMoon.GetLightColor());
+
+			GL.Uniform3(flagShader.GetUniformLocation("instancePosition"), new Vector3(-1, -1, -1));
+			GL.Uniform1(flagShader.GetUniformLocation("instanceScale"), 0.15f);
+
+			GL.Uniform3(flagShader.GetUniformLocation("polePosition"), new Vector3(-5, 2, -4));
+			GL.Uniform3(flagShader.GetUniformLocation("windDirection"), new Vector3(-1.0f, 0, -0.0f));
+			GL.Uniform1(flagShader.GetUniformLocation("waveSpeed"), 5f);
+			GL.Uniform1(flagShader.GetUniformLocation("waveAmplitude"), 0.6f);
+
+			// 6-3 
+
+			flagTexture.BeginUse();
+			flagVao.Draw();
+			flagTexture.EndUse();
+
+			flagShader.End();
+		}
 
 
 		private List<VAO> CreateGroundVaos(Shader shader)
@@ -204,142 +233,6 @@ namespace DemoScene.Visual
 
 			return vaos;
 		}
-
-		private VAO FlagTest(Shader shader)
-		{
-			List<Vector3> posis = new List<Vector3>();
-			List<Vector3> normals = new List<Vector3>();
-
-			Vector3 bottomLeft = Vector3.Zero;
-			Vector3 topRight = Vector3.Zero;
-
-			uint pointsPerRow = 200;
-			uint pointRows = 200;
-
-			for (int i = 0; i < pointRows; i++)
-			{
-				for (int j = 0; j < pointsPerRow; j++)
-				{
-					float z = (float) Math.Sin(time + i * 0.1f);
-
-					z = 0;
-
-					posis.Add(new Vector3(i * 0.05f, j * 0.025f, z * 0.2f));
-					normals.Add(new Vector3(0, 0, 1));
-				}
-			}
-
-			List<Vector2> uvs = CreateUVs(pointRows, pointsPerRow);
-			List<uint> ids = CreateIDs(pointRows, pointsPerRow);
-
-			return CreateMyVAO(shader, posis, normals, uvs, ids);
-		}
-
-		private VAO CreateSimpleVao(Shader shader, bool renderBack = true)
-		{
-			List<Vector3> positions = new List<Vector3>();
-
-			Vector3 bottomLeft = Vector3.Zero;
-			Vector3 topLeft = new Vector3(0, 1, 0);
-			Vector3 bottomRight = new Vector3(1, 0, 0);
-			Vector3 topRight = new Vector3(1, 1, 0);
-
-			positions.Add(bottomLeft);
-			positions.Add(topLeft);
-			positions.Add(bottomRight);
-			positions.Add(topRight);
-
-			List<Vector3> normals = new List<Vector3>();
-
-			// TODO: anders
-			for (int i = 0; i < 3; i++) normals.Add(new Vector3(0, 0, 1));
-
-			List<Vector2> uvs = CreateUVs(2, 2);
-			List<uint> ids = CreateIDs(2, 2, renderBack);
-
-			return CreateMyVAO(shader, positions, normals, uvs, ids);
-		}
-
-		private VAO CreateMyVAO(Shader shader, List<Vector3> positions, List<Vector3> normals, List<Vector2> uvs, List<uint> ids)
-		{
-			VAO vao = new VAO();
-
-			vao.SetAttribute(shader.GetAttributeLocation("position"), positions.ToArray(), VertexAttribPointerType.Float, 3);
-			vao.SetAttribute(shader.GetAttributeLocation("normal"), normals.ToArray(), VertexAttribPointerType.Float, 3);
-			vao.SetAttribute(shader.GetAttributeLocation("uv"), uvs.ToArray(), VertexAttribPointerType.Float, 2);
-
-			vao.SetID(ids.ToArray(), PrimitiveType.Triangles);
-
-			return vao;
-		}
-
-		private List<Vector2> CreateUVs(uint pointRows, uint pointsPerRow)
-		{
-			List<Vector2> uvs = new List<Vector2>();
-
-			for (int i = 0; i < pointRows; i++)
-			{
-				for (int j = 0; j < pointsPerRow; j++)
-				{
-					float u = i / (float)(pointRows - 1);
-					float v = j / (float)(pointsPerRow - 1);
-
-					uvs.Add(new Vector2(u, v));
-				}
-			}
-
-			return uvs;
-		}
-
-		private List<uint> CreateIDs(uint pointRows, uint pointsPerRow, bool renderBack = true)
-		{
-			List<uint> ids = new List<uint>();
-
-			for (uint i = 0; i < (pointRows - 1); i++)
-			{
-				for (uint j = 0; j < (pointsPerRow - 1); j++)
-				{
-					uint bottomLeft = i * pointRows + j;
-					uint topLeft = bottomLeft + 1;
-					uint bottomRight = ((i + 1) * pointRows) + j;
-					uint topRight = bottomRight + 1;
-
-					ids.Add(bottomLeft);
-					ids.Add(bottomRight);
-					ids.Add(topLeft);
-
-					ids.Add(bottomRight);
-					ids.Add(topRight);
-					ids.Add(topLeft);
-
-					if (renderBack)
-					{
-						ids.Add(topLeft);
-						ids.Add(bottomRight);
-						ids.Add(bottomLeft);
-
-						ids.Add(topLeft);
-						ids.Add(topRight);
-						ids.Add(bottomRight);
-					}
-				}
-			}
-
-			return ids;
-		}
-
-
-		private VAO CreateVAO(Mesh mesh, Shader shader)
-		{
-			VAO vao = new VAO();
-
-			vao.SetAttribute(shader.GetAttributeLocation("position"), mesh.positions.ToArray(), VertexAttribPointerType.Float, 3);
-			vao.SetAttribute(shader.GetAttributeLocation("normal"), mesh.normals.ToArray(), VertexAttribPointerType.Float, 3);
-			vao.SetAttribute(shader.GetAttributeLocation("uv"), mesh.uvs.ToArray(), VertexAttribPointerType.Float, 2);
-			vao.SetID(mesh.ids.ToArray(), PrimitiveType.Triangles);
-
-			return vao;
-		}
-
+		
 	}
 }

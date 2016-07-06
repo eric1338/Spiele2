@@ -2,49 +2,57 @@
 
 uniform mat4 camera;
 
-in vec3 position;
-in vec3 normal;
-in vec2 uv;
+in vec3 vertexPosition;
+in vec3 vertexNormal;
+in vec2 vertexUV;
 
 uniform vec3 instancePosition;
 uniform float instanceScale;
 
+uniform vec3 polePosition;
+uniform vec3 windDirection;
+uniform float waveSpeed;
+uniform float waveAmplitude;
 uniform float time;
 
 out vec3 pos;
 out vec3 n;
 out vec2 uvs;
 
-void main() 
-{
-	vec3 posi = position * instanceScale + instancePosition;
+// todo: Normale berechnen
 
-	vec3 wind = vec3(1, 0, 0.5);
-	vec3 mast = vec3(0, 0, 0);
+void main()
+{
+	vec3 position = vertexPosition * instanceScale + instancePosition;
+
+	float waveFrequency = 1.4;
+
 	float flagScale = 0.9;
 
-	// todo: Normale berechnen
-	// andere Namen
+	float distanceToPole = length(vec3(vertexPosition.x * instanceScale, 0, vertexPosition.z * instanceScale));
 
-	vec3 dVec = vec3(posi.x, 0, posi.z) - vec3(mast.x, 0, mast.z);
+	vec3 flatPosition = vec3(position.x, 0, position.z);
 
-	vec3 newDVec = dVec * flagScale;
+	float amplitude = waveAmplitude * min((distanceToPole * 4), 0.5);
 
-	float trig = sin(2 * time + length(dVec)) * 0.8;
+	float waveFactor = sin(waveSpeed * time + waveFrequency * distanceToPole) * amplitude;
 
-	vec3 nPosi = normalize(posi);
+	vec3 normalizedPosition = normalize(flatPosition);
 
-	vec3 offs = vec3(nPosi.z * -trig, 0, nPosi.x * trig);
+	vec3 offs = vec3(normalizedPosition.z * -waveFactor, position.y, normalizedPosition.x * waveFactor);
+	
+	vec3 newDVec = normalize(windDirection) * distanceToPole * flagScale;
+	vec3 finalXZ = polePosition + newDVec + offs;
 
-	vec3 finalXZ = mast + newDVec + offs;
+	vec3 finalPosi = vec3(finalXZ.x, position.y, finalXZ.z);
 
-	vec3 finalPosi = vec3(finalXZ.x, posi.y, finalXZ.z);
+	position = finalPosi;
 
-	posi = finalPosi;
+	position = vec3(position.x + waveSpeed, position.y + waveAmplitude, position.z);
 
-	pos = posi;
-	n = normal;
-	uvs = uv;
+	pos = position;
+	n = vertexNormal;
+	uvs = vertexUV;
 
-	gl_Position = camera * vec4(posi, 1.0);
+	gl_Position = camera * vec4(position, 1.0);
 }

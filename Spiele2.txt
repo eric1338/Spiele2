@@ -1,4 +1,9 @@
-﻿von jedem Modell 4 Exemplare:
+﻿Tafel:
+Spiele2 DemoScene
+(Tastenbelegung)
+
+
+von jedem Modell 4 Exemplare:
 std
 mit _N und _S Textur
 Cell-Shading

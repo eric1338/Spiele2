@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DemoScene
+namespace DemoScene.Utils
 {
 	enum UserAction
 	{
@@ -13,6 +13,6 @@ namespace DemoScene
 		MoveLeft,
 		MoveRight,
 		MoveSunMoon,
-
+		RotateModels,
 	}
 }

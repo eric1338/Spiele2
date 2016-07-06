@@ -1,4 +1,5 @@
-﻿using OpenTK.Input;
+﻿using DemoScene.Utils;
+using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,6 @@ namespace DemoScene
 			}
 		}
 
-
 		public bool IsUserActionActive(UserAction userAction)
 		{
 			return ProlongedUserActions.ContainsKey(userAction) && ProlongedUserActions[userAction];
@@ -50,7 +50,7 @@ namespace DemoScene
 
 		public List<UserAction> GetSingleUserActionsAsList()
 		{
-			List<UserAction> singleUserActions = SingleUserActions.ToList<UserAction>();
+			List<UserAction> singleUserActions = SingleUserActions.ToList();
 			SingleUserActions.Clear();
 
 			return singleUserActions;

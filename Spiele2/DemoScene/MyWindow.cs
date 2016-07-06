@@ -1,4 +1,5 @@
-﻿using DemoScene.Visual;
+﻿using DemoScene.Utils;
+using DemoScene.Visual;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
@@ -37,6 +38,7 @@ namespace DemoScene
 			inputManager.AddProlongedUserActionMapping(Key.D, UserAction.MoveRight);
 
 			inputManager.AddProlongedUserActionMapping(Key.M, UserAction.MoveSunMoon);
+			inputManager.AddProlongedUserActionMapping(Key.R, UserAction.RotateModels);
 
 			visual = new MainVisual();
 		}
@@ -70,6 +72,11 @@ namespace DemoScene
 			if (inputManager.IsUserActionActive(UserAction.MoveSunMoon))
 			{
 				visual.SunMoon.IncreaseAngle();
+			}
+
+			if (inputManager.IsUserActionActive(UserAction.RotateModels))
+			{
+				visual.RotateModels();
 			}
 
 			if (inputManager.IsUserActionActive(UserAction.MoveForwards)) visual.Looki.MoveForwards();
