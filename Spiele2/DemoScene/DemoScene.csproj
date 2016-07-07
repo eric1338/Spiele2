@@ -53,6 +53,7 @@
     <Compile Include="Visual\LookAtCamera.cs" />
     <Compile Include="Visual\MainVisual.cs" />
     <Compile Include="Visual\Model.cs" />
+    <Compile Include="Visual\RenderSettings.cs" />
     <Compile Include="MyWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,6 +64,8 @@
     </Compile>
     <Compile Include="DemoObjects\SunMoon.cs" />
     <Compile Include="Utils\UserAction.cs" />
+    <Compile Include="Visual\Models.cs" />
+    <Compile Include="Visual\Textures.cs" />
     <Compile Include="Visual\VaoFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +78,7 @@
     <None Include="Resources\models\rabbit.obj" />
     <None Include="Resources\models\statue.obj" />
     <None Include="Resources\models\suzanne.obj" />
+    <None Include="Resources\simplefragment.frag" />
     <None Include="Resources\vertex.vert" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +120,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\textures\autumn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\daysky_side.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\daysky_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\daysky_bottom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\nightsky_bottom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\nightsky_side.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\nightsky_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\flag.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

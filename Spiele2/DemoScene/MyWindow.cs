@@ -40,6 +40,8 @@ namespace DemoScene
 			inputManager.AddProlongedUserActionMapping(Key.M, UserAction.MoveSunMoon);
 			inputManager.AddProlongedUserActionMapping(Key.R, UserAction.RotateModels);
 
+			Textures.Instance.LoadTextures();
+
 			visual = new MainVisual();
 		}
 
@@ -76,7 +78,7 @@ namespace DemoScene
 
 			if (inputManager.IsUserActionActive(UserAction.RotateModels))
 			{
-				visual.RotateModels();
+				visual.RotateFigurines();
 			}
 
 			if (inputManager.IsUserActionActive(UserAction.MoveForwards)) visual.Looki.MoveForwards();

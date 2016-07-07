@@ -17,6 +17,8 @@ Flagge Flackergeschwindigkeit = Windgeschwindigkeit
 
 Inception-Effekt! (Ground als VAO)
 
+Grayscale evtl
+
 Gravitation:
 Hoppelhase
 

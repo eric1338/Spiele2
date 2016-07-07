@@ -25,30 +25,21 @@ void main()
 {
 	vec3 position = vertexPosition * instanceScale + instancePosition;
 
-	float waveFrequency = 1.4;
-
+	float waveFrequency = 1.5;
 	float flagScale = 0.9;
 
-	float distanceToPole = length(vec3(vertexPosition.x * instanceScale, 0, vertexPosition.z * instanceScale));
+	float distanceToPole = length(vec3(vertexPosition.x, 0, vertexPosition.z)) * instanceScale;
 
-	vec3 flatPosition = vec3(position.x, 0, position.z);
+	float amplitude = waveAmplitude * min((distanceToPole * 12), 1);
+	float waveFactor = sin(waveSpeed * time + distanceToPole * waveFrequency) * amplitude;
 
-	float amplitude = waveAmplitude * min((distanceToPole * 4), 0.5);
-
-	float waveFactor = sin(waveSpeed * time + waveFrequency * distanceToPole) * amplitude;
-
-	vec3 normalizedPosition = normalize(flatPosition);
-
-	vec3 offs = vec3(normalizedPosition.z * -waveFactor, position.y, normalizedPosition.x * waveFactor);
+	vec3 normalizedWindDirection = normalize(vec3(windDirection.x, 0, windDirection.z));
+	vec3 offset = vec3(normalizedWindDirection.z * -waveFactor, position.y, normalizedWindDirection.x * waveFactor);
 	
-	vec3 newDVec = normalize(windDirection) * distanceToPole * flagScale;
-	vec3 finalXZ = polePosition + newDVec + offs;
+	vec3 vectorToPole = normalize(windDirection) * distanceToPole * flagScale;
+	vec3 xzPosition = polePosition + vectorToPole + offset;
 
-	vec3 finalPosi = vec3(finalXZ.x, position.y, finalXZ.z);
-
-	position = finalPosi;
-
-	position = vec3(position.x + waveSpeed, position.y + waveAmplitude, position.z);
+	position = vec3(xzPosition.x, position.y, xzPosition.z);
 
 	pos = position;
 	n = vertexNormal;

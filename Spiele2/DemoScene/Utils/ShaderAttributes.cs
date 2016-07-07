@@ -13,5 +13,9 @@ namespace DemoScene.Utils
 		public static readonly string VertexNormal = "vertexNormal";
 		public static readonly string VertexUV = "vertexUV";
 
+		public static readonly string InstancePosition = "instancePosition";
+		public static readonly string InstanceScale = "instanceScale";
+
+		public static readonly string DiffuseTexture = "diffuseTexture";
 	}
 }

@@ -81,6 +81,46 @@ namespace DemoScene {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap daysky_bottom {
+            get {
+                object obj = ResourceManager.GetObject("daysky_bottom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap daysky_side {
+            get {
+                object obj = ResourceManager.GetObject("daysky_side", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap daysky_top {
+            get {
+                object obj = ResourceManager.GetObject("daysky_top", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap flag {
+            get {
+                object obj = ResourceManager.GetObject("flag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] flagvertex {
@@ -97,6 +137,36 @@ namespace DemoScene {
             get {
                 object obj = ResourceManager.GetObject("fragment", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap nightsky_bottom {
+            get {
+                object obj = ResourceManager.GetObject("nightsky_bottom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap nightsky_side {
+            get {
+                object obj = ResourceManager.GetObject("nightsky_side", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap nightsky_top {
+            get {
+                object obj = ResourceManager.GetObject("nightsky_top", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -187,6 +257,16 @@ namespace DemoScene {
             get {
                 object obj = ResourceManager.GetObject("rabbit_s", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] simplefragment {
+            get {
+                object obj = ResourceManager.GetObject("simplefragment", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

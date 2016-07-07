@@ -15,34 +15,37 @@ namespace DemoScene.Visual
 
 		public static VaoFactory Instance { get; private set; } = new VaoFactory();
 
-		public VAO CreateFromMesh(Shader shader, Mesh mesh)
+		public VAO CreateFromObjectData(Shader shader, byte[] objectData)
 		{
-			return CreateMyVAO(shader, mesh.positions, mesh.normals, mesh.uvs, mesh.ids);
+			Mesh mesh = Obj2Mesh.FromObj(objectData);
+
+			return CreateFromMesh(shader, mesh);
 		}
 
-		private VAO CreateSimpleVao(Shader shader, bool renderBack = true)
+		public VAO CreateFromMesh(Shader shader, Mesh mesh)
+		{
+			return CreateMyVao(shader, mesh.positions, mesh.normals, mesh.uvs, mesh.ids);
+		}
+
+		public VAO Create2DVao(Shader shader, Vector3 a, Vector3 b, Vector3 c, Vector3 d, bool renderBack = true)
 		{
 			List<Vector3> positions = new List<Vector3>();
 
-			Vector3 bottomLeft = Vector3.Zero;
-			Vector3 topLeft = new Vector3(0, 1, 0);
-			Vector3 bottomRight = new Vector3(1, 0, 0);
-			Vector3 topRight = new Vector3(1, 1, 0);
-
-			positions.Add(bottomLeft);
-			positions.Add(topLeft);
-			positions.Add(bottomRight);
-			positions.Add(topRight);
+			positions.Add(a);
+			positions.Add(b);
+			positions.Add(d);
+			positions.Add(c);
 
 			List<Vector3> normals = new List<Vector3>();
 
-			// TODO: anders
-			for (int i = 0; i < 3; i++) normals.Add(new Vector3(0, 0, 1));
+			Vector3 normal = -Vector3.Cross(b - a, c - b);
+
+			for (int i = 0; i < 3; i++) normals.Add(normal);
 
 			List<Vector2> uvs = CreateUVs(2, 2);
 			List<uint> ids = CreateIDs(2, 2, renderBack);
 
-			return CreateMyVAO(shader, positions, normals, uvs, ids);
+			return CreateMyVao(shader, positions, normals, uvs, ids);
 		}
 
 		public VAO CreateFlagVao(Shader shader)
@@ -70,10 +73,10 @@ namespace DemoScene.Visual
 			List<Vector2> uvs = CreateUVs(pointRows, pointsPerRow);
 			List<uint> ids = CreateIDs(pointRows, pointsPerRow);
 
-			return CreateMyVAO(shader, posis, normals, uvs, ids);
+			return CreateMyVao(shader, posis, normals, uvs, ids);
 		}
 
-		private VAO CreateMyVAO(Shader shader, List<Vector3> positions, List<Vector3> normals, List<Vector2> uvs, List<uint> ids)
+		private VAO CreateMyVao(Shader shader, List<Vector3> positions, List<Vector3> normals, List<Vector2> uvs, List<uint> ids)
 		{
 			VAO vao = new VAO();
 

@@ -23,14 +23,14 @@ namespace DemoScene.DemoObjects
 
 		public Vector3 GetLightDirection()
 		{
-			Vector3 starPosition = IsSunUp() ? GetSunPosition() : GetMoonPosition();
+			Vector3 starPosition = IsDay() ? GetSunPosition() : GetMoonPosition();
 
 			return Vector3.Zero - starPosition;
 		}
 
 		public Vector3 GetLightColor()
 		{
-			Vector3 lightColor = IsSunUp() ? sunLightColor : moonLightColor;
+			Vector3 lightColor = IsDay() ? sunLightColor : moonLightColor;
 
 			Vector3 sunPos = GetSunPosition();
 			sunPos.Normalize();
@@ -44,7 +44,7 @@ namespace DemoScene.DemoObjects
 			myAngle += 0.02f;
 		}
 
-		private bool IsSunUp()
+		public bool IsDay()
 		{
 			return GetSunPosition().Y > GetMoonPosition().Y;
 		}

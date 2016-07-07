@@ -124,11 +124,32 @@
   <data name="cabin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\models\cabin.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="daysky_bottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\textures\daysky_bottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="daysky_side" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\textures\daysky_side.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="daysky_top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\textures\daysky_top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="flag" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\textures\flag.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="flagvertex" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\flagvertex.vert;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="fragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\fragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="nightsky_bottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\textures\nightsky_bottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="nightsky_side" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\textures\nightsky_side.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="nightsky_top" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\textures\nightsky_top.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="nyra" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\models\nyra.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -156,6 +177,9 @@
   </data>
   <data name="rabbit_s" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\textures\rabbit_s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="simplefragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\simplefragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="statue" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\models\statue.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
