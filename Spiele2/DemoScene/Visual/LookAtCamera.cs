@@ -63,13 +63,24 @@ namespace DemoScene.Visual
 			Move(new Vector3(-lookDirection.Z, lookDirection.Y, lookDirection.X));
 		}
 
+		public void ChangeTarget(float horizontalDelta, float verticalDelta)
+		{
+			float f1 = horizontalDelta < 0 ? -1 : 1;
+
+			target = target + new Vector3(0.05f * f1 * horizontalDelta, 0, 0.05f * f1 * horizontalDelta);
+
+			float f2 = verticalDelta < 0 ? -1 : 1;
+
+			target = target + new Vector3(0, 0.05f * f1 * horizontalDelta, 0.05f * f1 * horizontalDelta);
+		}
+
 		public Matrix4 GetMatrix()
 		{
 			Console.WriteLine(position);
 
 			Matrix4 camera = Matrix4.LookAt(position, target, new Vector3(0, 1, 0));
 
-			camera.Transpose();
+			//camera.Transpose();
 
 			return camera;
 		}

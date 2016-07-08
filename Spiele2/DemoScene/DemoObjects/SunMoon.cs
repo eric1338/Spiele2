@@ -11,11 +11,9 @@ namespace DemoScene.DemoObjects
 	{
 
 		private Vector3 sunLightColor = new Vector3(1.0f, 0.9f, 0.8f);
-		private Vector3 moonLightColor = new Vector3(0.4f, 0.0f, 1.0f);
+		private Vector3 moonLightColor = new Vector3(0.4f, 0.1f, 0.8f);
 
 		private float myAngle = 0.2f;
-
-		private float intensity = 0.4f;
 
 		private float xFactor = 20f;
 		private float yFactor = 18f;
@@ -32,11 +30,26 @@ namespace DemoScene.DemoObjects
 		{
 			Vector3 lightColor = IsDay() ? sunLightColor : moonLightColor;
 
-			Vector3 sunPos = GetSunPosition();
-			sunPos.Normalize();
-			float test = Math.Abs(sunPos.Y);
+			return lightColor * GetIntensity() * 0.25f;
+		}
 
-			return lightColor * test * intensity;
+		public float GetIntensity()
+		{
+			Vector3 sunPosition = GetSunPosition();
+			Vector3 straightSunPosition = new Vector3(sunPosition.X, sunPosition.Y, 0);
+
+			straightSunPosition.Normalize();
+
+			float intensity = Math.Abs(straightSunPosition.Y);
+
+			if (!IsDay()) intensity *= 0.6f;
+
+			return intensity;
+		}
+
+		public float GetAmbientFactor()
+		{
+			return IsDay() ? 0.9f : 0.4f;
 		}
 
 		public void IncreaseAngle()

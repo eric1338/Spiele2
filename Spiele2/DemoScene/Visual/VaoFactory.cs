@@ -42,7 +42,14 @@ namespace DemoScene.Visual
 
 			for (int i = 0; i < 3; i++) normals.Add(normal);
 
-			List<Vector2> uvs = CreateUVs(2, 2);
+			List<Vector2> uvs = new List<Vector2>();
+			uvs.Add(new Vector2(0, 0));
+			uvs.Add(new Vector2(1, 0));
+			uvs.Add(new Vector2(0, 1));
+			uvs.Add(new Vector2(1, 1));
+
+			//List<Vector2> uvs = CreateUVs(2, 2);
+
 			List<uint> ids = CreateIDs(2, 2, renderBack);
 
 			return CreateMyVao(shader, positions, normals, uvs, ids);
@@ -56,16 +63,14 @@ namespace DemoScene.Visual
 			Vector3 bottomLeft = Vector3.Zero;
 			Vector3 topRight = Vector3.Zero;
 
-			uint pointsPerRow = 1000;
-			uint pointRows = 1000;
+			uint pointsPerRow = 200;
+			uint pointRows = 200;
 
 			for (int i = 0; i < pointRows; i++)
 			{
 				for (int j = 0; j < pointsPerRow; j++)
 				{
-					float z = 0;
-
-					posis.Add(new Vector3(i * 0.05f, j * 0.025f, z * 0.2f));
+					posis.Add(new Vector3(i * 0.25f, j * 0.125f, 0));
 					normals.Add(new Vector3(0, 0, 1));
 				}
 			}

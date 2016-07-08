@@ -7,8 +7,11 @@ uniform sampler2D diffuseTexture;
 
 uniform vec3 lightDirection;
 uniform vec3 lightColor;
+uniform float ambientFactor;
 
-//in vec3 pos;
+uniform vec3 lightningBugPosition;
+
+in vec3 pos;
 in vec3 n;
 in vec2 uvs;
 
@@ -29,17 +32,38 @@ float specular(vec3 n, vec3 l, vec3 v, float shininess)
 void main()
 {
 	vec3 normal = normalize(n);
-	//vec3 v = normalize(cameraPosition - pos);
+	vec3 v = normalize(cameraPosition - pos);
 
 	float lam = lambert(normal, -lightDirection);
+	float diff = lambert(normal, -lightDirection);
+
+	vec3 l = vec3(0, 3, 1);
 	
-	vec4 mat = texture2D(diffuseTexture, uvs, 0.0);
+	vec4 materialColor = texture2D(diffuseTexture, uvs, 0.0);
 
-	vec4 diffuse = mat * vec4(lightColor, 1) * lam;
+	vec4 diffuse = materialColor * vec4(lightColor, 1) * lam;
 
-	vec4 ambient = 0.5 * vec4(lightColor, 1) * mat;
+	vec4 ambient = ambientFactor * vec4(lightColor, 1) * materialColor;
 
 	color = diffuse * vec4(lightColor, 1) + ambient;
+
+	//float lf = max((1.5 - length(pos - lightningBugPosition)) / 1.5, 0);
+	//vec4 lbc = vec4(0.8, 1, 0.2, 1) * lf;
+
+	//color = diffuse * vec4(lightColor, 1) + ambient + materialColor * lbc;
+
+	//toon shading == discrete (quantized) steps of diffuse lighting
+	//vec4 maxColor = materialColor * vec4(lightColor, 1);
+	//color = (diff > 0.9) ? maxColor : (diff > 0.5) ? 0.5 * maxColor : ambient;
+
+	//float spec = specular(normal, l, v, 100);
+	//if(spec > 0.8) color = vec4(1);
+
+	//cel shading == detect edges and color them
+	//if(abs(dot(normal, v)) < 0.18)
+	//{
+	//	//color = vec4(0, 0, 0, 1);
+	//}
 
 	//float cl = myColor.r * 0.213 + myColor.g * 0.715 + myColor.b * 0.07;
 	//color = vec4(cl, cl, cl, 1);

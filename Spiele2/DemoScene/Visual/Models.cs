@@ -20,21 +20,21 @@ namespace DemoScene.Visual
 		public void CreateFigurines(Shader shader)
 		{
 			RenderSettings rabbit = new RenderSettings(Textures.Instance.RabbitDiffuse);
-			rabbit.Position = new Vector3(-3f, 0f, 0f);
-			rabbit.Rotation = 0.3f;
+			rabbit.Position = GetFigurinePosition(1);
+			rabbit.Rotation = GetFigurineRotation(1);
 
 			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
-			r2d2.Position = new Vector3(-1f, 0f, 0f);
-			r2d2.Rotation = 0.1f;
+			r2d2.Position = GetFigurinePosition(3);
+			r2d2.Rotation = GetFigurineRotation(3);
 
 			RenderSettings statue = new RenderSettings(Textures.Instance.StatueDiffuse);
-			statue.Position = new Vector3(1f, 0f, 0f);
-			statue.Rotation = -0.1f;
+			statue.Position = GetFigurinePosition(5);
+			statue.Rotation = GetFigurineRotation(5);
 
 			RenderSettings nyra = new RenderSettings(Textures.Instance.NyraDiffuse);
-			nyra.Position = new Vector3(3f, 0.3f, 0.0f);
+			nyra.Position = GetFigurinePosition(7, 0.32f);
+			nyra.Rotation = GetFigurineRotation(7);
 			nyra.Scale = 0.15f;
-			nyra.Rotation = -0.3f;
 
 			VAO rabbitVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.rabbit);
 			Figurines.Add(new Model(rabbitVao, rabbit));
@@ -47,6 +47,58 @@ namespace DemoScene.Visual
 
 			VAO nyraVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.nyra);
 			Figurines.Add(new Model(nyraVao, nyra));
+
+			Test(shader);
+		}
+
+		public void Test(Shader shader)
+		{
+			RenderSettings rabbit = new RenderSettings(Textures.Instance.RabbitDiffuse);
+			rabbit.Position = GetFigurinePosition(2);
+			rabbit.Rotation = GetFigurineRotation(2);
+
+			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
+			r2d2.Position = GetFigurinePosition(4);
+			r2d2.Rotation = GetFigurineRotation(4);
+
+			RenderSettings statue = new RenderSettings(Textures.Instance.StatueDiffuse);
+			statue.Position = GetFigurinePosition(6);
+			statue.Rotation = GetFigurineRotation(6);
+
+			RenderSettings nyra = new RenderSettings(Textures.Instance.NyraDiffuse);
+			nyra.Position = GetFigurinePosition(8, 0.32f);
+			nyra.Rotation = GetFigurineRotation(8);
+			nyra.Scale = 0.15f;
+
+			VAO rabbitVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.rabbit);
+			Figurines.Add(new Model(rabbitVao, rabbit));
+
+			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.r2d2);
+			Figurines.Add(new Model(r2d2Vao, r2d2));
+
+			VAO statueVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.statue);
+			Figurines.Add(new Model(statueVao, statue));
+
+			VAO nyraVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.nyra);
+			Figurines.Add(new Model(nyraVao, nyra));
+		}
+
+		private float radius = 15;
+		private int numberOfFigurines = 9;
+
+		private Vector3 GetFigurinePosition(int number, float y = 0)
+		{
+			float angle = 1.57f + numberOfFigurines * 0.1f - number * 0.2f;
+
+			float x = (float) Math.Cos(angle) * radius;
+			float z = (float) -Math.Sin(angle) * radius;
+
+			return new Vector3(x, y, z);
+		}
+
+		private float GetFigurineRotation(int number)
+		{
+			return numberOfFigurines * -0.1f + number * 0.2f;
 		}
 
 		public void CreateFlag(Shader shader)
@@ -67,7 +119,7 @@ namespace DemoScene.Visual
 		{
 			List<Model> skyboxModels = new List<Model>();
 
-			float l = 50;
+			float l = 90;
 
 			Vector3 a = new Vector3(-l, -l, -l);
 			Vector3 b = new Vector3(l, -l, -l);
@@ -99,9 +151,9 @@ namespace DemoScene.Visual
 			float l = 10;
 			Vector3 a, b, c, d;
 
-			for (int i = 0; i < 2; i++)
+			for (int i = -1; i < 3; i++)
 			{
-				for (int j = 0; j < 2; j++)
+				for (int j = -1; j < 3; j++)
 				{
 					a = new Vector3((i - 1) * l, 0, (j - 1) * l);
 					b = new Vector3(i * l, 0, (j - 1) * l);

@@ -49,14 +49,21 @@ namespace DemoScene
 		{
 			if (ButtonState.Pressed == e.Mouse.LeftButton)
 			{
-				visual.OrbitCamera.Heading += 10 * e.XDelta / (float) Width;
-				visual.OrbitCamera.Tilt += 10 * e.YDelta / (float) Height;
+				float h = 10 * e.XDelta / (float) Width;
+				float v = 10 * e.YDelta / (float) Height;
+
+				visual.OrbitCamera.Heading += h;
+				visual.OrbitCamera.Tilt += v;
+
+				visual.Looki.ChangeTarget(h, v);
 			}
 		}
 
 		private void MyWindow_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
 			visual.OrbitCamera.Distance -= e.DeltaPrecise;
+
+
 		}
 
 		private void MyWindow_KeyUp(object sender, KeyboardKeyEventArgs e)
