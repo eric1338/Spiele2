@@ -23,7 +23,10 @@ namespace DemoScene
 
 		private Program()
 		{
-			myWindow = new MyWindow();
+			int width = 1366;
+			int height = 768;
+
+			myWindow = new MyWindow(width, height);
 		}
 
 		/*

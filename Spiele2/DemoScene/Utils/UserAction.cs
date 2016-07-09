@@ -14,5 +14,10 @@ namespace DemoScene.Utils
 		MoveRight,
 		MoveSunMoon,
 		RotateModels,
+
+		ToggleFly,
+		IncreaseWindForce,
+		DecreaseWindForce,
+		RotateWind,
 	}
 }

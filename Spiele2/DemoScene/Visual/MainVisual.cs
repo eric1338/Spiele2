@@ -15,7 +15,7 @@ namespace DemoScene.Visual
 	class MainVisual
 	{
 
-		public LookAtCamera Looki { get; set; }
+		public FirstPersonCamera FirstPersonCamera { get; set; }
 
 		public CameraOrbit OrbitCamera { get { return camera; } }
 
@@ -25,7 +25,7 @@ namespace DemoScene.Visual
 		private Shader flagShader;
 		private Shader skyboxShader;
 
-		public SunMoon SunMoon { get; set; }
+		private DemoLevel demoLevel;
 
 		private Models models;
 
@@ -33,10 +33,11 @@ namespace DemoScene.Visual
 
 		private Vector3 LightningBugPosition;
 
-		public MainVisual()
+		public MainVisual(DemoLevel demoLevel)
 		{
-			Looki = new LookAtCamera();
-			SunMoon = new SunMoon();
+			this.demoLevel = demoLevel;
+
+			FirstPersonCamera = new FirstPersonCamera();
 			
 			camera.FarClip = 2000;
 			camera.Distance = 5;
@@ -75,46 +76,9 @@ namespace DemoScene.Visual
 
 		private Matrix4 GetCurrentCameraMatrix()
 		{
-			/*
-			Vector3 eye = new Vector3(0, 1 + time, -2);
-			Vector3 target = new Vector3(0 + (time / 3), 0 + time, 1);
-			//Vector3 up = new Vector3(0, -1, 0);
+			return FirstPersonCamera.GetMatrix();
 
-			Vector3 up = eye + Vector3.Cross(eye, target);
-
-			Matrix4 cam = Matrix4.LookAt(eye, target, up);
-
-			cam.Transpose();
-
-			return cam;
-
-			if (Looki != null)
-			{
-				return Looki.GetMatrix();
-			}
-			*/
-
-			//Matrix4 test = Matrix4.CreatePerspectiveFieldOfView(1.0f, 1, 1, 40);
-
-			/*
-			Matrix4 cam;
-
-			Matrix4 ortho = Matrix4.CreateOrthographic(1, 1, 1, 40);
-			Matrix4 persp = Matrix4.CreatePerspectiveFieldOfView(1.2f, 1, 1, 40);
-
-			cam = time < -4 ? ortho : persp;
-
-			cam.Column3 = new Vector4(-6 + time, -2, -3 + time * 0.3f, 1);
-
-			return cam;
-			*/
-
-			return camera.CalcMatrix();
-		}
-
-		private Matrix4 Fu(float f)
-		{
-			return new Matrix4(f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f);
+			//return camera.CalcMatrix();
 		}
 
 		float lbx = -6f;
@@ -167,9 +131,9 @@ namespace DemoScene.Visual
 
 			SetDefaultVertexUniforms(skyboxShader, camera);
 
-			GL.Uniform1(skyboxShader.GetUniformLocation("brightness"), SunMoon.GetIntensity());
+			GL.Uniform1(skyboxShader.GetUniformLocation("brightness"), demoLevel.SunMoon.GetIntensity());
 
-			List<Model> skybox = SunMoon.IsDay() ? models.DaySkybox : models.NightSkybox;
+			List<Model> skybox = demoLevel.SunMoon.IsDay() ? models.DaySkybox : models.NightSkybox;
 
 			foreach (Model skyboxModel in skybox)
 			{
@@ -196,13 +160,33 @@ namespace DemoScene.Visual
 
 			GL.Uniform3(flagShader.GetUniformLocation("instancePosition"), new Vector3(8, 3, 6));
 			GL.Uniform1(flagShader.GetUniformLocation("instanceScale"), 0.15f);
-
-			Vector3 wind = new Vector3(1.0f * (float) Math.Sin(0), 0, -1.0f * (float) Math.Cos(0));
+			
+			Vector3 windDirection = demoLevel.WindDirection;
 
 			GL.Uniform3(flagShader.GetUniformLocation("polePosition"), new Vector3(8, 3, 6));
-			GL.Uniform3(flagShader.GetUniformLocation("windDirection"), wind);
-			GL.Uniform1(flagShader.GetUniformLocation("waveSpeed"), 3f);
-			GL.Uniform1(flagShader.GetUniformLocation("waveAmplitude"), 0.4f);
+			GL.Uniform3(flagShader.GetUniformLocation("windDirection"), demoLevel.WindDirection);
+
+			float waveSpeed;
+			float waveAmplitude;
+
+			if (demoLevel.WindForceLevel == 0)
+			{
+				waveSpeed = 2f;
+				waveAmplitude = 0.3f;
+			}
+			else if (demoLevel.WindForceLevel == 1)
+			{
+				waveSpeed = 3f;
+				waveAmplitude = 0.4f;
+			}
+			else
+			{
+				waveSpeed = 8f;
+				waveAmplitude = 0.6f;
+			}
+
+			GL.Uniform1(flagShader.GetUniformLocation("waveSpeed"), waveSpeed);
+			GL.Uniform1(flagShader.GetUniformLocation("waveAmplitude"), waveAmplitude);
 
 			// 8 0.6
 			// 3 0.4
@@ -223,9 +207,9 @@ namespace DemoScene.Visual
 
 		private void SetSunMoonUniforms(Shader shader)
 		{
-			GL.Uniform3(shader.GetUniformLocation("lightDirection"), SunMoon.GetLightDirection());
-			GL.Uniform3(shader.GetUniformLocation("lightColor"), SunMoon.GetLightColor());
-			GL.Uniform1(shader.GetUniformLocation("ambientFactor"), SunMoon.GetAmbientFactor());
+			GL.Uniform3(shader.GetUniformLocation("lightDirection"), demoLevel.SunMoon.GetLightDirection());
+			GL.Uniform3(shader.GetUniformLocation("lightColor"), demoLevel.SunMoon.GetLightColor());
+			GL.Uniform1(shader.GetUniformLocation("ambientFactor"), demoLevel.SunMoon.GetAmbientFactor());
 		}
 
 		private void RenderModel(Shader shader, Model model)
