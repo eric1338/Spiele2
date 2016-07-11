@@ -12,12 +12,17 @@ namespace DemoScene.Utils
 		MoveBackwards,
 		MoveLeft,
 		MoveRight,
+		Jump,
+		ToggleFly,
+
 		MoveSunMoon,
 		RotateModels,
 
-		ToggleFly,
+		IncreaseGravity,
+		DecreaseGravity,
 		IncreaseWindForce,
 		DecreaseWindForce,
 		RotateWind,
+		ToggleBounce,
 	}
 }

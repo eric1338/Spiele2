@@ -1,4 +1,5 @@
 ﻿using DemoScene.DemoObjects;
+using DemoScene.Logic;
 using DemoScene.Utils;
 using DemoScene.Visual;
 using OpenTK;
@@ -20,6 +21,7 @@ namespace DemoScene
 		private DemoLevel demoLevel = new DemoLevel();
 
 		private MainVisual visual;
+		private Physics physics;
 
 		public MyWindow(int width, int height) : base(width, height)
 		{
@@ -54,12 +56,16 @@ namespace DemoScene
 			inputManager.AddProlongedUserActionMapping(Key.T, UserAction.RotateWind);
 
 			inputManager.AddSingleUserActionMapping(Key.F, UserAction.ToggleFly);
-			inputManager.AddSingleUserActionMapping(Key.Z, UserAction.DecreaseWindForce);
+			inputManager.AddSingleUserActionMapping(Key.G, UserAction.DecreaseGravity);
+			inputManager.AddSingleUserActionMapping(Key.H, UserAction.IncreaseGravity);
+			inputManager.AddSingleUserActionMapping(Key.Y, UserAction.DecreaseWindForce);
 			inputManager.AddSingleUserActionMapping(Key.U, UserAction.IncreaseWindForce);
+			inputManager.AddSingleUserActionMapping(Key.B, UserAction.ToggleBounce);
 
 			Textures.Instance.LoadTextures();
 
 			visual = new MainVisual(demoLevel);
+			physics = new Physics(demoLevel);
 		}
 
 		private void MyWindow_MouseMove(object sender, MouseMoveEventArgs e)
@@ -93,7 +99,23 @@ namespace DemoScene
 			inputManager.ProcessKeyDown(e.Key);
 		}
 
+		int count = -120;
+
+		float rand1 = 0;
+
 		private void MyWindow_UpdateFrame(object sender, FrameEventArgs e)
+		{
+			ProcessInput();
+			DoPhysics();
+		}
+
+		private void MyWindow_RenderFrame(object sender, FrameEventArgs e)
+		{
+			visual.Render();
+			SwapBuffers();
+		}
+
+		private void ProcessInput()
 		{
 			if (inputManager.IsUserActionActive(UserAction.MoveSunMoon)) demoLevel.SunMoon.IncreaseAngle();
 			if (inputManager.IsUserActionActive(UserAction.RotateModels)) visual.RotateFigurines();
@@ -109,16 +131,42 @@ namespace DemoScene
 			foreach (UserAction userAction in singleUserActions)
 			{
 				if (userAction == UserAction.ToggleFly) visual.FirstPersonCamera.ToggleFixY();
+				if (userAction == UserAction.IncreaseGravity) demoLevel.IncreaseGravity();
+				if (userAction == UserAction.DecreaseGravity) demoLevel.DecreaseGravity();
 				if (userAction == UserAction.IncreaseWindForce) demoLevel.IncreaseWindForce();
 				if (userAction == UserAction.DecreaseWindForce) demoLevel.DecreaseWindForce();
-
+				if (userAction == UserAction.ToggleBounce) ToggleBounce();
 			}
 		}
 
-		private void MyWindow_RenderFrame(object sender, FrameEventArgs e)
+		private void ToggleBounce()
 		{
-			visual.Render();
-			SwapBuffers();
+			demoLevel.Player.Bounce = !demoLevel.Player.Bounce;
+			demoLevel.Rabbit.Bounce = !demoLevel.Rabbit.Bounce;
+		}
+
+		private void DoPhysics()
+		{
+			Rabbit rabbit = demoLevel.Rabbit;
+
+			count++;
+
+			if (count < 0) return;
+
+			if (count % 400 == 0)
+			{
+				rand1 = (float)(new Random()).NextDouble() * 0.02f;
+			}
+			if (count % 400 < 100)
+			{
+				rabbit.Rotation += rand1;
+			}
+			if (count % 400 == 100)
+			{
+				physics.LetRabbitJump(rabbit.GetJumpDirection());
+			}
+
+			physics.DoPhysics();
 		}
 	}
 }

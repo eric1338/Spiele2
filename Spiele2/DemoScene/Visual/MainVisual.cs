@@ -50,6 +50,7 @@ namespace DemoScene.Visual
 			models = new Models();
 
 			models.CreateFigurines(defaultShader);
+			models.CreateRabbit(defaultShader);
 			models.CreateFlag(flagShader);
 			models.CreateSkyboxes(skyboxShader);
 			models.CreateGround(defaultShader);
@@ -121,6 +122,14 @@ namespace DemoScene.Visual
 			{
 				RenderModel(defaultShader, groundModel);
 			}
+
+			RenderSettings rabbitRenderSettings = models.Rabbit.RenderSettings;
+			Rabbit rabbit = demoLevel.Rabbit;
+
+			rabbitRenderSettings.Position = rabbit.Position;
+			rabbitRenderSettings.Rotation = rabbit.Rotation;
+
+			RenderModel(defaultShader, models.Rabbit);
 
 			defaultShader.End();
 		}

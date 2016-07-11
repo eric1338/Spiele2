@@ -16,7 +16,7 @@ namespace DemoScene.Visual
 
 		public bool FixY { get; set; } = true;
 
-		private float moveSpeedFactor = 0.1f;
+		private float moveSpeedFactor = 0.14f;
 		private float fixedYValue = -3f;
 
 

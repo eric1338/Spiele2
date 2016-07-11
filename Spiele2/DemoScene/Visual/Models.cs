@@ -15,6 +15,7 @@ namespace DemoScene.Visual
 		public List<Model> Ground = new List<Model>();
 		public List<Model> DaySkybox = new List<Model>();
 		public List<Model> NightSkybox = new List<Model>();
+		public Model Rabbit;
 		public Model Flag;
 
 		public void CreateFigurines(Shader shader)
@@ -101,6 +102,14 @@ namespace DemoScene.Visual
 			return numberOfFigurines * -0.1f + number * 0.2f;
 		}
 
+		public void CreateRabbit(Shader shader)
+		{
+			VAO vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.rabbit);
+			RenderSettings renderSettings = new RenderSettings(Textures.Instance.RabbitDiffuse);
+
+			Rabbit = new Model(vao, renderSettings);
+		}
+
 		public void CreateFlag(Shader shader)
 		{
 			VAO vao = VaoFactory.Instance.CreateFlagVao(shader);
@@ -130,16 +139,18 @@ namespace DemoScene.Visual
 			Vector3 g = new Vector3(l, l, l);
 			Vector3 h = new Vector3(-l, l, l);
 
+			Vector3 y = new Vector3(0, 5, 0);
+
 			Texture sideTexture = day ? Textures.Instance.DaySkySide : Textures.Instance.NightSkySide;
 			Texture topTexture = day ? Textures.Instance.DaySkyTop : Textures.Instance.NightSkyTop;
 			Texture bottomTexture = day ? Textures.Instance.DaySkyBottom : Textures.Instance.NightSkyBottom;
 
-			skyboxModels.Add(Create2DModel(shader, a, b, c, d, bottomTexture));
+			skyboxModels.Add(Create2DModel(shader, a + y, b + y, c + y, d + y, bottomTexture));
 			skyboxModels.Add(Create2DModel(shader, a, b, f, e, sideTexture));
 			skyboxModels.Add(Create2DModel(shader, b, c, g, f, sideTexture));
 			skyboxModels.Add(Create2DModel(shader, c, d, h, g, sideTexture));
 			skyboxModels.Add(Create2DModel(shader, d, a, e, h, sideTexture));
-			skyboxModels.Add(Create2DModel(shader, e, f, g, h, topTexture));
+			skyboxModels.Add(Create2DModel(shader, e - y, f - y, g - y, h - y, topTexture));
 
 			return skyboxModels;
 		}

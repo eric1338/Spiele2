@@ -49,7 +49,12 @@
   <ItemGroup>
     <Compile Include="DemoObjects\DemoLevel.cs" />
     <Compile Include="DemoObjects\Flag.cs" />
+    <Compile Include="DemoObjects\IPhysical.cs" />
+    <Compile Include="DemoObjects\PhysicalBody.cs" />
+    <Compile Include="DemoObjects\Player.cs" />
+    <Compile Include="DemoObjects\Rabbit.cs" />
     <Compile Include="InputManager.cs" />
+    <Compile Include="Logic\Physics.cs" />
     <Compile Include="Utils\ShaderAttributes.cs" />
     <Compile Include="Visual\FirstPersonCamera.cs" />
     <Compile Include="Visual\LookAtCamera.cs" />
