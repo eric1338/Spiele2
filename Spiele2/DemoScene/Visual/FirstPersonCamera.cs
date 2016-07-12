@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using DemoScene.DemoObjects;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +11,27 @@ namespace DemoScene.Visual
 	class FirstPersonCamera
 	{
 
-		private Vector3 position;
+		private Player player;
+		
 		private float upAngle = 0;
 		private float sideAngle = 0;
+		
+		private float playerHeight = 3f;
 
-		public bool FixY { get; set; } = true;
-
-		private float moveSpeedFactor = 0.14f;
-		private float fixedYValue = -3f;
-
-
-		public FirstPersonCamera()
+		public FirstPersonCamera(Player player)
 		{
-			position = new Vector3(0, fixedYValue, 0);
+			this.player = player;
 		}
 
+		private Vector3 GetEyePosition()
+		{
+			return player.Position + new Vector3(0, playerHeight, 0);
+		}
+
+		private bool FixY()
+		{
+			return !player.IsFlying;
+		}
 
 		private Vector3 GetLookDirection()
 		{
@@ -35,37 +42,28 @@ namespace DemoScene.Visual
 			return new Vector3(x, y, z);
 		}
 
-		private void Move(Vector3 direction)
+		public Vector3 GetForwardsVector()
 		{
-			Vector3 moveVector = FixY ? new Vector3(direction.X, 0, direction.Z) : direction;
-
-			moveVector.Normalize();
-
-			position -= moveVector * moveSpeedFactor;
+			return GetLookDirection();
 		}
 
-		public void MoveForwards()
+		public Vector3 GetBackwardsVector()
 		{
-			Move(GetLookDirection());
+			return -GetLookDirection();
 		}
 
-		public void MoveBackwards()
-		{
-			Move(-GetLookDirection());
-		}
-
-		public void MoveLeft()
+		public Vector3 GetLeftVector()
 		{
 			Vector3 lookDirection = GetLookDirection();
 
-			Move(new Vector3(lookDirection.Z, lookDirection.Y, -lookDirection.X));
+			return new Vector3(lookDirection.Z, lookDirection.Y, -lookDirection.X);
 		}
 
-		public void MoveRight()
+		public Vector3 GetRightVector()
 		{
 			Vector3 lookDirection = GetLookDirection();
 
-			Move(new Vector3(-lookDirection.Z, lookDirection.Y, lookDirection.X));
+			return new Vector3(-lookDirection.Z, lookDirection.Y, lookDirection.X);
 		}
 
 		public void ChangeTarget(float horizontalDelta, float verticalDelta)
@@ -74,18 +72,11 @@ namespace DemoScene.Visual
 			upAngle = MathHelper.Clamp(upAngle + verticalDelta, -1.57f, 1.57f);
 		}
 
-		public void ToggleFixY()
-		{
-			FixY = !FixY;
-
-			if (FixY) position.Y = fixedYValue;
-		}
-
 		public Matrix4 GetMatrix()
 		{
 			Matrix4 downRotation = Matrix4.Transpose(Matrix4.CreateRotationY(sideAngle));
 			Matrix4 sideRotation = Matrix4.Transpose(Matrix4.CreateRotationX(upAngle));
-			Matrix4 translation = Matrix4.Transpose(Matrix4.CreateTranslation(position));
+			Matrix4 translation = Matrix4.Transpose(Matrix4.CreateTranslation(-GetEyePosition()));
 			Matrix4 perspective = Matrix4.Transpose(Matrix4.CreatePerspectiveFieldOfView(1.2f, 16f / 9f, 0.1f, 200));
 
 			return perspective * sideRotation * downRotation * translation;

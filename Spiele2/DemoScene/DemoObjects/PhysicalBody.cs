@@ -24,9 +24,9 @@ namespace DemoScene.DemoObjects
 			Position = position;
 			Mass = mass;
 
-			DoPhysics = false;
+			DoPhysics = true;
 			Bounce = false;
-			BounceFactor = 1;
+			BounceFactor = 0.9f;
 		}
 
 		public void SetNewPosition(Vector3 newPosition)

@@ -21,12 +21,13 @@ namespace DemoScene.Logic
 
 		public void DoPhysics()
 		{
+			ApplyPhysics(demoLevel.Player);
 			ApplyPhysics(demoLevel.Rabbit);
 		}
 
 		public void LetPlayerJump(Vector3 direction)
 		{
-			
+			demoLevel.Player.AddForce(direction * 14f);
 		}
 
 		public void LetRabbitJump(Vector3 direction)
@@ -44,7 +45,7 @@ namespace DemoScene.Logic
 
 		private void AddEnvironmentalForces(IPhysical physical)
 		{
-			physical.AddForce(GetGravity());
+			physical.AddForce(GetGravity() * physical.Mass);
 			physical.AddForce(GetWindForce());
 		}
 

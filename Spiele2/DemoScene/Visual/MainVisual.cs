@@ -37,7 +37,7 @@ namespace DemoScene.Visual
 		{
 			this.demoLevel = demoLevel;
 
-			FirstPersonCamera = new FirstPersonCamera();
+			FirstPersonCamera = new FirstPersonCamera(demoLevel.Player);
 			
 			camera.FarClip = 2000;
 			camera.Distance = 5;

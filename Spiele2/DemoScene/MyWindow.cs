@@ -55,6 +55,7 @@ namespace DemoScene
 			inputManager.AddProlongedUserActionMapping(Key.R, UserAction.RotateModels);
 			inputManager.AddProlongedUserActionMapping(Key.T, UserAction.RotateWind);
 
+			inputManager.AddSingleUserActionMapping(Key.Space, UserAction.Jump);
 			inputManager.AddSingleUserActionMapping(Key.F, UserAction.ToggleFly);
 			inputManager.AddSingleUserActionMapping(Key.G, UserAction.DecreaseGravity);
 			inputManager.AddSingleUserActionMapping(Key.H, UserAction.IncreaseGravity);
@@ -85,8 +86,6 @@ namespace DemoScene
 		private void MyWindow_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
 			visual.OrbitCamera.Distance -= e.DeltaPrecise;
-
-
 		}
 
 		private void MyWindow_KeyUp(object sender, KeyboardKeyEventArgs e)
@@ -121,21 +120,57 @@ namespace DemoScene
 			if (inputManager.IsUserActionActive(UserAction.RotateModels)) visual.RotateFigurines();
 			if (inputManager.IsUserActionActive(UserAction.RotateWind)) demoLevel.RotateWind();
 
-			if (inputManager.IsUserActionActive(UserAction.MoveForwards)) visual.FirstPersonCamera.MoveForwards();
-			if (inputManager.IsUserActionActive(UserAction.MoveBackwards)) visual.FirstPersonCamera.MoveBackwards();
-			if (inputManager.IsUserActionActive(UserAction.MoveLeft)) visual.FirstPersonCamera.MoveLeft();
-			if (inputManager.IsUserActionActive(UserAction.MoveRight)) visual.FirstPersonCamera.MoveRight();
+			Vector3 playerMoveDirection = Vector3.Zero;
+
+			FirstPersonCamera camera = visual.FirstPersonCamera;
+
+			if (inputManager.IsUserActionActive(UserAction.MoveForwards)) playerMoveDirection += camera.GetForwardsVector();
+			if (inputManager.IsUserActionActive(UserAction.MoveBackwards)) playerMoveDirection += camera.GetBackwardsVector();
+			if (inputManager.IsUserActionActive(UserAction.MoveLeft)) playerMoveDirection += camera.GetLeftVector();
+			if (inputManager.IsUserActionActive(UserAction.MoveRight)) playerMoveDirection += camera.GetRightVector();
+
+			//camera.Move(playerMoveDirection);
+
+			bool jump = false;
 
 			List<UserAction> singleUserActions = inputManager.GetSingleUserActionsAsList();
 
 			foreach (UserAction userAction in singleUserActions)
 			{
-				if (userAction == UserAction.ToggleFly) visual.FirstPersonCamera.ToggleFixY();
+				if (userAction == UserAction.Jump) jump = true;
+				if (userAction == UserAction.ToggleFly) demoLevel.Player.ToggleFlying();
 				if (userAction == UserAction.IncreaseGravity) demoLevel.IncreaseGravity();
 				if (userAction == UserAction.DecreaseGravity) demoLevel.DecreaseGravity();
 				if (userAction == UserAction.IncreaseWindForce) demoLevel.IncreaseWindForce();
 				if (userAction == UserAction.DecreaseWindForce) demoLevel.DecreaseWindForce();
 				if (userAction == UserAction.ToggleBounce) ToggleBounce();
+			}
+
+			Player player = demoLevel.Player;
+
+			if (jump)
+			{
+				if (!player.IsFlying)
+				{
+					Vector3 jumpDirection = new Vector3(playerMoveDirection.X, 0, playerMoveDirection.Z);
+
+					if (jumpDirection == Vector3.Zero)
+					{
+						jumpDirection = new Vector3(0, 1, 0);
+					}
+					else
+					{
+						jumpDirection.Normalize();
+						jumpDirection *= 0.6f;
+						jumpDirection.Y = 0.85f;
+					}
+
+					physics.LetPlayerJump(jumpDirection);
+				}
+			}
+			else if (player.IsFlying || player.Position.Y == 0)
+			{
+				player.Move(playerMoveDirection);
 			}
 		}
 
