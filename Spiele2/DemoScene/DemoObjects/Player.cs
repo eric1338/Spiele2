@@ -15,7 +15,7 @@ namespace DemoScene.DemoObjects
 		private float moveSpeedFactor = 0.14f;
 
 
-		public Player() : base(new Vector3(0, 0, 0), 60)
+		public Player() : base(Vector3.Zero, 60)
 		{
 			DoPhysics = true;
 			Bounce = false;

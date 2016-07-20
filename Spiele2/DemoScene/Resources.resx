@@ -121,8 +121,14 @@
   <data name="autumn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\textures\autumn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cabin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\models\cabin.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="cellfragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\cellfragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="celltoonfragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\celltoonfragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="colorfragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\colorfragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="daysky_bottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\textures\daysky_bottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -186,9 +192,6 @@
   </data>
   <data name="statue_d" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\textures\statue_d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="suzanne" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\models\suzanne.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="vertex" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\vertex.vert;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

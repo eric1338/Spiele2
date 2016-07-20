@@ -12,8 +12,12 @@ namespace DemoScene.Visual
 	class RenderSettings
 	{
 
+		public bool UseTexture { get; set; }
+
 		public Texture DiffuseTexture { get; set; }
 		public Texture SpecularTexture { get; set; }
+
+		public Vector3 Color { get; set; }
 
 		public Vector3 Position { get; set; }
 		public float Scale { get; set; }
@@ -25,7 +29,18 @@ namespace DemoScene.Visual
 			Scale = 1;
 			Rotation = 0;
 
+			UseTexture = true;
 			DiffuseTexture = diffuseTexture;
+		}
+
+		public static RenderSettings CreateColoredRenderSettings(Vector3 color)
+		{
+			RenderSettings renderSettings = new RenderSettings(null);
+
+			renderSettings.UseTexture = false;
+			renderSettings.Color = color;
+
+			return renderSettings;
 		}
 	}
 }

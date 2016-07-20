@@ -9,22 +9,15 @@ DemoScene Reset
 evtl beim Hasen Distanz zwischen Posi und InitPosi berechnen:
 Falls kleiner x Hasen zurücksetzen
 
-W+A gleich schnell wie W
-
 Spieler Sprungfähigkeit (mit Wind und Gravitation berechnen)
 
 von jedem Modell 4 Exemplare:
 std
 mit _N und _S Textur
-Cell-Shading
-Toon-Shading
 
 Inception-Effekt! (Ground als VAO)
 
 Grayscale evtl
-
-Gravitation:
-Hoppelhase
 
 R2D2 von Spieler & x angezogen?
 Bälle/Planeten im Himmel
@@ -53,10 +46,7 @@ Vertex Blending
 
 DemoSettings
 
-Wind an / aus
 Lighting: Vertex / Fragment
-Shader: Std / Toon / Shell
 Gestirn: Aus / An
 Glühwürmchen: An / Aus
-Texturen: Aus / An / mit _N / mit _S
 Nebel: Aus / An evtl mit Shader

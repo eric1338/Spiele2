@@ -73,9 +73,29 @@ namespace DemoScene {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] cabin {
+        internal static byte[] cellfragment {
             get {
-                object obj = ResourceManager.GetObject("cabin", resourceCulture);
+                object obj = ResourceManager.GetObject("cellfragment", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] celltoonfragment {
+            get {
+                object obj = ResourceManager.GetObject("celltoonfragment", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] colorfragment {
+            get {
+                object obj = ResourceManager.GetObject("colorfragment", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -287,16 +307,6 @@ namespace DemoScene {
             get {
                 object obj = ResourceManager.GetObject("statue_d", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] suzanne {
-            get {
-                object obj = ResourceManager.GetObject("suzanne", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         

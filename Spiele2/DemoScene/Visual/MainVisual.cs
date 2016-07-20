@@ -22,12 +22,16 @@ namespace DemoScene.Visual
 		private CameraOrbit camera = new CameraOrbit();
 
 		private Shader defaultShader;
+		private Shader colorShader;
+		private Shader cellShader;
+		private Shader cellAndToonShader;
 		private Shader flagShader;
 		private Shader skyboxShader;
 
 		private DemoLevel demoLevel;
-
 		private Models models;
+
+		public bool PassTime { get; set; }
 
 		private float time = 0;
 
@@ -44,16 +48,24 @@ namespace DemoScene.Visual
 			camera.FovY = 50;
 
 			defaultShader = CreateShader(Resources.vertex, Resources.fragment);
+			colorShader = CreateShader(Resources.vertex, Resources.colorfragment);
+			cellShader = CreateShader(Resources.vertex, Resources.cellfragment);
+			cellAndToonShader = CreateShader(Resources.vertex, Resources.celltoonfragment);
 			flagShader = CreateShader(Resources.flagvertex, Resources.fragment);
 			skyboxShader = CreateShader(Resources.vertex, Resources.simplefragment);
 
 			models = new Models();
 
 			models.CreateFigurines(defaultShader);
+			models.CreateBalls(colorShader, cellShader, cellAndToonShader);
+
 			models.CreateRabbit(defaultShader);
 			models.CreateFlag(flagShader);
+
 			models.CreateSkyboxes(skyboxShader);
 			models.CreateGround(defaultShader);
+
+			PassTime = true;
 
 			GL.Enable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.CullFace);
@@ -86,7 +98,7 @@ namespace DemoScene.Visual
 
 		public void Render()
 		{
-			time += 0.02f;
+			if (PassTime) time += 0.02f;
 
 			lbx += 0.02f;
 
@@ -99,6 +111,7 @@ namespace DemoScene.Visual
 			Matrix4 cam = GetCurrentCameraMatrix();
 
 			RenderDefault(cam);
+			RenderBalls(cam);
 			RenderFlag(cam);
 			RenderSkybox(cam);
 		}
@@ -132,6 +145,41 @@ namespace DemoScene.Visual
 			RenderModel(defaultShader, models.Rabbit);
 
 			defaultShader.End();
+		}
+
+		private void RenderBalls(Matrix4 camera)
+		{
+			Vector3 offsetVector = new Vector3(0, 0.5f, 0);
+
+			models.DefaultBall.RenderSettings.Position = demoLevel.DefaultBall.Position + offsetVector;
+			models.CellShadingBall.RenderSettings.Position = demoLevel.CellShadingBall.Position + offsetVector;
+			models.CellAndToonShadingBall.RenderSettings.Position = demoLevel.CellAndToonShadingBall.Position + offsetVector;
+
+			colorShader.Begin();
+
+			SetDefaultVertexUniforms(colorShader, camera);
+			SetSunMoonUniforms(colorShader);
+
+			RenderModel(colorShader, models.DefaultBall);
+			colorShader.End();
+
+
+			cellShader.Begin();
+
+			SetDefaultVertexUniforms(cellShader, camera);
+			SetSunMoonUniforms(cellShader);
+
+			RenderModel(cellShader, models.CellShadingBall);
+			cellShader.End();
+
+
+			cellAndToonShader.Begin();
+
+			SetDefaultVertexUniforms(cellAndToonShader, camera);
+			SetSunMoonUniforms(cellAndToonShader);
+
+			RenderModel(cellAndToonShader, models.CellAndToonShadingBall);
+			cellAndToonShader.End();
 		}
 
 		private void RenderSkybox(Matrix4 camera)
@@ -180,10 +228,15 @@ namespace DemoScene.Visual
 
 			if (demoLevel.WindForceLevel == 0)
 			{
+				waveSpeed = 1f;
+				waveAmplitude = 0.2f;
+			}
+			else if (demoLevel.WindForceLevel == 1)
+			{
 				waveSpeed = 2f;
 				waveAmplitude = 0.3f;
 			}
-			else if (demoLevel.WindForceLevel == 1)
+			else if (demoLevel.WindForceLevel == 2)
 			{
 				waveSpeed = 3f;
 				waveAmplitude = 0.4f;
@@ -196,9 +249,6 @@ namespace DemoScene.Visual
 
 			GL.Uniform1(flagShader.GetUniformLocation("waveSpeed"), waveSpeed);
 			GL.Uniform1(flagShader.GetUniformLocation("waveAmplitude"), waveAmplitude);
-
-			// 8 0.6
-			// 3 0.4
 
 			renderSettings.DiffuseTexture.BeginUse();
 			vao.Draw();
@@ -225,19 +275,29 @@ namespace DemoScene.Visual
 		{
 			RenderSettings renderSettings = model.RenderSettings;
 
-			Texture texture = renderSettings.DiffuseTexture;
-
 			Matrix3 rotation = Matrix3.CreateRotationY(renderSettings.Rotation);
 			GL.UniformMatrix3(shader.GetUniformLocation("instanceRotation"), false, ref rotation);
 
 			GL.Uniform3(shader.GetUniformLocation("instancePosition"), renderSettings.Position);
 			GL.Uniform1(shader.GetUniformLocation("instanceScale"), renderSettings.Scale);
 
-			GL.Uniform1(shader.GetUniformLocation("diffuseTexture"), texture.ID);
+			if (renderSettings.UseTexture)
+			{
+				Texture texture = renderSettings.DiffuseTexture;
 
-			texture.BeginUse();
-			model.Vao.Draw();
-			texture.EndUse();
+				GL.Uniform1(shader.GetUniformLocation("diffuseTexture"), texture.ID);
+
+				texture.BeginUse();
+				model.Vao.Draw();
+				texture.EndUse();
+			}
+			else
+			{
+				GL.Uniform3(shader.GetUniformLocation("materialColor"), renderSettings.Color);
+
+				model.Vao.Draw();
+			}
+
 		}
 		
 	}

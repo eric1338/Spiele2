@@ -12,11 +12,15 @@ namespace DemoScene.Visual
 	{
 
 		public List<Model> Figurines = new List<Model>();
+		public Model DefaultBall;
+		public Model CellShadingBall;
+		public Model CellAndToonShadingBall;
+		public Model Rabbit;
+		public Model Flag;
+
 		public List<Model> Ground = new List<Model>();
 		public List<Model> DaySkybox = new List<Model>();
 		public List<Model> NightSkybox = new List<Model>();
-		public Model Rabbit;
-		public Model Flag;
 
 		public void CreateFigurines(Shader shader)
 		{
@@ -102,6 +106,23 @@ namespace DemoScene.Visual
 			return numberOfFigurines * -0.1f + number * 0.2f;
 		}
 
+		public void CreateBalls(Shader defaultShader, Shader cellShader, Shader cellAndToonShader)
+		{
+			DefaultBall = CreateBall(defaultShader, new Vector3(0.12f, 0.9f, 0.9f));
+			CellShadingBall = CreateBall(cellShader, new Vector3(0.12f, 0.7f, 1.0f));
+			CellAndToonShadingBall = CreateBall(cellAndToonShader, new Vector3(0.12f, 0.5f, 1.0f));
+		}
+
+		private Model CreateBall(Shader shader, Vector3 color)
+		{
+			Mesh sphereMesh = Meshes.CreateSphere(1, 4);
+
+			VAO vao = VaoFactory.Instance.CreateFromMesh(shader, sphereMesh);
+			RenderSettings renderSettings = RenderSettings.CreateColoredRenderSettings(color);
+
+			return new Model(vao, renderSettings);
+		}
+
 		public void CreateRabbit(Shader shader)
 		{
 			VAO vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.rabbit);
@@ -116,6 +137,27 @@ namespace DemoScene.Visual
 			RenderSettings renderSettings = new RenderSettings(Textures.Instance.Flag);
 
 			Flag = new Model(vao, renderSettings);
+		}
+
+		public void CreateGround(Shader shader)
+		{
+			Texture groundTexture = Textures.Instance.Ground;
+
+			float l = 10;
+			Vector3 a, b, c, d;
+
+			for (int i = -1; i < 3; i++)
+			{
+				for (int j = -1; j < 3; j++)
+				{
+					a = new Vector3((i - 1) * l, 0, (j - 1) * l);
+					b = new Vector3(i * l, 0, (j - 1) * l);
+					c = new Vector3(i * l, 0, j * l);
+					d = new Vector3((i - 1) * l, 0, j * l);
+
+					Ground.Add(Create2DModel(shader, a, b, c, d, groundTexture));
+				}
+			}
 		}
 
 		public void CreateSkyboxes(Shader shader)
@@ -153,27 +195,6 @@ namespace DemoScene.Visual
 			skyboxModels.Add(Create2DModel(shader, e - y, f - y, g - y, h - y, topTexture));
 
 			return skyboxModels;
-		}
-
-		public void CreateGround(Shader shader)
-		{
-			Texture groundTexture = Textures.Instance.Ground;
-
-			float l = 10;
-			Vector3 a, b, c, d;
-
-			for (int i = -1; i < 3; i++)
-			{
-				for (int j = -1; j < 3; j++)
-				{
-					a = new Vector3((i - 1) * l, 0, (j - 1) * l);
-					b = new Vector3(i * l, 0, (j - 1) * l);
-					c = new Vector3(i * l, 0, j * l);
-					d = new Vector3((i - 1) * l, 0, j * l);
-
-					Ground.Add(Create2DModel(shader, a, b, c, d, groundTexture));
-				}
-			}
 		}
 
 		private Model Create2DModel(Shader shader, Vector3 a, Vector3 b, Vector3 c, Vector3 d, Texture texture)

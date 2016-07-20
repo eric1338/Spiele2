@@ -16,6 +16,10 @@ namespace DemoScene.DemoObjects
 		public Player Player { get; set; }
 		public Rabbit Rabbit { get; set; }
 
+		public Ball DefaultBall { get; set; }
+		public Ball CellShadingBall { get; set; }
+		public Ball CellAndToonShadingBall { get; set; }
+
 		public Vector3 WindDirection { get; set; }
 		public int WindForceLevel { get; set; }
 
@@ -31,6 +35,10 @@ namespace DemoScene.DemoObjects
 			Player = new Player();
 			Rabbit = new Rabbit();
 
+			DefaultBall = new Ball();
+			CellShadingBall = new Ball();
+			CellAndToonShadingBall = new Ball();
+
 			SetInitialValues();
 		}
 
@@ -39,11 +47,17 @@ namespace DemoScene.DemoObjects
 			WindDirection = new Vector3(0, 0, -1);
 			WindForceLevel = 0;
 			GravityLevel = 2;
+
+			Rabbit.Position = new Vector3(-3, 0, 3);
+
+			DefaultBall.Position = new Vector3(9f, 3f, 9f);
+			CellShadingBall.Position = new Vector3(6f, 3.5f, 9f);
+			CellAndToonShadingBall.Position = new Vector3(3f, 4f, 9f);
 		}
 
 		public void IncreaseWindForce()
 		{
-			if (WindForceLevel < 2) WindForceLevel++;
+			if (WindForceLevel < 3) WindForceLevel++;
 		}
 
 		public void DecreaseWindForce()

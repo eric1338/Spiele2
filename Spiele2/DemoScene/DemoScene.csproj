@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoObjects\Ball.cs" />
     <Compile Include="DemoObjects\DemoLevel.cs" />
     <Compile Include="DemoObjects\Flag.cs" />
     <Compile Include="DemoObjects\IPhysical.cs" />
@@ -77,6 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Resources\cellfragment.frag" />
+    <None Include="Resources\celltoonfragment.frag" />
+    <None Include="Resources\colorfragment.frag" />
     <None Include="Resources\flagvertex.vert" />
     <None Include="Resources\fragment.frag" />
     <None Include="Resources\models\cabin.obj" />

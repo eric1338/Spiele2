@@ -11,18 +11,29 @@ namespace DemoScene.Logic
 	class Physics
 	{
 
+		public bool DoNonPlayerPhysics { get; set; }
+
 		private DemoLevel demoLevel;
 
 		public Physics(DemoLevel demoLevel)
 		{
 			this.demoLevel = demoLevel;
-		}
 
+			DoNonPlayerPhysics = true;
+		}
 
 		public void DoPhysics()
 		{
 			ApplyPhysics(demoLevel.Player);
+
+			if (!DoNonPlayerPhysics) return;
+
+			DoRabbitHabit();
+
 			ApplyPhysics(demoLevel.Rabbit);
+			ApplyPhysics(demoLevel.DefaultBall);
+			ApplyPhysics(demoLevel.CellShadingBall);
+			ApplyPhysics(demoLevel.CellAndToonShadingBall);
 		}
 
 		public void LetPlayerJump(Vector3 direction)
@@ -32,7 +43,9 @@ namespace DemoScene.Logic
 
 		public void LetRabbitJump(Vector3 direction)
 		{
-			demoLevel.Rabbit.AddForce(direction * 0.1f);
+			if (!demoLevel.Rabbit.DoPhysics) return;
+
+			demoLevel.Rabbit.AddForce(direction * 0.13f);
 		}
 
 		private void ApplyPhysics(IPhysical physical)
@@ -71,11 +84,38 @@ namespace DemoScene.Logic
 
 			float forceFactor;
 
-			if (windForceLevel == 0) forceFactor = 0.1f;
-			else if (windForceLevel == 1) forceFactor = 0.3f;
+			if (windForceLevel == 0) forceFactor = 0.0f;
+			else if (windForceLevel == 1) forceFactor = 0.1f;
+			else if (windForceLevel == 2) forceFactor = 0.3f;
 			else forceFactor = 1f;
 
 			return windDirection * forceFactor * 0.01f;
+		}
+
+		int count = -120;
+
+		float rand1 = 0;
+
+		private void DoRabbitHabit()
+		{
+			Rabbit rabbit = demoLevel.Rabbit;
+
+			count++;
+
+			if (count < 0) return;
+
+			if (count % 400 == 0)
+			{
+				rand1 = (float)(new Random()).NextDouble() * 0.02f;
+			}
+			if (count % 400 < 100)
+			{
+				rabbit.Rotation += rand1;
+			}
+			if (count % 400 == 100)
+			{
+				LetRabbitJump(rabbit.GetJumpDirection());
+			}
 		}
 
 

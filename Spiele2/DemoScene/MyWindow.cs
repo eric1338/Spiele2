@@ -57,11 +57,13 @@ namespace DemoScene
 
 			inputManager.AddSingleUserActionMapping(Key.Space, UserAction.Jump);
 			inputManager.AddSingleUserActionMapping(Key.F, UserAction.ToggleFly);
+
+			inputManager.AddSingleUserActionMapping(Key.P, UserAction.ToggleNonPlayerPhysics);
+			inputManager.AddSingleUserActionMapping(Key.B, UserAction.ToggleBounce);
 			inputManager.AddSingleUserActionMapping(Key.G, UserAction.DecreaseGravity);
 			inputManager.AddSingleUserActionMapping(Key.H, UserAction.IncreaseGravity);
 			inputManager.AddSingleUserActionMapping(Key.Y, UserAction.DecreaseWindForce);
 			inputManager.AddSingleUserActionMapping(Key.U, UserAction.IncreaseWindForce);
-			inputManager.AddSingleUserActionMapping(Key.B, UserAction.ToggleBounce);
 
 			Textures.Instance.LoadTextures();
 
@@ -98,14 +100,10 @@ namespace DemoScene
 			inputManager.ProcessKeyDown(e.Key);
 		}
 
-		int count = -120;
-
-		float rand1 = 0;
-
 		private void MyWindow_UpdateFrame(object sender, FrameEventArgs e)
 		{
 			ProcessInput();
-			DoPhysics();
+			physics.DoPhysics();
 		}
 
 		private void MyWindow_RenderFrame(object sender, FrameEventArgs e)
@@ -129,8 +127,6 @@ namespace DemoScene
 			if (inputManager.IsUserActionActive(UserAction.MoveLeft)) playerMoveDirection += camera.GetLeftVector();
 			if (inputManager.IsUserActionActive(UserAction.MoveRight)) playerMoveDirection += camera.GetRightVector();
 
-			//camera.Move(playerMoveDirection);
-
 			bool jump = false;
 
 			List<UserAction> singleUserActions = inputManager.GetSingleUserActionsAsList();
@@ -139,11 +135,12 @@ namespace DemoScene
 			{
 				if (userAction == UserAction.Jump) jump = true;
 				if (userAction == UserAction.ToggleFly) demoLevel.Player.ToggleFlying();
+				if (userAction == UserAction.ToggleNonPlayerPhysics) ToggleNonPlayerPhysics();
+				if (userAction == UserAction.ToggleBounce) ToggleBounce();
 				if (userAction == UserAction.IncreaseGravity) demoLevel.IncreaseGravity();
 				if (userAction == UserAction.DecreaseGravity) demoLevel.DecreaseGravity();
 				if (userAction == UserAction.IncreaseWindForce) demoLevel.IncreaseWindForce();
 				if (userAction == UserAction.DecreaseWindForce) demoLevel.DecreaseWindForce();
-				if (userAction == UserAction.ToggleBounce) ToggleBounce();
 			}
 
 			Player player = demoLevel.Player;
@@ -174,34 +171,16 @@ namespace DemoScene
 			}
 		}
 
+		private void ToggleNonPlayerPhysics()
+		{
+			physics.DoNonPlayerPhysics = !physics.DoNonPlayerPhysics;
+			visual.PassTime = !visual.PassTime;
+		}
+
 		private void ToggleBounce()
 		{
 			demoLevel.Player.Bounce = !demoLevel.Player.Bounce;
 			demoLevel.Rabbit.Bounce = !demoLevel.Rabbit.Bounce;
-		}
-
-		private void DoPhysics()
-		{
-			Rabbit rabbit = demoLevel.Rabbit;
-
-			count++;
-
-			if (count < 0) return;
-
-			if (count % 400 == 0)
-			{
-				rand1 = (float)(new Random()).NextDouble() * 0.02f;
-			}
-			if (count % 400 < 100)
-			{
-				rabbit.Rotation += rand1;
-			}
-			if (count % 400 == 100)
-			{
-				physics.LetRabbitJump(rabbit.GetJumpDirection());
-			}
-
-			physics.DoPhysics();
 		}
 	}
 }
