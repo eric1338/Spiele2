@@ -2,34 +2,20 @@
 Spiele2 DemoScene
 (Tastenbelegung)
 
-Bounce an/aus für Rabbit & Spieler
-Gravitation ändern
 DemoScene Reset
 
 evtl beim Hasen Distanz zwischen Posi und InitPosi berechnen:
 Falls kleiner x Hasen zurücksetzen
 
-Spieler Sprungfähigkeit (mit Wind und Gravitation berechnen)
-
-von jedem Modell 4 Exemplare:
-std
-mit _N und _S Textur
-
 Inception-Effekt! (Ground als VAO)
 
 Grayscale evtl
 
-R2D2 von Spieler & x angezogen?
-Bälle/Planeten im Himmel
-Bälle springen lassen (Gravitations-Indikator)
-
 Kamera:
-Spielersicht
 LookAt R2D2?
 Panorama -> Perspektivisch/das andere (mit sanftem Wechsel)
 
 Licht:
-Direktionales Licht -> Sonne/Mond mit Posi (Tagesablauf)
 Spotlight auf R2D2 togglen?
 einzelne Lichtquellen, wie bspw in Kürbissen
 Glühwürmchen!
@@ -38,11 +24,9 @@ Wechsel zwischen Phong/dem anderen
 Geschmeidiger Übergang in Cellshading/Toonshading
 
 Sonstiges:
-Partikel: Nebel
-Texturierung an/ausschalten
+Partikel (Nebel)
 
 Vertex Blending
-
 
 DemoSettings
 

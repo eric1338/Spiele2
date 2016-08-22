@@ -15,10 +15,13 @@ namespace DemoScene.Visual
 		private bool _texturesLoaded = false;
 
 		public Texture RabbitDiffuse { get; set; }
+		public Texture RabbitSpecular { get; set; }
 		public Texture R2D2Diffuse { get; set; }
 		public Texture R2D2Specular { get; set; }
 		public Texture StatueDiffuse { get; set; }
+		public Texture StatueSpecular { get; set; }
 		public Texture NyraDiffuse { get; set; }
+		public Texture NyraSpecular { get; set; }
 
 		public Texture Ground { get; set; }
 		public Texture Flag { get; set; }
@@ -30,16 +33,21 @@ namespace DemoScene.Visual
 		public Texture NightSkyTop { get; set; }
 		public Texture NightSkyBottom { get; set; }
 
+		public Texture Sun { get; set; }
+		public Texture Moon { get; set; }
 
 		public void LoadTextures()
 		{
 			if (_texturesLoaded) return;
 
 			RabbitDiffuse = TextureLoader.FromBitmap(Resources.rabbit_d);
+			RabbitSpecular = TextureLoader.FromBitmap(Resources.rabbit_s);
 			R2D2Diffuse = TextureLoader.FromBitmap(Resources.r2d2_d);
 			R2D2Specular = TextureLoader.FromBitmap(Resources.r2d2_s);
 			StatueDiffuse = TextureLoader.FromBitmap(Resources.statue_d);
+			StatueSpecular = TextureLoader.FromBitmap(Resources.statue_s);
 			NyraDiffuse = TextureLoader.FromBitmap(Resources.nyra_d);
+			NyraSpecular = TextureLoader.FromBitmap(Resources.nyra_s);
 
 			Flag = TextureLoader.FromBitmap(Resources.flag);
 			Ground = TextureLoader.FromBitmap(Resources.autumn);
@@ -50,6 +58,9 @@ namespace DemoScene.Visual
 			NightSkySide = TextureLoader.FromBitmap(Resources.nightsky_side);
 			NightSkyTop = TextureLoader.FromBitmap(Resources.nightsky_top);
 			NightSkyBottom = TextureLoader.FromBitmap(Resources.nightsky_bottom);
+
+			Sun = TextureLoader.FromBitmap(Resources.sun);
+			Moon = TextureLoader.FromBitmap(Resources.moon);
 
 			_texturesLoaded = true;
 		}

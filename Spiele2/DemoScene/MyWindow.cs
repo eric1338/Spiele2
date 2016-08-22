@@ -32,6 +32,9 @@ namespace DemoScene
 			GL.Viewport(0, 0, width, height);
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.Ortho(-aspect, aspect, -1, 1, -1, 1);
+			
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();

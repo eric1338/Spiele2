@@ -15,15 +15,22 @@ namespace DemoScene.DemoObjects
 
 		private float myAngle = 0.2f;
 
-		private float xFactor = 20f;
-		private float yFactor = 18f;
-		private float zValue = 10f;
+		private float xFactor = 80f;
+		private float yFactor = 40f;
+		private float zValue = 80f;
+
+		public Vector3 GetLightPosition()
+		{
+			return IsDay() ? GetSunPosition() : GetMoonPosition();
+		}
 
 		public Vector3 GetLightDirection()
 		{
-			Vector3 starPosition = IsDay() ? GetSunPosition() : GetMoonPosition();
+			Vector3 lightDirection = Vector3.Zero - GetLightPosition();
 
-			return Vector3.Zero - starPosition;
+			lightDirection.Normalize();
+
+			return lightDirection;
 		}
 
 		public Vector3 GetLightColor()

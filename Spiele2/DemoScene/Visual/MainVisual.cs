@@ -28,6 +28,8 @@ namespace DemoScene.Visual
 		private Shader flagShader;
 		private Shader skyboxShader;
 
+		private Shader specTexShader;
+
 		private DemoLevel demoLevel;
 		private Models models;
 
@@ -36,6 +38,7 @@ namespace DemoScene.Visual
 		private float time = 0;
 
 		private Vector3 LightningBugPosition;
+
 
 		public MainVisual(DemoLevel demoLevel)
 		{
@@ -48,6 +51,7 @@ namespace DemoScene.Visual
 			camera.FovY = 50;
 
 			defaultShader = CreateShader(Resources.vertex, Resources.fragment);
+			specTexShader = CreateShader(Resources.vertex, Resources.speculartexfragment);
 			colorShader = CreateShader(Resources.vertex, Resources.colorfragment);
 			cellShader = CreateShader(Resources.vertex, Resources.cellfragment);
 			cellAndToonShader = CreateShader(Resources.vertex, Resources.celltoonfragment);
@@ -57,6 +61,8 @@ namespace DemoScene.Visual
 			models = new Models();
 
 			models.CreateFigurines(defaultShader);
+			models.CreateSpecularFigurines(specTexShader);
+
 			models.CreateBalls(colorShader, cellShader, cellAndToonShader);
 
 			models.CreateRabbit(defaultShader);
@@ -64,6 +70,8 @@ namespace DemoScene.Visual
 
 			models.CreateSkyboxes(skyboxShader);
 			models.CreateGround(defaultShader);
+
+			models.CreateSunMoon(skyboxShader);
 
 			PassTime = true;
 
@@ -82,6 +90,11 @@ namespace DemoScene.Visual
 		public void RotateFigurines()
 		{
 			foreach (Model model in models.Figurines)
+			{
+				model.RenderSettings.Rotation += 0.02f;
+			}
+
+			foreach (Model model in models.SpecularFigurines)
 			{
 				model.RenderSettings.Rotation += 0.02f;
 			}
@@ -114,7 +127,28 @@ namespace DemoScene.Visual
 			RenderBalls(cam);
 			RenderFlag(cam);
 			RenderSkybox(cam);
+
+			RenderSunMoon(cam);
 		}
+
+		private void RenderSunMoon(Matrix4 camera)
+		{
+			SunMoon sunMoon = demoLevel.SunMoon;
+
+			skyboxShader.Begin();
+			SetDefaultVertexUniforms(skyboxShader, camera);
+
+			GL.Uniform1(skyboxShader.GetUniformLocation("brightness"), sunMoon.GetIntensity());
+
+			Model model = sunMoon.IsDay() ? models.Sun : models.Moon;
+
+			model.RenderSettings.Position = sunMoon.GetLightPosition();
+
+			RenderModel(skyboxShader, model, true);
+
+			skyboxShader.End();
+		}
+
 
 		private void RenderDefault(Matrix4 camera)
 		{
@@ -145,6 +179,19 @@ namespace DemoScene.Visual
 			RenderModel(defaultShader, models.Rabbit);
 
 			defaultShader.End();
+
+
+			specTexShader.Begin();
+
+			SetDefaultVertexUniforms(specTexShader, camera);
+			SetSunMoonUniforms(specTexShader);
+
+			foreach (Model figurine in models.SpecularFigurines)
+			{
+				RenderModel(specTexShader, figurine, false, true);
+			}
+
+			specTexShader.End();
 		}
 
 		private void RenderBalls(Matrix4 camera)
@@ -271,7 +318,7 @@ namespace DemoScene.Visual
 			GL.Uniform1(shader.GetUniformLocation("ambientFactor"), demoLevel.SunMoon.GetAmbientFactor());
 		}
 
-		private void RenderModel(Shader shader, Model model)
+		private void RenderModel(Shader shader, Model model, bool sunMoon = false, bool specTexTest = false)
 		{
 			RenderSettings renderSettings = model.RenderSettings;
 
@@ -283,13 +330,72 @@ namespace DemoScene.Visual
 
 			if (renderSettings.UseTexture)
 			{
+				GL.Enable(EnableCap.Texture2D);
+
 				Texture texture = renderSettings.DiffuseTexture;
 
-				GL.Uniform1(shader.GetUniformLocation("diffuseTexture"), texture.ID);
+				//GL.Uniform1(shader.GetUniformLocation("diffuseTexture"), texture.ID - TextureUnit.Texture0);
+				GL.Uniform1(shader.GetUniformLocation("specularFactor"), renderSettings.SpecularFactor);
 
-				texture.BeginUse();
+
+				// TEST
+
+				int diffuseTextureLocation = shader.GetUniformLocation("diffuseTexture");
+
+				int textureIDRef = (int) texture.ID;
+
+				TexBindTest(diffuseTextureLocation, ref textureIDRef, TextureUnit.Texture0);
+
+				Texture specTex = renderSettings.SpecularTexture;
+
+				if (specTexTest)
+				{
+					int specularTextureLocation = shader.GetUniformLocation("specularTexture");
+
+					int specularTextureIDRef = (int) specTex.ID;
+
+					TexBindTest(specularTextureLocation, ref specularTextureIDRef, TextureUnit.Texture1);
+
+					//GL.Uniform1(shader.GetUniformLocation("specularTexture"), specTex.ID);
+					//specTex.BeginUse();
+				}
+
+				//GL.ActiveTexture(TextureUnit.Texture0);
+				//texture.BindTexture();
+
+				//if (specTexTest)
+				//{
+				//	GL.ActiveTexture(TextureUnit.Texture1);
+				//	specTex.BindTexture();
+				//}
+				
 				model.Vao.Draw();
-				texture.EndUse();
+
+				//if (specTexTest) specTex.UnbindTexture();
+				//texture.UnbindTexture();
+
+
+				GL.Disable(EnableCap.Texture2D);
+
+
+
+				/*
+				if (sunMoon)
+				{
+					GL.Enable(EnableCap.PointSprite);
+					GL.Enable(EnableCap.VertexProgramPointSize);
+				}
+
+				if (sunMoon)
+				{
+					GL.Disable(EnableCap.PointSprite);
+					GL.Disable(EnableCap.VertexProgramPointSize);
+				}
+				*/
+
+				//texture.BeginUse();
+				//model.Vao.Draw();
+				//texture.EndUse();
 			}
 			else
 			{
@@ -299,6 +405,12 @@ namespace DemoScene.Visual
 			}
 
 		}
-		
+
+		private void TexBindTest(int uniformLocation, ref int textureId, TextureUnit textureUnit)
+		{
+			GL.ActiveTexture(textureUnit);
+			GL.BindTexture(TextureTarget.Texture2D, textureId);
+			GL.Uniform1(uniformLocation, textureUnit - TextureUnit.Texture0);
+		}
 	}
 }

@@ -90,6 +90,7 @@
     <None Include="Resources\models\statue.obj" />
     <None Include="Resources\models\suzanne.obj" />
     <None Include="Resources\simplefragment.frag" />
+    <None Include="Resources\speculartexfragment.frag" />
     <None Include="Resources\vertex.vert" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\textures\flag.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\moon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\sun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\nyra_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\statue_s.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

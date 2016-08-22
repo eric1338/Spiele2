@@ -2,8 +2,7 @@
 uniform vec3 cameraPosition;
 
 uniform sampler2D diffuseTexture;
-//uniform sampler2D texN;
-//uniform sampler2D texS;
+uniform sampler2D specularTexture;
 
 uniform float specularFactor;
 
@@ -45,8 +44,27 @@ void main()
 
 	vec4 lightColor4 = vec4(lightColor, 1);
 
-	float spec = specular(normal, -lightDirection, v, 100) * specularFactor;
-	vec4 diffuse = materialColor * lightColor4 * lam + lightColor4 * spec;
+
+	//spec
+	float shininessFactor = 1;
+
+	vec4 specularColor = texture2D(specularTexture, uvs, 0.0);
+
+	float redFactor = specularColor.r * shininessFactor;
+	float greenFactor = specularColor.g * shininessFactor;
+	float blueFactor = specularColor.b * shininessFactor;
+
+	//float specRed = lightColor4.r * specular(normal, -lightDirection, v, 100) * redFactor * specularFactor;
+	//float specGreen = lightColor4.g * specular(normal, -lightDirection, v, 100) * greenFactor * specularFactor;
+	//float specBlue = lightColor4.b * specular(normal, -lightDirection, v, 100) * blueFactor * specularFactor;
+
+	float specRed = lightColor4.r * redFactor * specularFactor;
+	float specGreen = lightColor4.g * greenFactor * specularFactor;
+	float specBlue = lightColor4.b * blueFactor * specularFactor;
+
+	vec4 specColor = vec4(specRed, specGreen, specBlue, lightColor4.a);
+
+	vec4 diffuse = materialColor * lightColor4 * lam + specColor;
 
 	vec4 ambient = ambientFactor * 2 * lightColor4 * materialColor;
 

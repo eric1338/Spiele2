@@ -12,6 +12,8 @@ namespace DemoScene.Visual
 	{
 
 		public List<Model> Figurines = new List<Model>();
+		public List<Model> SpecularFigurines = new List<Model>();
+
 		public Model DefaultBall;
 		public Model CellShadingBall;
 		public Model CellAndToonShadingBall;
@@ -24,55 +26,27 @@ namespace DemoScene.Visual
 
 		public void CreateFigurines(Shader shader)
 		{
+			CreatePlainFigurines(shader);
+			CreateShinyFigurines(shader);
+		}
+
+		private void CreatePlainFigurines(Shader shader)
+		{
 			RenderSettings rabbit = new RenderSettings(Textures.Instance.RabbitDiffuse);
 			rabbit.Position = GetFigurinePosition(1);
 			rabbit.Rotation = GetFigurineRotation(1);
-
-			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
-			r2d2.Position = GetFigurinePosition(3);
-			r2d2.Rotation = GetFigurineRotation(3);
-
-			RenderSettings statue = new RenderSettings(Textures.Instance.StatueDiffuse);
-			statue.Position = GetFigurinePosition(5);
-			statue.Rotation = GetFigurineRotation(5);
-
-			RenderSettings nyra = new RenderSettings(Textures.Instance.NyraDiffuse);
-			nyra.Position = GetFigurinePosition(7, 0.32f);
-			nyra.Rotation = GetFigurineRotation(7);
-			nyra.Scale = 0.15f;
-
-			VAO rabbitVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.rabbit);
-			Figurines.Add(new Model(rabbitVao, rabbit));
-
-			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.r2d2);
-			Figurines.Add(new Model(r2d2Vao, r2d2));
-
-			VAO statueVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.statue);
-			Figurines.Add(new Model(statueVao, statue));
-
-			VAO nyraVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.nyra);
-			Figurines.Add(new Model(nyraVao, nyra));
-
-			Test(shader);
-		}
-
-		public void Test(Shader shader)
-		{
-			RenderSettings rabbit = new RenderSettings(Textures.Instance.RabbitDiffuse);
-			rabbit.Position = GetFigurinePosition(2);
-			rabbit.Rotation = GetFigurineRotation(2);
 
 			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
 			r2d2.Position = GetFigurinePosition(4);
 			r2d2.Rotation = GetFigurineRotation(4);
 
 			RenderSettings statue = new RenderSettings(Textures.Instance.StatueDiffuse);
-			statue.Position = GetFigurinePosition(6);
-			statue.Rotation = GetFigurineRotation(6);
+			statue.Position = GetFigurinePosition(7);
+			statue.Rotation = GetFigurineRotation(7);
 
 			RenderSettings nyra = new RenderSettings(Textures.Instance.NyraDiffuse);
-			nyra.Position = GetFigurinePosition(8, 0.32f);
-			nyra.Rotation = GetFigurineRotation(8);
+			nyra.Position = GetFigurinePosition(10, 0.32f);
+			nyra.Rotation = GetFigurineRotation(10);
 			nyra.Scale = 0.15f;
 
 			VAO rabbitVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.rabbit);
@@ -88,12 +62,89 @@ namespace DemoScene.Visual
 			Figurines.Add(new Model(nyraVao, nyra));
 		}
 
+		public void CreateShinyFigurines(Shader shader)
+		{
+			RenderSettings rabbit = new RenderSettings(Textures.Instance.RabbitDiffuse);
+			rabbit.Position = GetFigurinePosition(2);
+			rabbit.Rotation = GetFigurineRotation(2);
+			rabbit.SpecularFactor = 1;
+
+			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
+			r2d2.Position = GetFigurinePosition(5);
+			r2d2.Rotation = GetFigurineRotation(5);
+			r2d2.SpecularFactor = 1;
+
+			RenderSettings statue = new RenderSettings(Textures.Instance.StatueDiffuse);
+			statue.Position = GetFigurinePosition(8);
+			statue.Rotation = GetFigurineRotation(8);
+			statue.SpecularFactor = 1;
+
+			RenderSettings nyra = new RenderSettings(Textures.Instance.NyraDiffuse);
+			nyra.Position = GetFigurinePosition(11, 0.32f);
+			nyra.Rotation = GetFigurineRotation(11);
+			nyra.SpecularFactor = 1;
+			nyra.Scale = 0.15f;
+
+			VAO rabbitVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.rabbit);
+			Figurines.Add(new Model(rabbitVao, rabbit));
+
+			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.r2d2);
+			Figurines.Add(new Model(r2d2Vao, r2d2));
+
+			VAO statueVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.statue);
+			Figurines.Add(new Model(statueVao, statue));
+
+			VAO nyraVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.nyra);
+			Figurines.Add(new Model(nyraVao, nyra));
+		}
+
+		public void CreateSpecularFigurines(Shader shader)
+		{
+			RenderSettings rabbit = new RenderSettings(Textures.Instance.RabbitDiffuse);
+			rabbit.SpecularTexture = Textures.Instance.RabbitSpecular;
+			rabbit.Position = GetFigurinePosition(3);
+			rabbit.Rotation = GetFigurineRotation(3);
+			rabbit.SpecularFactor = 1;
+
+			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
+			r2d2.SpecularTexture = Textures.Instance.R2D2Specular;
+			r2d2.Position = GetFigurinePosition(6);
+			r2d2.Rotation = GetFigurineRotation(6);
+			r2d2.SpecularFactor = 1;
+
+			RenderSettings statue = new RenderSettings(Textures.Instance.StatueDiffuse);
+			statue.SpecularTexture = Textures.Instance.StatueSpecular;
+			statue.Position = GetFigurinePosition(9);
+			statue.Rotation = GetFigurineRotation(9);
+			statue.SpecularFactor = 1;
+
+			RenderSettings nyra = new RenderSettings(Textures.Instance.NyraDiffuse);
+			nyra.SpecularTexture = Textures.Instance.NyraSpecular;
+			nyra.Position = GetFigurinePosition(12, 0.32f);
+			nyra.Rotation = GetFigurineRotation(12);
+			nyra.SpecularFactor = 1;
+			nyra.Scale = 0.15f;
+
+			VAO rabbitVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.rabbit);
+			SpecularFigurines.Add(new Model(rabbitVao, rabbit));
+
+			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.r2d2);
+			SpecularFigurines.Add(new Model(r2d2Vao, r2d2));
+
+			VAO statueVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.statue);
+			SpecularFigurines.Add(new Model(statueVao, statue));
+
+			VAO nyraVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.nyra);
+			SpecularFigurines.Add(new Model(nyraVao, nyra));
+		}
+
+
 		private float radius = 15;
-		private int numberOfFigurines = 9;
+		private int numberOfFigurines = 13;
 
 		private Vector3 GetFigurinePosition(int number, float y = 0)
 		{
-			float angle = 1.57f + numberOfFigurines * 0.1f - number * 0.2f;
+			float angle = 1.57f + numberOfFigurines * 0.08f - number * 0.16f;
 
 			float x = (float) Math.Cos(angle) * radius;
 			float z = (float) -Math.Sin(angle) * radius;
@@ -103,7 +154,7 @@ namespace DemoScene.Visual
 
 		private float GetFigurineRotation(int number)
 		{
-			return numberOfFigurines * -0.1f + number * 0.2f;
+			return numberOfFigurines * -0.08f + number * 0.16f;
 		}
 
 		public void CreateBalls(Shader defaultShader, Shader cellShader, Shader cellAndToonShader)
@@ -205,6 +256,20 @@ namespace DemoScene.Visual
 
 			return new Model(vao, model);
 		}
+
+		public void CreateSunMoon(Shader shader)
+		{
+			Vector3 a = new Vector3(-10, -10, 0);
+			Vector3 b = new Vector3(10, -10, 0);
+			Vector3 c = new Vector3(10, 10, 0);
+			Vector3 d = new Vector3(-10, 10, 0);
+
+			Sun = Create2DModel(shader, a, b, c, d, Textures.Instance.Sun);
+			Moon = Create2DModel(shader, a, b, c, d, Textures.Instance.Moon);
+		}
+
+		public Model Sun;
+		public Model Moon;
 
 	}
 }

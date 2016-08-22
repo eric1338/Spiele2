@@ -163,6 +163,16 @@ namespace DemoScene {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap moon {
+            get {
+                object obj = ResourceManager.GetObject("moon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap nightsky_bottom {
             get {
                 object obj = ResourceManager.GetObject("nightsky_bottom", resourceCulture);
@@ -206,6 +216,16 @@ namespace DemoScene {
         internal static System.Drawing.Bitmap nyra_d {
             get {
                 object obj = ResourceManager.GetObject("nyra_d", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap nyra_s {
+            get {
+                object obj = ResourceManager.GetObject("nyra_s", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -293,6 +313,16 @@ namespace DemoScene {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] speculartexfragment {
+            get {
+                object obj = ResourceManager.GetObject("speculartexfragment", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] statue {
             get {
                 object obj = ResourceManager.GetObject("statue", resourceCulture);
@@ -306,6 +336,26 @@ namespace DemoScene {
         internal static System.Drawing.Bitmap statue_d {
             get {
                 object obj = ResourceManager.GetObject("statue_d", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap statue_s {
+            get {
+                object obj = ResourceManager.GetObject("statue_s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sun {
+            get {
+                object obj = ResourceManager.GetObject("sun", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

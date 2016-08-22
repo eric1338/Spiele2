@@ -89,7 +89,7 @@ namespace DemoScene.Logic
 			else if (windForceLevel == 2) forceFactor = 0.3f;
 			else forceFactor = 1f;
 
-			return windDirection * forceFactor * 0.01f;
+			return windDirection * forceFactor * 0.001f;
 		}
 
 		int count = -120;

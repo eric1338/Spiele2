@@ -19,6 +19,8 @@ namespace DemoScene.Visual
 
 		public Vector3 Color { get; set; }
 
+		public float SpecularFactor { get; set; }
+
 		public Vector3 Position { get; set; }
 		public float Scale { get; set; }
 		public float Rotation { get; set; }
@@ -28,6 +30,8 @@ namespace DemoScene.Visual
 			Position = Vector3.Zero;
 			Scale = 1;
 			Rotation = 0;
+
+			SpecularFactor = 0.0f;
 
 			UseTexture = true;
 			DiffuseTexture = diffuseTexture;
