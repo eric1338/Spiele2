@@ -121,6 +121,18 @@
   <data name="autumn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\textures\autumn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="blurfragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\blurfragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="c3po" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\models\c3po.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="c3po_d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\textures\c3po_d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="c3po_s" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\textures\c3po_s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="cellfragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\cellfragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -169,6 +181,9 @@
   <data name="nyra_s" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\textures\nyra_s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="pixelfragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\pixelfragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="r2d2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\models\r2d2.obj;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -183,12 +198,6 @@
   </data>
   <data name="rabbit_d" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\textures\rabbit_d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rabbit_n" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\textures\rabbit_n.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rabbit_s" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\textures\rabbit_s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="simplefragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\simplefragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

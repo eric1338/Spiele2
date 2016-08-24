@@ -22,13 +22,15 @@ namespace DemoScene.Visual
 		private CameraOrbit camera = new CameraOrbit();
 
 		private Shader defaultShader;
+		private Shader specTexShader;
+		private Shader pixelShader;
+		private Shader blurShader;
+
 		private Shader colorShader;
 		private Shader cellShader;
 		private Shader cellAndToonShader;
 		private Shader flagShader;
 		private Shader skyboxShader;
-
-		private Shader specTexShader;
 
 		private DemoLevel demoLevel;
 		private Models models;
@@ -52,6 +54,9 @@ namespace DemoScene.Visual
 
 			defaultShader = CreateShader(Resources.vertex, Resources.fragment);
 			specTexShader = CreateShader(Resources.vertex, Resources.speculartexfragment);
+			pixelShader = CreateShader(Resources.vertex, Resources.pixelfragment);
+			blurShader = CreateShader(Resources.vertex, Resources.blurfragment);
+
 			colorShader = CreateShader(Resources.vertex, Resources.colorfragment);
 			cellShader = CreateShader(Resources.vertex, Resources.cellfragment);
 			cellAndToonShader = CreateShader(Resources.vertex, Resources.celltoonfragment);
@@ -72,6 +77,8 @@ namespace DemoScene.Visual
 			models.CreateGround(defaultShader);
 
 			models.CreateSunMoon(skyboxShader);
+
+			models.CreateTetrahedrons(colorShader, demoLevel.TetrahedronSphere.TetrahedronCount);
 
 			PassTime = true;
 
@@ -129,6 +136,8 @@ namespace DemoScene.Visual
 			RenderSkybox(cam);
 
 			RenderSunMoon(cam);
+
+			RenderTetrahedronSphere(cam);
 		}
 
 		private void RenderSunMoon(Matrix4 camera)
@@ -149,6 +158,35 @@ namespace DemoScene.Visual
 			skyboxShader.End();
 		}
 
+		private void RenderTetrahedronSphere(Matrix4 camera)
+		{
+			TetrahedronSphere tetrahedronSphere = demoLevel.TetrahedronSphere;
+
+			int tetrahedronCount = tetrahedronSphere.TetrahedronCount;
+			List<MovingTetrahedron> tetrahedrons = tetrahedronSphere.Tetrahedrons;
+
+			colorShader.Begin();
+
+			SetDefaultVertexUniforms(colorShader, camera);
+			SetSunMoonUniforms(colorShader);
+
+			for (int i = 0; i < tetrahedronCount; i++)
+			{
+				MovingTetrahedron tetrahedron = tetrahedrons[i];
+
+				Model tetrahedronModel = models.Tetrahedrons[i];
+
+				RenderSettings renderSettings = tetrahedronModel.RenderSettings;
+				renderSettings.Position = tetrahedron.Position;
+				renderSettings.Scale = tetrahedron.GetScale();
+				renderSettings.Color = tetrahedron.GetColor();
+
+				RenderModel(colorShader, tetrahedronModel);
+			}
+
+			colorShader.End();
+		}
+
 
 		private void RenderDefault(Matrix4 camera)
 		{
@@ -159,6 +197,8 @@ namespace DemoScene.Visual
 			SetSunMoonUniforms(defaultShader);
 
 			GL.Uniform3(defaultShader.GetUniformLocation("lightningBugPosition"), LightningBugPosition);
+
+			GL.Uniform3(defaultShader.GetUniformLocation("playerPosition"), demoLevel.Player.Position);
 
 			foreach (Model figurine in models.Figurines)
 			{

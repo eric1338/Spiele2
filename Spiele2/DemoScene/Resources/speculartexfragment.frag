@@ -46,7 +46,7 @@ void main()
 
 
 	//spec
-	float shininessFactor = 1;
+	float shininessFactor = 2;
 
 	vec4 specularColor = texture2D(specularTexture, uvs, 0.0);
 
@@ -54,13 +54,13 @@ void main()
 	float greenFactor = specularColor.g * shininessFactor;
 	float blueFactor = specularColor.b * shininessFactor;
 
-	//float specRed = lightColor4.r * specular(normal, -lightDirection, v, 100) * redFactor * specularFactor;
-	//float specGreen = lightColor4.g * specular(normal, -lightDirection, v, 100) * greenFactor * specularFactor;
-	//float specBlue = lightColor4.b * specular(normal, -lightDirection, v, 100) * blueFactor * specularFactor;
+	float specRed = lightColor4.r * specular(normal, -lightDirection, v, redFactor * 100) * redFactor * specularFactor;
+	float specGreen = lightColor4.g * specular(normal, -lightDirection, v, greenFactor * 100) * greenFactor * specularFactor;
+	float specBlue = lightColor4.b * specular(normal, -lightDirection, v, blueFactor * 100) * blueFactor * specularFactor;
 
-	float specRed = lightColor4.r * redFactor * specularFactor;
-	float specGreen = lightColor4.g * greenFactor * specularFactor;
-	float specBlue = lightColor4.b * blueFactor * specularFactor;
+	//float specRed = lightColor4.r * redFactor * specularFactor;
+	//float specGreen = lightColor4.g * greenFactor * specularFactor;
+	//float specBlue = lightColor4.b * blueFactor * specularFactor;
 
 	vec4 specColor = vec4(specRed, specGreen, specBlue, lightColor4.a);
 

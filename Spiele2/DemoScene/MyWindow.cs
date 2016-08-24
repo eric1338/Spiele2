@@ -106,7 +106,17 @@ namespace DemoScene
 		private void MyWindow_UpdateFrame(object sender, FrameEventArgs e)
 		{
 			ProcessInput();
+
+			DoDemoLevelLogic();
+
 			physics.DoPhysics();
+		}
+
+		private void DoDemoLevelLogic()
+		{
+			// TODO: demoLevel.IsPaused statt DoNonPlayerPhysics
+
+			if (physics.DoNonPlayerPhysics) demoLevel.TetrahedronSphere.Tick(demoLevel.Player.Position);
 		}
 
 		private void MyWindow_RenderFrame(object sender, FrameEventArgs e)

@@ -27,6 +27,37 @@ namespace DemoScene.Visual
 			return CreateMyVao(shader, mesh.positions, mesh.normals, mesh.uvs, mesh.ids);
 		}
 
+		public VAO CreateCuboid(Shader shader, Vector3 a, Vector3 g)
+		{
+			Vector3 b = new Vector3(a.X, a.Y, g.Z);
+			Vector3 c = new Vector3(g.X, a.Y, g.Z);
+			Vector3 d = new Vector3(g.X, a.Y, a.Z);
+
+			Vector3 e = new Vector3(a.X, g.Y, a.Z);
+			Vector3 f = new Vector3(g.X, g.Y, a.Z);
+			Vector3 h = new Vector3(a.X, g.Y, g.Z);
+
+			List<Vector3> positions = new List<Vector3>();
+			positions.Add(a);
+			positions.Add(b);
+			positions.Add(c);
+			positions.Add(d);
+			positions.Add(e);
+			positions.Add(f);
+			positions.Add(g);
+			positions.Add(h);
+
+			List<Vector3> normals = new List<Vector3>();
+
+			List<Vector2> uvs = new List<Vector2>();
+
+			for (int i = 0; i < 8; i++) uvs.Add(new Vector2(0, 0));
+
+			List<uint> ids = new List<uint>();
+
+			return CreateMyVao(shader, positions, normals, uvs, ids);
+		}
+
 		public VAO Create2DVao(Shader shader, Vector3 a, Vector3 b, Vector3 c, Vector3 d, bool renderBack = true)
 		{
 			List<Vector3> positions = new List<Vector3>();
@@ -48,8 +79,6 @@ namespace DemoScene.Visual
 			uvs.Add(new Vector2(0, 1));
 			uvs.Add(new Vector2(1, 1));
 
-			//List<Vector2> uvs = CreateUVs(2, 2);
-
 			List<uint> ids = CreateIDs(2, 2, renderBack);
 
 			return CreateMyVao(shader, positions, normals, uvs, ids);
@@ -57,7 +86,7 @@ namespace DemoScene.Visual
 
 		public VAO CreateFlagVao(Shader shader)
 		{
-			List<Vector3> posis = new List<Vector3>();
+			List<Vector3> positions = new List<Vector3>();
 			List<Vector3> normals = new List<Vector3>();
 
 			Vector3 bottomLeft = Vector3.Zero;
@@ -70,7 +99,7 @@ namespace DemoScene.Visual
 			{
 				for (int j = 0; j < pointsPerRow; j++)
 				{
-					posis.Add(new Vector3(i * 0.25f, j * 0.125f, 0));
+					positions.Add(new Vector3(i * 0.25f, j * 0.125f, 0));
 					normals.Add(new Vector3(0, 0, 1));
 				}
 			}
@@ -78,7 +107,60 @@ namespace DemoScene.Visual
 			List<Vector2> uvs = CreateUVs(pointRows, pointsPerRow);
 			List<uint> ids = CreateIDs(pointRows, pointsPerRow);
 
-			return CreateMyVao(shader, posis, normals, uvs, ids);
+			return CreateMyVao(shader, positions, normals, uvs, ids);
+		}
+
+		public VAO CreateTetrahedron(Shader shader)
+		{
+			List<Vector3> positions = new List<Vector3>();
+
+			float halfSize = 0.5f;
+			float x = halfSize * 0.85f;
+
+			positions.Add(new Vector3(-halfSize, -x, -x));
+			positions.Add(new Vector3(halfSize, -x, -x));
+			positions.Add(new Vector3(0, -x, x));
+			positions.Add(new Vector3(0, x, -0.3f * halfSize));
+
+			List<Vector3> normals = new List<Vector3>();
+			List<Vector2> uvs = new List<Vector2>();
+			for (int i = 0; i < 4; i++)
+			{
+				normals.Add(new Vector3(0, 1, 0));
+				uvs.Add(new Vector2(0, 0));
+			}
+
+			List<uint> ids = new List<uint>();
+
+			ids.Add(0);
+			ids.Add(1);
+			ids.Add(2);
+			ids.Add(2);
+			ids.Add(1);
+			ids.Add(0);
+
+			ids.Add(0);
+			ids.Add(1);
+			ids.Add(3);
+			ids.Add(3);
+			ids.Add(1);
+			ids.Add(0);
+
+			ids.Add(0);
+			ids.Add(2);
+			ids.Add(3);
+			ids.Add(3);
+			ids.Add(2);
+			ids.Add(0);
+
+			ids.Add(1);
+			ids.Add(2);
+			ids.Add(3);
+			ids.Add(3);
+			ids.Add(2);
+			ids.Add(1);
+
+			return CreateMyVao(shader, positions, normals, uvs, ids);
 		}
 
 		private VAO CreateMyVao(Shader shader, List<Vector3> positions, List<Vector3> normals, List<Vector2> uvs, List<uint> ids)

@@ -4,6 +4,19 @@ Spiele2 DemoScene
 
 DemoScene Reset
 
+uv-Zeug:
+Pixel
+Gaussian
+
+TODOs im Code
+
+FlagPole
+
+etvl FOV geschmeidig ändern (oder andere Kamera-Attribute)
+
+Geist (Skyrim)
+PaintNet-Filter
+
 evtl beim Hasen Distanz zwischen Posi und InitPosi berechnen:
 Falls kleiner x Hasen zurücksetzen
 

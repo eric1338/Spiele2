@@ -51,12 +51,15 @@
     <Compile Include="DemoObjects\DemoLevel.cs" />
     <Compile Include="DemoObjects\Flag.cs" />
     <Compile Include="DemoObjects\IPhysical.cs" />
+    <Compile Include="DemoObjects\MovingTetrahedron.cs" />
     <Compile Include="DemoObjects\PhysicalBody.cs" />
     <Compile Include="DemoObjects\Player.cs" />
     <Compile Include="DemoObjects\Rabbit.cs" />
+    <Compile Include="DemoObjects\TetrahedronSphere.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="Logic\Physics.cs" />
     <Compile Include="Utils\ShaderAttributes.cs" />
+    <Compile Include="Utils\Util.cs" />
     <Compile Include="Visual\FirstPersonCamera.cs" />
     <Compile Include="Visual\LookAtCamera.cs" />
     <Compile Include="Visual\MainVisual.cs" />
@@ -78,17 +81,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Resources\blurfragment.frag" />
     <None Include="Resources\cellfragment.frag" />
     <None Include="Resources\celltoonfragment.frag" />
     <None Include="Resources\colorfragment.frag" />
     <None Include="Resources\flagvertex.vert" />
     <None Include="Resources\fragment.frag" />
+    <None Include="Resources\models\c3po.obj" />
     <None Include="Resources\models\cabin.obj" />
     <None Include="Resources\models\nyra.obj" />
     <None Include="Resources\models\r2d2.obj" />
     <None Include="Resources\models\rabbit.obj" />
     <None Include="Resources\models\statue.obj" />
     <None Include="Resources\models\suzanne.obj" />
+    <None Include="Resources\pixelfragment.frag" />
     <None Include="Resources\simplefragment.frag" />
     <None Include="Resources\speculartexfragment.frag" />
     <None Include="Resources\vertex.vert" />
@@ -107,16 +113,11 @@
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\textures\rabbit_d.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\textures\rabbit_n.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\textures\rabbit_s.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\textures\r2d2_d.png" />
@@ -165,6 +166,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\textures\statue_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\c3po_d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\c3po_s.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

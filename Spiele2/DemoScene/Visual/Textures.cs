@@ -15,7 +15,9 @@ namespace DemoScene.Visual
 		private bool _texturesLoaded = false;
 
 		public Texture RabbitDiffuse { get; set; }
-		public Texture RabbitSpecular { get; set; }
+
+		public Texture C3PODiffuse { get; set; }
+		public Texture C3POSpecular { get; set; }
 		public Texture R2D2Diffuse { get; set; }
 		public Texture R2D2Specular { get; set; }
 		public Texture StatueDiffuse { get; set; }
@@ -41,13 +43,15 @@ namespace DemoScene.Visual
 			if (_texturesLoaded) return;
 
 			RabbitDiffuse = TextureLoader.FromBitmap(Resources.rabbit_d);
-			RabbitSpecular = TextureLoader.FromBitmap(Resources.rabbit_s);
+			C3PODiffuse = TextureLoader.FromBitmap(Resources.c3po_d);
+			C3POSpecular = TextureLoader.FromBitmap(Resources.c3po_s);
 			R2D2Diffuse = TextureLoader.FromBitmap(Resources.r2d2_d);
 			R2D2Specular = TextureLoader.FromBitmap(Resources.r2d2_s);
 			StatueDiffuse = TextureLoader.FromBitmap(Resources.statue_d);
 			StatueSpecular = TextureLoader.FromBitmap(Resources.statue_s);
 			NyraDiffuse = TextureLoader.FromBitmap(Resources.nyra_d);
 			NyraSpecular = TextureLoader.FromBitmap(Resources.nyra_s);
+
 
 			Flag = TextureLoader.FromBitmap(Resources.flag);
 			Ground = TextureLoader.FromBitmap(Resources.autumn);

@@ -19,6 +19,9 @@ namespace DemoScene.Visual
 		public Model CellAndToonShadingBall;
 		public Model Rabbit;
 		public Model Flag;
+		public Model Flagpole;
+
+		public List<Model> Tetrahedrons = new List<Model>();
 
 		public List<Model> Ground = new List<Model>();
 		public List<Model> DaySkybox = new List<Model>();
@@ -32,11 +35,7 @@ namespace DemoScene.Visual
 
 		private void CreatePlainFigurines(Shader shader)
 		{
-			RenderSettings rabbit = new RenderSettings(Textures.Instance.RabbitDiffuse);
-			rabbit.Position = GetFigurinePosition(1);
-			rabbit.Rotation = GetFigurineRotation(1);
-
-			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
+			RenderSettings r2d2 = new RenderSettings(Textures.Instance.C3PODiffuse);
 			r2d2.Position = GetFigurinePosition(4);
 			r2d2.Rotation = GetFigurineRotation(4);
 
@@ -49,10 +48,7 @@ namespace DemoScene.Visual
 			nyra.Rotation = GetFigurineRotation(10);
 			nyra.Scale = 0.15f;
 
-			VAO rabbitVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.rabbit);
-			Figurines.Add(new Model(rabbitVao, rabbit));
-
-			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.r2d2);
+			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.c3po);
 			Figurines.Add(new Model(r2d2Vao, r2d2));
 
 			VAO statueVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.statue);
@@ -64,12 +60,7 @@ namespace DemoScene.Visual
 
 		public void CreateShinyFigurines(Shader shader)
 		{
-			RenderSettings rabbit = new RenderSettings(Textures.Instance.RabbitDiffuse);
-			rabbit.Position = GetFigurinePosition(2);
-			rabbit.Rotation = GetFigurineRotation(2);
-			rabbit.SpecularFactor = 1;
-
-			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
+			RenderSettings r2d2 = new RenderSettings(Textures.Instance.C3PODiffuse);
 			r2d2.Position = GetFigurinePosition(5);
 			r2d2.Rotation = GetFigurineRotation(5);
 			r2d2.SpecularFactor = 1;
@@ -85,10 +76,7 @@ namespace DemoScene.Visual
 			nyra.SpecularFactor = 1;
 			nyra.Scale = 0.15f;
 
-			VAO rabbitVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.rabbit);
-			Figurines.Add(new Model(rabbitVao, rabbit));
-
-			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.r2d2);
+			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.c3po);
 			Figurines.Add(new Model(r2d2Vao, r2d2));
 
 			VAO statueVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.statue);
@@ -100,14 +88,8 @@ namespace DemoScene.Visual
 
 		public void CreateSpecularFigurines(Shader shader)
 		{
-			RenderSettings rabbit = new RenderSettings(Textures.Instance.RabbitDiffuse);
-			rabbit.SpecularTexture = Textures.Instance.RabbitSpecular;
-			rabbit.Position = GetFigurinePosition(3);
-			rabbit.Rotation = GetFigurineRotation(3);
-			rabbit.SpecularFactor = 1;
-
-			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
-			r2d2.SpecularTexture = Textures.Instance.R2D2Specular;
+			RenderSettings r2d2 = new RenderSettings(Textures.Instance.C3PODiffuse);
+			r2d2.SpecularTexture = Textures.Instance.C3POSpecular;
 			r2d2.Position = GetFigurinePosition(6);
 			r2d2.Rotation = GetFigurineRotation(6);
 			r2d2.SpecularFactor = 1;
@@ -125,10 +107,7 @@ namespace DemoScene.Visual
 			nyra.SpecularFactor = 1;
 			nyra.Scale = 0.15f;
 
-			VAO rabbitVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.rabbit);
-			SpecularFigurines.Add(new Model(rabbitVao, rabbit));
-
-			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.r2d2);
+			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.c3po);
 			SpecularFigurines.Add(new Model(r2d2Vao, r2d2));
 
 			VAO statueVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.statue);
@@ -189,6 +168,27 @@ namespace DemoScene.Visual
 
 			Flag = new Model(vao, renderSettings);
 		}
+
+		public void CreateFlagPole(Shader shader)
+		{
+			// TODO
+			//VAO vao = VaoFactory.Instance.
+		}
+
+
+		public void CreateTetrahedrons(Shader shader, int count)
+		{
+			for (int i = 0; i < count; i++)
+			{
+				VAO vao = VaoFactory.Instance.CreateTetrahedron(shader);
+
+				Vector3 color = new Vector3(0.2f, 0.7f, 1.0f);
+				RenderSettings renderSettings = RenderSettings.CreateColoredRenderSettings(color);
+
+				Tetrahedrons.Add(new Model(vao, renderSettings));
+			}
+		}
+
 
 		public void CreateGround(Shader shader)
 		{

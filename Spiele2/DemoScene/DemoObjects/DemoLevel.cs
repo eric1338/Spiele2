@@ -20,6 +20,8 @@ namespace DemoScene.DemoObjects
 		public Ball CellShadingBall { get; set; }
 		public Ball CellAndToonShadingBall { get; set; }
 
+		public TetrahedronSphere TetrahedronSphere { get; set; }
+
 		public Vector3 WindDirection { get; set; }
 		public int WindForceLevel { get; set; }
 
@@ -32,12 +34,15 @@ namespace DemoScene.DemoObjects
 		public DemoLevel()
 		{
 			SunMoon = new SunMoon();
+
 			Player = new Player();
 			Rabbit = new Rabbit();
 
 			DefaultBall = new Ball();
 			CellShadingBall = new Ball();
 			CellAndToonShadingBall = new Ball();
+
+			TetrahedronSphere = new TetrahedronSphere();
 
 			SetInitialValues();
 		}
@@ -53,6 +58,8 @@ namespace DemoScene.DemoObjects
 			DefaultBall.Position = new Vector3(9f, 3f, 9f);
 			CellShadingBall.Position = new Vector3(6f, 3.5f, 9f);
 			CellAndToonShadingBall.Position = new Vector3(3f, 4f, 9f);
+
+			// TODO: InitVals von TetrahedronSphere
 		}
 
 		public void IncreaseWindForce()
