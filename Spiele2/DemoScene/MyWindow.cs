@@ -61,12 +61,14 @@ namespace DemoScene
 			inputManager.AddSingleUserActionMapping(Key.Space, UserAction.Jump);
 			inputManager.AddSingleUserActionMapping(Key.F, UserAction.ToggleFly);
 
-			inputManager.AddSingleUserActionMapping(Key.P, UserAction.ToggleNonPlayerPhysics);
+			inputManager.AddSingleUserActionMapping(Key.P, UserAction.TogglePause);
 			inputManager.AddSingleUserActionMapping(Key.B, UserAction.ToggleBounce);
 			inputManager.AddSingleUserActionMapping(Key.G, UserAction.DecreaseGravity);
 			inputManager.AddSingleUserActionMapping(Key.H, UserAction.IncreaseGravity);
 			inputManager.AddSingleUserActionMapping(Key.Y, UserAction.DecreaseWindForce);
 			inputManager.AddSingleUserActionMapping(Key.U, UserAction.IncreaseWindForce);
+
+			//inputManager.AddSingleUserActionMapping(Key.Number1, UserAction.IncreaseWindForce);
 
 			Textures.Instance.LoadTextures();
 
@@ -108,15 +110,13 @@ namespace DemoScene
 			ProcessInput();
 
 			DoDemoLevelLogic();
-
-			physics.DoPhysics();
 		}
 
 		private void DoDemoLevelLogic()
 		{
-			// TODO: demoLevel.IsPaused statt DoNonPlayerPhysics
+			if (demoLevel.IsRunning) demoLevel.TetrahedronSphere.Tick(demoLevel.Player.Position);
 
-			if (physics.DoNonPlayerPhysics) demoLevel.TetrahedronSphere.Tick(demoLevel.Player.Position);
+			physics.DoPhysics();
 		}
 
 		private void MyWindow_RenderFrame(object sender, FrameEventArgs e)
@@ -148,7 +148,7 @@ namespace DemoScene
 			{
 				if (userAction == UserAction.Jump) jump = true;
 				if (userAction == UserAction.ToggleFly) demoLevel.Player.ToggleFlying();
-				if (userAction == UserAction.ToggleNonPlayerPhysics) ToggleNonPlayerPhysics();
+				if (userAction == UserAction.TogglePause) TogglePause();
 				if (userAction == UserAction.ToggleBounce) ToggleBounce();
 				if (userAction == UserAction.IncreaseGravity) demoLevel.IncreaseGravity();
 				if (userAction == UserAction.DecreaseGravity) demoLevel.DecreaseGravity();
@@ -184,10 +184,12 @@ namespace DemoScene
 			}
 		}
 
-		private void ToggleNonPlayerPhysics()
+		private void TogglePause()
 		{
-			physics.DoNonPlayerPhysics = !physics.DoNonPlayerPhysics;
-			visual.PassTime = !visual.PassTime;
+			demoLevel.IsRunning = !demoLevel.IsRunning;
+
+			visual.PassTime = demoLevel.IsRunning;
+			physics.DoNonPlayerPhysics = demoLevel.IsRunning;
 		}
 
 		private void ToggleBounce()

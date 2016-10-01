@@ -18,7 +18,7 @@ namespace DemoScene.Utils
 		MoveSunMoon,
 		RotateModels,
 
-		ToggleNonPlayerPhysics,
+		TogglePause,
 		ToggleBounce,
 		IncreaseGravity,
 		DecreaseGravity,

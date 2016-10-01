@@ -12,8 +12,8 @@ uniform float ambientFactor;
 
 uniform vec3 lightningBugPosition;
 
-uniform vec3 test;
-uniform vec3 test2;
+uniform vec3 viewDirection;
+uniform vec3 playerPosition;
 
 in vec3 pos;
 in vec3 n;
@@ -32,6 +32,8 @@ float specular(vec3 n, vec3 l, vec3 v, float shininess)
 	vec3 r = reflect(-l, n);
 	return pow(max(0, dot(r, v)), shininess);
 }
+
+
 
 void main()
 {
@@ -52,40 +54,9 @@ void main()
 
 	vec4 ambient = ambientFactor * 2 * lightColor4 * materialColor;
 
-	//color = diffuse + ambient;
-	//color = vec4(lam, lam, lam, 1);
+	vec3 nv = normalize(vec3(viewDirection.x, 0, viewDirection.z));
+	vec3 nv2 = normalize(vec3(pos.x, 0, pos.z) - vec3(playerPosition.x, 0, playerPosition.z));
 
-	float d = 0.001;
-	float ux, uy;
-	float red = 0;
-	float green = 0;
-	float blue = 0;
-	float alpha = 0;
-	int factor;
-	int sum = 0;
-	vec4 textureColor;
-
-	int degree = 5;
-
-	for (int i = -degree; i < degree + 1; i++) {
-		for (int j = -degree; j < degree + 1; j++) {
-			
-			ux = uvs.x + i * d;
-			uy = uvs.y + j * d;
-
-			factor = (degree + degree + 1) - (abs(i) + abs(j));
-
-			textureColor = texture2D(diffuseTexture, vec2(ux, uy), 0.0);
-
-			red += textureColor.r * factor;
-			green += textureColor.g * factor;
-			blue += textureColor.b * factor;
-			alpha += textureColor.a * factor;
-
-			sum += factor;
-		}
-	}
-	
-	color = vec4(red / sum, green / sum, blue / sum, alpha / sum);
-
+	float alpha = lambert(nv2, nv);
+	color = vec4(materialColor.rgb, pow(alpha, 32));
 }

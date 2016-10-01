@@ -89,14 +89,18 @@
     <None Include="Resources\fragment.frag" />
     <None Include="Resources\models\c3po.obj" />
     <None Include="Resources\models\cabin.obj" />
+    <None Include="Resources\models\casualman.obj" />
     <None Include="Resources\models\nyra.obj" />
     <None Include="Resources\models\r2d2.obj" />
     <None Include="Resources\models\rabbit.obj" />
+    <None Include="Resources\models\shaakti.obj" />
     <None Include="Resources\models\statue.obj" />
     <None Include="Resources\models\suzanne.obj" />
     <None Include="Resources\pixelfragment.frag" />
+    <None Include="Resources\pixelvertex.vert" />
     <None Include="Resources\simplefragment.frag" />
     <None Include="Resources\speculartexfragment.frag" />
+    <None Include="Resources\transparencyfragment.frag" />
     <None Include="Resources\vertex.vert" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +176,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\textures\c3po_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\shaakti_d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\casualman_d.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

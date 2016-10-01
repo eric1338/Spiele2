@@ -28,9 +28,11 @@ void main()
 	n = rotatedNormal;
 	uvs = vertexUV;
 
-	float px = round(pos.x * 10) / 10;
-	float py = round(pos.y * 10) / 10;
-	float pz = round(pos.z * 10) / 10;
+	float pixelFactor = 20;
+
+	float px = round(pos.x * pixelFactor) / pixelFactor;
+	float py = round(pos.y * pixelFactor) / pixelFactor;
+	float pz = round(pos.z * pixelFactor) / pixelFactor;
 
 	pos = vec3(px, py, pz);
 	posi = pos;

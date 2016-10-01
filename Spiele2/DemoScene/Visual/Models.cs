@@ -13,13 +13,21 @@ namespace DemoScene.Visual
 
 		public List<Model> Figurines = new List<Model>();
 		public List<Model> SpecularFigurines = new List<Model>();
+		public List<Model> EffectFigurines = new List<Model>();
+
+		public Model PixelFigurine;
+		public Model PixelFragmentFigurine;
+		public Model BlurFigurine;
+		public Model TransparencyFigurine;
 
 		public Model DefaultBall;
 		public Model CellShadingBall;
 		public Model CellAndToonShadingBall;
 		public Model Rabbit;
 		public Model Flag;
-		public Model Flagpole;
+
+		public Model Sun;
+		public Model Moon;
 
 		public List<Model> Tetrahedrons = new List<Model>();
 
@@ -125,8 +133,8 @@ namespace DemoScene.Visual
 		{
 			float angle = 1.57f + numberOfFigurines * 0.08f - number * 0.16f;
 
-			float x = (float) Math.Cos(angle) * radius;
-			float z = (float) -Math.Sin(angle) * radius;
+			float x = (float) Math.Cos(angle) * radius + 4;
+			float z = (float) -Math.Sin(angle) * radius - 4;
 
 			return new Vector3(x, y, z);
 		}
@@ -135,6 +143,55 @@ namespace DemoScene.Visual
 		{
 			return numberOfFigurines * -0.08f + number * 0.16f;
 		}
+
+
+		public void CreatePixelFigurines(Shader pixelFragmentShader, Shader pixelShader)
+		{
+			RenderSettings nyra1 = new RenderSettings(Textures.Instance.NyraDiffuse);
+			nyra1.Position = new Vector3(-20, 0, -10);
+			nyra1.Rotation = -1.57f;
+			nyra1.Scale = 0.15f;
+
+			RenderSettings nyra2 = new RenderSettings(Textures.Instance.NyraDiffuse);
+			nyra2.Position = new Vector3(-20, 0, -13);
+			nyra2.Rotation = -1.57f;
+			nyra2.Scale = 0.15f;
+
+			VAO nyra1Vao = VaoFactory.Instance.CreateFromObjectData(pixelFragmentShader, Resources.nyra);
+			PixelFragmentFigurine = new Model(nyra1Vao, nyra1);
+
+			VAO nyra2Vao = VaoFactory.Instance.CreateFromObjectData(pixelShader, Resources.nyra);
+			PixelFigurine = new Model(nyra2Vao, nyra2);
+
+			EffectFigurines.Add(PixelFragmentFigurine);
+			EffectFigurines.Add(PixelFigurine);
+		}
+
+		public void CreateBlurFigurine(Shader blurShader)
+		{
+			RenderSettings nyra = new RenderSettings(Textures.Instance.NyraDiffuse);
+			nyra.Position = new Vector3(-20, 0, -7);
+			nyra.Rotation = -1.57f;
+			nyra.Scale = 0.15f;
+
+			VAO nyraVao = VaoFactory.Instance.CreateFromObjectData(blurShader, Resources.nyra);
+			BlurFigurine = new Model(nyraVao, nyra);
+
+			EffectFigurines.Add(BlurFigurine);
+		}
+
+		public void CreateTransparencyFigurine(Shader transparencyShader)
+		{
+			RenderSettings casualman = new RenderSettings(Textures.Instance.CasualManDiffuse);
+			casualman.Position = new Vector3(-20, 0, -4);
+			casualman.Rotation = -1.57f;
+
+			VAO casualmanVao = VaoFactory.Instance.CreateFromObjectData(transparencyShader, Resources.casualman);
+			TransparencyFigurine = new Model(casualmanVao, casualman);
+
+			EffectFigurines.Add(TransparencyFigurine);
+		}
+
 
 		public void CreateBalls(Shader defaultShader, Shader cellShader, Shader cellAndToonShader)
 		{
@@ -169,13 +226,6 @@ namespace DemoScene.Visual
 			Flag = new Model(vao, renderSettings);
 		}
 
-		public void CreateFlagPole(Shader shader)
-		{
-			// TODO
-			//VAO vao = VaoFactory.Instance.
-		}
-
-
 		public void CreateTetrahedrons(Shader shader, int count)
 		{
 			for (int i = 0; i < count; i++)
@@ -194,12 +244,12 @@ namespace DemoScene.Visual
 		{
 			Texture groundTexture = Textures.Instance.Ground;
 
-			float l = 10;
+			float l = 8;
 			Vector3 a, b, c, d;
 
-			for (int i = -1; i < 3; i++)
+			for (int i = -2; i < 4; i++)
 			{
-				for (int j = -1; j < 3; j++)
+				for (int j = -2; j < 4; j++)
 				{
 					a = new Vector3((i - 1) * l, 0, (j - 1) * l);
 					b = new Vector3(i * l, 0, (j - 1) * l);
@@ -267,9 +317,6 @@ namespace DemoScene.Visual
 			Sun = Create2DModel(shader, a, b, c, d, Textures.Instance.Sun);
 			Moon = Create2DModel(shader, a, b, c, d, Textures.Instance.Moon);
 		}
-
-		public Model Sun;
-		public Model Moon;
 
 	}
 }

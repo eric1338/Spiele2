@@ -23,8 +23,11 @@ namespace DemoScene.Visual
 
 		private Shader defaultShader;
 		private Shader specTexShader;
+		
+		private Shader pixelFragmentShader;
 		private Shader pixelShader;
 		private Shader blurShader;
+		private Shader transparencyShader;
 
 		private Shader colorShader;
 		private Shader cellShader;
@@ -54,8 +57,11 @@ namespace DemoScene.Visual
 
 			defaultShader = CreateShader(Resources.vertex, Resources.fragment);
 			specTexShader = CreateShader(Resources.vertex, Resources.speculartexfragment);
-			pixelShader = CreateShader(Resources.vertex, Resources.pixelfragment);
+
+			pixelShader = CreateShader(Resources.pixelvertex, Resources.pixelfragment);
+			pixelFragmentShader = CreateShader(Resources.vertex, Resources.pixelfragment);
 			blurShader = CreateShader(Resources.vertex, Resources.blurfragment);
+			transparencyShader = CreateShader(Resources.vertex, Resources.transparencyfragment);
 
 			colorShader = CreateShader(Resources.vertex, Resources.colorfragment);
 			cellShader = CreateShader(Resources.vertex, Resources.cellfragment);
@@ -67,6 +73,10 @@ namespace DemoScene.Visual
 
 			models.CreateFigurines(defaultShader);
 			models.CreateSpecularFigurines(specTexShader);
+
+			models.CreatePixelFigurines(pixelFragmentShader, pixelShader);
+			models.CreateBlurFigurine(blurShader);
+			models.CreateTransparencyFigurine(transparencyShader);
 
 			models.CreateBalls(colorShader, cellShader, cellAndToonShader);
 
@@ -110,14 +120,14 @@ namespace DemoScene.Visual
 		private Matrix4 GetCurrentCameraMatrix()
 		{
 			return FirstPersonCamera.GetMatrix();
-
-			//return camera.CalcMatrix();
 		}
 
 		float lbx = -6f;
 
 		public void Render()
 		{
+			xy = 0;
+
 			if (PassTime) time += 0.02f;
 
 			lbx += 0.02f;
@@ -138,6 +148,8 @@ namespace DemoScene.Visual
 			RenderSunMoon(cam);
 
 			RenderTetrahedronSphere(cam);
+
+			RenderEffectFigurines(cam);
 		}
 
 		private void RenderSunMoon(Matrix4 camera)
@@ -185,6 +197,46 @@ namespace DemoScene.Visual
 			}
 
 			colorShader.End();
+		}
+
+		public float PixelFactor = 10f;
+
+		private void RenderEffectFigurines(Matrix4 camera)
+		{
+			pixelFragmentShader.Begin();
+			SetDefaultVertexUniforms(pixelFragmentShader, camera);
+			SetSunMoonUniforms(pixelFragmentShader);
+
+			RenderModel(pixelFragmentShader, models.PixelFragmentFigurine);
+
+			pixelFragmentShader.End();
+
+			pixelShader.Begin();
+			SetDefaultVertexUniforms(pixelShader, camera);
+			SetSunMoonUniforms(pixelShader);
+
+			RenderModel(pixelShader, models.PixelFigurine);
+
+			pixelShader.End();
+
+			blurShader.Begin();
+			SetDefaultVertexUniforms(blurShader, camera);
+			SetSunMoonUniforms(blurShader);
+
+			RenderModel(blurShader, models.BlurFigurine);
+
+			pixelShader.End();
+
+			transparencyShader.Begin();
+			SetDefaultVertexUniforms(transparencyShader, camera);
+			SetSunMoonUniforms(transparencyShader);
+
+			GL.Uniform3(transparencyShader.GetUniformLocation("viewDirection"), FirstPersonCamera.GetForwardsVector());
+			GL.Uniform3(transparencyShader.GetUniformLocation("playerPosition"), demoLevel.Player.Position);
+
+			RenderModel(transparencyShader, models.TransparencyFigurine);
+
+			pixelShader.End();
 		}
 
 
@@ -358,6 +410,8 @@ namespace DemoScene.Visual
 			GL.Uniform1(shader.GetUniformLocation("ambientFactor"), demoLevel.SunMoon.GetAmbientFactor());
 		}
 
+		int xy = 0;
+
 		private void RenderModel(Shader shader, Model model, bool sunMoon = false, bool specTexTest = false)
 		{
 			RenderSettings renderSettings = model.RenderSettings;
@@ -372,29 +426,58 @@ namespace DemoScene.Visual
 			{
 				GL.Enable(EnableCap.Texture2D);
 
-				Texture texture = renderSettings.DiffuseTexture;
+				Texture diffuseTexture = renderSettings.DiffuseTexture;
 
-				//GL.Uniform1(shader.GetUniformLocation("diffuseTexture"), texture.ID - TextureUnit.Texture0);
+				//GL.Uniform1(shader.GetUniformLocation("diffuseTexture"), diffuseTexture.ID - TextureUnit.Texture0);
 				GL.Uniform1(shader.GetUniformLocation("specularFactor"), renderSettings.SpecularFactor);
 
 
 				// TEST
 
-				int diffuseTextureLocation = shader.GetUniformLocation("diffuseTexture");
+				if (specTexTest && false)
+				{
+					//GL.Uniform1(shader.GetUniformLocation("diffuseTexture"), diffuseTexture.ID - TextureUnit.Texture0);
 
-				int textureIDRef = (int) texture.ID;
+					int diffuseTextureUniformLocation = shader.GetUniformLocation("diffuseTexture");
 
-				TexBindTest(diffuseTextureLocation, ref textureIDRef, TextureUnit.Texture0);
+					int diffuseTextureID = (int)diffuseTexture.ID;
 
-				Texture specTex = renderSettings.SpecularTexture;
+					TexBindTest(diffuseTextureUniformLocation, ref diffuseTextureID, TextureUnit.Texture0);
+
+
+					Texture specTex = renderSettings.SpecularTexture;
+
+					int specularTextureUniformLocation = shader.GetUniformLocation("specularTexture");
+
+					int specularTextureID = (int)specTex.ID;
+
+					TexBindTest(specularTextureUniformLocation, ref specularTextureID, TextureUnit.Texture1);
+
+
+
+					model.Vao.Draw();
+
+					GL.BindTexture(TextureTarget.Texture2D, 0);
+					GL.Disable(EnableCap.Texture2D);
+					GL.BindTexture(TextureTarget.Texture2D, 1);
+					GL.Disable(EnableCap.Texture2D);
+
+					//texture.EndUse();
+					//specTex.EndUse();
+				}
+				else
+				{
+					GL.Uniform1(shader.GetUniformLocation("diffuseTexture"), diffuseTexture.ID);
+
+					diffuseTexture.BeginUse();
+					model.Vao.Draw();
+					diffuseTexture.EndUse();
+				}
+
+
 
 				if (specTexTest)
 				{
-					int specularTextureLocation = shader.GetUniformLocation("specularTexture");
-
-					int specularTextureIDRef = (int) specTex.ID;
-
-					TexBindTest(specularTextureLocation, ref specularTextureIDRef, TextureUnit.Texture1);
 
 					//GL.Uniform1(shader.GetUniformLocation("specularTexture"), specTex.ID);
 					//specTex.BeginUse();
@@ -409,12 +492,12 @@ namespace DemoScene.Visual
 				//	specTex.BindTexture();
 				//}
 				
-				model.Vao.Draw();
+				//model.Vao.Draw();
 
 				//if (specTexTest) specTex.UnbindTexture();
 				//texture.UnbindTexture();
 
-
+				//GL.BindTexture(TextureTarget.Texture2D, 0);
 				GL.Disable(EnableCap.Texture2D);
 
 

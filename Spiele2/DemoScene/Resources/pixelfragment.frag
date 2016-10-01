@@ -11,8 +11,6 @@ uniform vec3 lightDirection;
 uniform vec3 lightColor;
 uniform float ambientFactor;
 
-uniform float pixelFactor;
-
 uniform vec3 playerPosition;
 uniform vec3 lightningBugPosition;
 
@@ -56,8 +54,10 @@ void main()
 	//color = diffuse + ambient;
 	//color = vec4(lam, lam, lam, 1);
 
-	float uvx = round(uvs.x * 50) / 50;
-	float uvy = round(uvs.y * 50) / 50;
+	float pixelFactor = 60;
+
+	float uvx = round(uvs.x * pixelFactor) / (pixelFactor);
+	float uvy = round(uvs.y * pixelFactor) / (pixelFactor);
 
 	color = texture2D(diffuseTexture, vec2(uvx, uvy), 0.0);
 }

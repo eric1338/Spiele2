@@ -113,6 +113,26 @@ namespace DemoScene {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] casualman {
+            get {
+                object obj = ResourceManager.GetObject("casualman", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap casualman_d {
+            get {
+                object obj = ResourceManager.GetObject("casualman_d", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] cellfragment {
             get {
                 object obj = ResourceManager.GetObject("cellfragment", resourceCulture);
@@ -283,6 +303,16 @@ namespace DemoScene {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] pixelvertex {
+            get {
+                object obj = ResourceManager.GetObject("pixelvertex", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] r2d2 {
             get {
                 object obj = ResourceManager.GetObject("r2d2", resourceCulture);
@@ -326,6 +356,26 @@ namespace DemoScene {
         internal static System.Drawing.Bitmap rabbit_d {
             get {
                 object obj = ResourceManager.GetObject("rabbit_d", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] shaakti {
+            get {
+                object obj = ResourceManager.GetObject("shaakti", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap shaakti_d {
+            get {
+                object obj = ResourceManager.GetObject("shaakti_d", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -387,6 +437,16 @@ namespace DemoScene {
             get {
                 object obj = ResourceManager.GetObject("sun", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] transparencyfragment {
+            get {
+                object obj = ResourceManager.GetObject("transparencyfragment", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

@@ -33,18 +33,9 @@ namespace DemoScene.DemoObjects
 		{
 			if (newPosition.Y <= 0)
 			{
-				//Position = new Vector3(newPosition.X, 0, newPosition.Z);
 				Position = new Vector3(Position.X, 0, Position.Z);
 
-				if (Bounce)
-				{
-					velocity = new Vector3(velocity.X, -velocity.Y, velocity.Z) * BounceFactor;
-				}
-				else
-				{
-					velocity = Vector3.Zero;
-					//DoPhysics = false;
-				}
+				velocity = Bounce ? (new Vector3(velocity.X, -velocity.Y, velocity.Z) * BounceFactor) : Vector3.Zero;
 			}
 			else
 			{

@@ -2,6 +2,35 @@
 Spiele2 DemoScene
 (Tastenbelegung)
 
+
+2do:
+Tafel
+Flaggentextur-Bug
+Transparenz-Bug
+Beleuchtungsanpassung
+Transparenzmodelle
+Pixel/Blur-Modelle
+Rauch
+SpecialFigurines.Rotate()
+Shader aufräumen (unbenutzte Uniforms z.B.)
+Reset
+
+Tastenbelegungen um Renders ein/ausschalten
+
+siehe unten
+
+
+Wichtig!
+Für Transparenzmodels: sowohl Viewvector als auch (player - model)-Vector werden gebraucht
+
+
+Refactoring:
+MyShader (Shader + Informationen welche Uniforms gebraucht werden)
+Shader.Start() (Shader.Begin() + Uniforms zuweisen)
+
+
+EffectFigurines mit R auch rotieren
+
 DemoScene Reset
 
 uv-Zeug:

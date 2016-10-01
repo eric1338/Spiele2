@@ -1,0 +1,292 @@
+PIXELFRAGMENT
+
+#version 430 core
+uniform vec3 cameraPosition;
+
+uniform sampler2D diffuseTexture;
+//uniform sampler2D texN;
+//uniform sampler2D texS;
+
+uniform float specularFactor;
+
+uniform vec3 lightDirection;
+uniform vec3 lightColor;
+uniform float ambientFactor;
+
+uniform vec3 playerPosition;
+uniform vec3 lightningBugPosition;
+
+uniform float pixelFactor;
+
+in vec3 pos;
+in vec3 n;
+in vec2 uvs;
+
+out vec4 color;
+
+float lambert(vec3 n, vec3 l)
+{
+	return max(0, dot(n, l));
+}
+
+float specular(vec3 n, vec3 l, vec3 v, float shininess)
+{
+	//if(0 > dot(n, l)) return 0;
+	vec3 r = reflect(-l, n);
+	return pow(max(0, dot(r, v)), shininess);
+}
+
+void main()
+{
+	vec3 normal = normalize(n);
+
+	vec3 v = normalize(cameraPosition - pos);
+
+	float lam = lambert(normal, -lightDirection);
+	
+	//float diff = lambert(normal, -lightDirection); // fuer cell
+	
+	vec4 materialColor = texture2D(diffuseTexture, uvs, 0.0);
+
+	vec4 lightColor4 = vec4(lightColor, 1);
+
+	float spec = specular(normal, -lightDirection, v, 100) * specularFactor;
+	vec4 diffuse = materialColor * lightColor4 * lam + lightColor4 * spec;
+
+	vec4 ambient = ambientFactor * 2 * lightColor4 * materialColor;
+
+	//color = diffuse + ambient;
+	//color = vec4(lam, lam, lam, 1);
+
+	float pixelFactor = 2;
+
+	float uvx = round(uvs.x * pixelFactor * 4) / (pixelFactor * 4);
+	float uvy = round(uvs.y * pixelFactor * 4) / (pixelFactor * 4);
+
+
+
+	float r = materialColor.r;
+	float g = materialColor.g;
+	float b = materialColor.b;
+
+	float mid = (r + g + b) / 3;
+
+	float bwFactor = (1 - lam) * 100;
+
+	//r = ((100 - bwFactor) * r + bwFactor * mid) / 100;
+	//g = ((100 - bwFactor) * g + bwFactor * mid) / 100;
+	//b = ((100 - bwFactor) * b + bwFactor * mid) / 100;
+
+	//r = r + g * 0.02;
+	//g = g * 0.9;
+	//b = b + g * 0.04;
+
+	r = round(r * 4) / 4;
+	g = round(g * 4) / 4;
+	b = round(b * 4) / 4;
+
+
+	color = vec4(r, g, b, 1);
+
+
+
+	//color = texture2D(diffuseTexture, vec2(uvx, uvy), 0.0);
+}
+
+
+
+
+PIXELVERTEX
+
+#version 430 core				
+
+uniform mat4 camera;
+
+in vec3 vertexPosition;
+in vec3 vertexNormal;
+in vec2 vertexUV;
+
+uniform vec3 instancePosition;
+uniform float instanceScale;
+
+uniform mat3 instanceRotation;
+
+uniform float time;
+
+uniform float pixelFactor;
+
+out vec3 pos;
+out vec3 n;
+out vec2 uvs;
+
+void main()
+{
+	vec3 rotatedPosition = vertexPosition * instanceRotation;
+	vec3 rotatedNormal = vertexNormal * instanceRotation;
+
+	vec3 posi = rotatedPosition * instanceScale + instancePosition;
+
+	pos = posi;
+	n = rotatedNormal;
+	uvs = vertexUV;
+
+	float px = round(pos.x * pixelFactor) / pixelFactor;
+	float py = round(pos.y * pixelFactor) / pixelFactor;
+	float pz = round(pos.z * pixelFactor) / pixelFactor;
+
+	pos = vec3(px, py, pz);
+	posi = pos;
+
+	gl_Position = camera * vec4(posi, 1.0);
+}
+
+
+
+BLURFRAGMENT
+
+#version 430 core
+uniform vec3 cameraPosition;
+
+uniform sampler2D diffuseTexture;
+uniform sampler2D specularTexture;
+
+uniform float specularFactor;
+
+uniform vec3 lightDirection;
+uniform vec3 lightColor;
+uniform float ambientFactor;
+
+uniform vec3 lightningBugPosition;
+
+uniform vec3 test;
+uniform vec3 test2;
+
+in vec3 pos;
+in vec3 n;
+in vec2 uvs;
+
+out vec4 color;
+
+float lambert(vec3 n, vec3 l)
+{
+	return max(0, dot(n, l));
+}
+
+float specular(vec3 n, vec3 l, vec3 v, float shininess)
+{
+	//if(0 > dot(n, l)) return 0;
+	vec3 r = reflect(-l, n);
+	return pow(max(0, dot(r, v)), shininess);
+}
+
+
+vec4 getCorrectedColor(vec4 inputColor) {
+
+	float r1 = round(inputColor.r * 10) / 10;
+	float g1 = round(inputColor.g * 10) / 10;
+	float b1 = round(inputColor.b * 10) / 10;
+
+	float v1, v2, v3;
+
+	if (r1 > g1 && r1 > b1) {
+	
+		v1 = r1;
+		v2 = max(g1, b1);
+		v3 = min(g1, b1);
+
+	}
+	else if (g1 > r1 && g1 > b1) {
+	
+		v1 = g1;
+		v2 = max(r1, b1);
+		v3 = min(r1, b1);
+	
+	}
+	else {
+	
+		v1 = b1;
+		v2 = max(r1, g1);
+		v3 = min(r1, g1);
+	
+	}
+
+	float b = v1;
+	float r = v3;
+	float g = v2;
+
+	return vec4(r, g, b, 1) * 0.4 + inputColor * 0.6;
+}
+
+
+void main()
+{
+	vec3 normal = normalize(n);
+
+	vec3 v = normalize(cameraPosition - pos);
+
+	float lam = lambert(normal, -lightDirection);
+	
+	//float diff = lambert(normal, -lightDirection); // fuer cell
+	
+	vec4 materialColor = texture2D(diffuseTexture, uvs, 0.0);
+
+	vec4 lightColor4 = vec4(lightColor, 1);
+
+	float spec = specular(normal, -lightDirection, v, 100) * specularFactor;
+	vec4 diffuse = materialColor * lightColor4 * lam + lightColor4 * spec;
+
+	vec4 ambient = ambientFactor * 2 * lightColor4 * materialColor;
+
+	//color = diffuse + ambient;
+	//color = vec4(lam, lam, lam, 1);
+
+	float d = 0.001;
+	float ux, uy;
+	float red = 0;
+	float green = 0;
+	float blue = 0;
+	float alpha = 0;
+	int factor;
+	int sum = 0;
+	vec4 textureColor;
+
+	int degree = 5;
+
+	for (int i = -degree; i < degree + 1; i++) {
+		for (int j = -degree; j < degree + 1; j++) {
+			
+			ux = uvs.x + i * d;
+			uy = uvs.y + j * d;
+
+			factor = (degree * degree + 1) - abs(i) + abs(j);
+
+			textureColor = texture2D(diffuseTexture, vec2(ux, uy), 0.0);
+
+			red += textureColor.r * factor;
+			green += textureColor.g * factor;
+			blue += textureColor.b * factor;
+			alpha += textureColor.a * factor;
+
+			sum += factor;
+		}
+	}
+
+
+
+	//float pf = 2500;
+	//float uvx = round(uvs.x * pf) / (pf);
+	//float uvy = round(uvs.y * pf) / (pf);
+	//materialColor = texture2D(diffuseTexture, vec2(uvx, uvy), 0.0);
+
+	//color = materialColor * 0.5 + myColor * 0.5;
+	
+	vec4 blurColor = vec4(red / sum, green / sum, blue / sum, alpha / sum);
+	color = getCorrectedColor(blurColor);
+
+	vec3 t2 = normalize(pos - test2);
+
+	float al = lambert(t2, test);
+	color = vec4(materialColor.rgb, pow(al, 16));
+
+	//color = vec4(red / sum, green / sum, blue / sum, alpha / sum);
+}
