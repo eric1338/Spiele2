@@ -29,6 +29,7 @@ namespace DemoScene.Logic
 			if (!DoNonPlayerPhysics) return;
 
 			DoRabbitHabit();
+			DoParticlePhysics();
 
 			ApplyPhysics(demoLevel.Rabbit);
 			ApplyPhysics(demoLevel.DefaultBall);
@@ -115,6 +116,24 @@ namespace DemoScene.Logic
 			if (count % 400 == 100)
 			{
 				LetRabbitJump(rabbit.GetJumpDirection());
+			}
+		}
+
+		private void DoParticlePhysics()
+		{
+			List<Particle> particles = demoLevel.ParticleSystem.Particles;
+
+			foreach (Particle particle in particles)
+			{
+				if (!particle.HasEmitForceBeenUsed)
+				{
+					particle.AddForce(particle.EmitForce * 0.0001f);
+					particle.HasEmitForceBeenUsed = true;
+				}
+
+				particle.AddForce(GetWindForce());
+
+				particle.ApplyForces();
 			}
 		}
 

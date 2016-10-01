@@ -61,6 +61,7 @@ namespace DemoScene
 			inputManager.AddSingleUserActionMapping(Key.Space, UserAction.Jump);
 			inputManager.AddSingleUserActionMapping(Key.F, UserAction.ToggleFly);
 
+			inputManager.AddSingleUserActionMapping(Key.L, UserAction.ResetDemoLevel);
 			inputManager.AddSingleUserActionMapping(Key.P, UserAction.TogglePause);
 			inputManager.AddSingleUserActionMapping(Key.B, UserAction.ToggleBounce);
 			inputManager.AddSingleUserActionMapping(Key.G, UserAction.DecreaseGravity);
@@ -68,7 +69,13 @@ namespace DemoScene
 			inputManager.AddSingleUserActionMapping(Key.Y, UserAction.DecreaseWindForce);
 			inputManager.AddSingleUserActionMapping(Key.U, UserAction.IncreaseWindForce);
 
-			//inputManager.AddSingleUserActionMapping(Key.Number1, UserAction.IncreaseWindForce);
+			inputManager.AddSingleUserActionMapping(Key.Number1, UserAction.ToggleDefaultVisual);
+			inputManager.AddSingleUserActionMapping(Key.Number2, UserAction.ToggleFigurinesVisual);
+			inputManager.AddSingleUserActionMapping(Key.Number3, UserAction.ToggleEffectFigurinesVisual);
+			inputManager.AddSingleUserActionMapping(Key.Number4, UserAction.ToggleBallsVisual);
+			inputManager.AddSingleUserActionMapping(Key.Number5, UserAction.ToggleFlagVisual);
+			inputManager.AddSingleUserActionMapping(Key.Number6, UserAction.ToggleTetrahedronSphereVisual);
+			inputManager.AddSingleUserActionMapping(Key.Number7, UserAction.ToggleParticleSystemVisual);
 
 			Textures.Instance.LoadTextures();
 
@@ -83,8 +90,8 @@ namespace DemoScene
 				float h = 10 * e.XDelta / (float) Width;
 				float v = 10 * e.YDelta / (float) Height;
 
-				visual.OrbitCamera.Heading += h;
-				visual.OrbitCamera.Tilt += v;
+				//visual.OrbitCamera.Heading += h;
+				//visual.OrbitCamera.Tilt += v;
 
 				visual.FirstPersonCamera.ChangeTarget(h, v);
 			}
@@ -114,8 +121,11 @@ namespace DemoScene
 
 		private void DoDemoLevelLogic()
 		{
-			if (demoLevel.IsRunning) demoLevel.TetrahedronSphere.Tick(demoLevel.Player.Position);
-
+			if (demoLevel.IsRunning)
+			{
+				demoLevel.TetrahedronSphere.Tick(demoLevel.Player.Position);
+				demoLevel.ParticleSystem.Update();
+			}
 			physics.DoPhysics();
 		}
 
@@ -146,6 +156,7 @@ namespace DemoScene
 
 			foreach (UserAction userAction in singleUserActions)
 			{
+				if (userAction == UserAction.ResetDemoLevel) demoLevel.SetInitialValues();
 				if (userAction == UserAction.Jump) jump = true;
 				if (userAction == UserAction.ToggleFly) demoLevel.Player.ToggleFlying();
 				if (userAction == UserAction.TogglePause) TogglePause();
@@ -154,6 +165,13 @@ namespace DemoScene
 				if (userAction == UserAction.DecreaseGravity) demoLevel.DecreaseGravity();
 				if (userAction == UserAction.IncreaseWindForce) demoLevel.IncreaseWindForce();
 				if (userAction == UserAction.DecreaseWindForce) demoLevel.DecreaseWindForce();
+				if (userAction == UserAction.ToggleDefaultVisual) visual.defaultVisual.ToggleDoRender();
+				if (userAction == UserAction.ToggleFigurinesVisual) visual.figurinesVisual.ToggleDoRender();
+				if (userAction == UserAction.ToggleEffectFigurinesVisual) visual.effectFigurinesVisual.ToggleDoRender();
+				if (userAction == UserAction.ToggleBallsVisual) visual.ballsVisual.ToggleDoRender();
+				if (userAction == UserAction.ToggleFlagVisual) visual.flagVisual.ToggleDoRender();
+				if (userAction == UserAction.ToggleTetrahedronSphereVisual) visual.tetrahedronSphereVisual.ToggleDoRender();
+				if (userAction == UserAction.ToggleParticleSystemVisual) visual.particleSystemVisual.ToggleDoRender();
 			}
 
 			Player player = demoLevel.Player;

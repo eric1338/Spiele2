@@ -23,6 +23,7 @@ namespace DemoScene.DemoObjects
 		public Ball CellAndToonShadingBall { get; set; }
 
 		public TetrahedronSphere TetrahedronSphere { get; set; }
+		public ParticleSystem ParticleSystem { get; set; }
 
 		public Vector3 WindDirection { get; set; }
 		public int WindForceLevel { get; set; }
@@ -45,6 +46,7 @@ namespace DemoScene.DemoObjects
 			CellAndToonShadingBall = new Ball();
 
 			TetrahedronSphere = new TetrahedronSphere();
+			ParticleSystem = new ParticleSystem();
 
 			SetInitialValues();
 		}
@@ -58,10 +60,16 @@ namespace DemoScene.DemoObjects
 			GravityLevel = 2;
 
 			Rabbit.Position = new Vector3(-3, 0, 3);
+			Rabbit.ResetForces();
 
 			DefaultBall.Position = new Vector3(9f, 3f, 9f);
+			DefaultBall.ResetForces();
+
 			CellShadingBall.Position = new Vector3(6f, 3.5f, 9f);
+			CellShadingBall.ResetForces();
+
 			CellAndToonShadingBall.Position = new Vector3(3f, 4f, 9f);
+			CellAndToonShadingBall.ResetForces();
 		}
 
 		public void IncreaseWindForce()

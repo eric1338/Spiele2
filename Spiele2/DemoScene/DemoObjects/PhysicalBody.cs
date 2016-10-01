@@ -57,5 +57,11 @@ namespace DemoScene.DemoObjects
 			acceleration = Vector3.Zero;
 		}
 
+		public void ResetForces()
+		{
+			velocity = Vector3.Zero;
+			acceleration = Vector3.Zero;
+		}
+
 	}
 }

@@ -17,6 +17,7 @@ namespace DemoScene.Utils
 
 		MoveSunMoon,
 		RotateModels,
+		ResetDemoLevel,
 
 		TogglePause,
 		ToggleBounce,
@@ -25,5 +26,14 @@ namespace DemoScene.Utils
 		IncreaseWindForce,
 		DecreaseWindForce,
 		RotateWind,
+
+		ToggleDefaultVisual,
+		ToggleFigurinesVisual,
+		ToggleEffectFigurinesVisual,
+		ToggleBallsVisual,
+		ToggleFlagVisual,
+		ToggleTetrahedronSphereVisual,
+		ToggleParticleSystemVisual,
+
 	}
 }

@@ -217,6 +217,15 @@
   <data name="simplefragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\simplefragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="smoke" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\textures\smoke.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="smokefragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\smokefragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="smokevertex" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\smokevertex.vert;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="speculartexfragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\speculartexfragment.frag;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

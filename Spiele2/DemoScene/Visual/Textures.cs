@@ -40,6 +40,8 @@ namespace DemoScene.Visual
 		public Texture Sun { get; set; }
 		public Texture Moon { get; set; }
 
+		public Texture Smoke { get; set; }
+
 		public void LoadTextures()
 		{
 			if (_texturesLoaded) return;
@@ -69,6 +71,8 @@ namespace DemoScene.Visual
 
 			Sun = TextureLoader.FromBitmap(Resources.sun);
 			Moon = TextureLoader.FromBitmap(Resources.moon);
+
+			Smoke = TextureLoader.FromBitmap(Resources.smoke);
 
 			_texturesLoaded = true;
 		}

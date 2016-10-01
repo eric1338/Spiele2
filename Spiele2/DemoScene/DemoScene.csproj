@@ -52,6 +52,8 @@
     <Compile Include="DemoObjects\Flag.cs" />
     <Compile Include="DemoObjects\IPhysical.cs" />
     <Compile Include="DemoObjects\MovingTetrahedron.cs" />
+    <Compile Include="DemoObjects\Particle.cs" />
+    <Compile Include="DemoObjects\ParticleSystem.cs" />
     <Compile Include="DemoObjects\PhysicalBody.cs" />
     <Compile Include="DemoObjects\Player.cs" />
     <Compile Include="DemoObjects\Rabbit.cs" />
@@ -64,6 +66,14 @@
     <Compile Include="Visual\LookAtCamera.cs" />
     <Compile Include="Visual\MainVisual.cs" />
     <Compile Include="Visual\Model.cs" />
+    <Compile Include="Visual\MyVisuals\BallsVisual.cs" />
+    <Compile Include="Visual\MyVisuals\DefaultVisual.cs" />
+    <Compile Include="Visual\MyVisuals\EffectFigurinesVisual.cs" />
+    <Compile Include="Visual\MyVisuals\FigurinesVisual.cs" />
+    <Compile Include="Visual\MyVisuals\FlagVisual.cs" />
+    <Compile Include="Visual\MyVisuals\MyVisual.cs" />
+    <Compile Include="Visual\MyVisuals\ParticleSystemVisual.cs" />
+    <Compile Include="Visual\MyVisuals\TetrahedronSphereVisual.cs" />
     <Compile Include="Visual\RenderSettings.cs" />
     <Compile Include="MyWindow.cs" />
     <Compile Include="Program.cs" />
@@ -99,6 +109,8 @@
     <None Include="Resources\pixelfragment.frag" />
     <None Include="Resources\pixelvertex.vert" />
     <None Include="Resources\simplefragment.frag" />
+    <None Include="Resources\smokefragment.frag" />
+    <None Include="Resources\smokevertex.vert" />
     <None Include="Resources\speculartexfragment.frag" />
     <None Include="Resources\transparencyfragment.frag" />
     <None Include="Resources\vertex.vert" />
@@ -182,6 +194,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\textures\casualman_d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\textures\smoke.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

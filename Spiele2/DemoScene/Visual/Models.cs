@@ -148,12 +148,12 @@ namespace DemoScene.Visual
 		public void CreatePixelFigurines(Shader pixelFragmentShader, Shader pixelShader)
 		{
 			RenderSettings nyra1 = new RenderSettings(Textures.Instance.NyraDiffuse);
-			nyra1.Position = new Vector3(-20, 0, -10);
+			nyra1.Position = new Vector3(-20, 0.32f, -10);
 			nyra1.Rotation = -1.57f;
 			nyra1.Scale = 0.15f;
 
 			RenderSettings nyra2 = new RenderSettings(Textures.Instance.NyraDiffuse);
-			nyra2.Position = new Vector3(-20, 0, -13);
+			nyra2.Position = new Vector3(-20, 0.32f, -13);
 			nyra2.Rotation = -1.57f;
 			nyra2.Scale = 0.15f;
 
@@ -170,7 +170,7 @@ namespace DemoScene.Visual
 		public void CreateBlurFigurine(Shader blurShader)
 		{
 			RenderSettings nyra = new RenderSettings(Textures.Instance.NyraDiffuse);
-			nyra.Position = new Vector3(-20, 0, -7);
+			nyra.Position = new Vector3(-20, 0.32f, -7);
 			nyra.Rotation = -1.57f;
 			nyra.Scale = 0.15f;
 
