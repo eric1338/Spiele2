@@ -25,6 +25,8 @@ namespace DemoScene.DemoObjects
 		public TetrahedronSphere TetrahedronSphere { get; set; }
 		public ParticleSystem ParticleSystem { get; set; }
 
+		public LightningBug LightningBug { get; set; }
+
 		public Vector3 WindDirection { get; set; }
 		public int WindForceLevel { get; set; }
 
@@ -48,6 +50,8 @@ namespace DemoScene.DemoObjects
 			TetrahedronSphere = new TetrahedronSphere();
 			ParticleSystem = new ParticleSystem();
 
+			LightningBug = new LightningBug(new Vector3(12, 3, -16), new Vector3(4, 3, -18));
+
 			SetInitialValues();
 		}
 
@@ -70,6 +74,8 @@ namespace DemoScene.DemoObjects
 
 			CellAndToonShadingBall.Position = new Vector3(3f, 4f, 9f);
 			CellAndToonShadingBall.ResetForces();
+
+			LightningBug.SetInitialValues();
 		}
 
 		public void IncreaseWindForce()

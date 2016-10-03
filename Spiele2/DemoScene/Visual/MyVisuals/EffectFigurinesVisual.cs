@@ -58,6 +58,9 @@ namespace DemoScene.Visual.MyVisuals
 
 			pixelShader.End();
 
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.One);
+			GL.BlendEquation(BlendEquationMode.FuncAdd);
+			GL.Enable(EnableCap.Blend);
 			transparencyShader.Begin();
 			SetDefaultVertexUniforms(transparencyShader, camera);
 			SetSunMoonUniforms(transparencyShader);
@@ -68,6 +71,7 @@ namespace DemoScene.Visual.MyVisuals
 			RenderModel(transparencyShader, models.TransparencyFigurine);
 
 			pixelShader.End();
+			GL.Disable(EnableCap.Blend);
 		}
 
 

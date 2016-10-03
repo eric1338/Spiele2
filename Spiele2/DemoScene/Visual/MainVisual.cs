@@ -111,22 +111,16 @@ namespace DemoScene.Visual
 			return FirstPersonCamera.GetMatrix();
 		}
 
-		float lbx = -6f;
-
 		public void Render()
 		{
 			if (PassTime) Time += 0.02f;
 
-			lbx += 0.02f;
-
-			if (lbx > 6) lbx = -6;
-
-			LightningBugPosition = new Vector3(lbx, 2, 1);
+			if (demoLevel.SunMoon.IsDay()) LightningBugPosition = new Vector3(1000, 1000, 1000);
+			else LightningBugPosition = demoLevel.LightningBug.Position;
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 			Matrix4 cam = GetCurrentCameraMatrix();
-
 
 			foreach (MyVisual visual in visuals) visual.TryRender(cam);
 		}

@@ -8,7 +8,7 @@ Tafel
 Transparenz-Bug
 Beleuchtungsanpassung
 Rauch/Nebel
-Shader aufräumen (unbenutzte Uniforms z.B.)
+Shader aufräumen (unbenutzte Uniforms z.B.) (smokeVertex & smokeFragment anpassen)
 
 TODOs im Code
 Glühwürmchen?
@@ -16,6 +16,7 @@ Glühwürmchen?
 OpenGL-Bug bei Rauch wenn 2 aktiv ist und 3 nicht
 
 Refactoring:
+Nur eine Camera
 MyShader (Shader + Informationen welche Uniforms gebraucht werden)
 Shader.Start() (Shader.Begin() + Uniforms zuweisen)
 

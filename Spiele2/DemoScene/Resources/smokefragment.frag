@@ -9,6 +9,6 @@ void main()
 {
 	//color = vec4(gl_PointCoord, 0, 1);
 	color = texture(texParticle, gl_PointCoord);
-	color.a *=  fadeFrag;
+	color.a *= fadeFrag;
 	color.rgb = 0.3 * vec3(0.2, 0.2, 0.4);
 }

@@ -54,7 +54,7 @@ namespace DemoScene.Visual.MyVisuals
 
 			foreach (Model figurine in models.SpecularFigurines)
 			{
-				RenderModel(specularTextureShader, figurine, false, true);
+				RenderModel(specularTextureShader, figurine, true);
 			}
 
 			specularTextureShader.End();

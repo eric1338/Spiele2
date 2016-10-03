@@ -65,7 +65,7 @@ namespace DemoScene.Visual.MyVisuals
 			GL.Uniform1(shader.GetUniformLocation("ambientFactor"), demoLevel.SunMoon.GetAmbientFactor());
 		}
 
-		protected void RenderModel(Shader shader, Model model, bool sunMoon = false, bool useSpecularTexture = false)
+		protected void RenderModel(Shader shader, Model model, bool useSpecularTexture = false)
 		{
 			RenderSettings renderSettings = model.RenderSettings;
 
@@ -97,9 +97,9 @@ namespace DemoScene.Visual.MyVisuals
 
 					model.Vao.Draw();
 
-					GL.Disable(EnableCap.Texture2D);
-					GL.BindTexture(TextureTarget.Texture2D, 1);
-					GL.BindTexture(TextureTarget.Texture2D, 0);
+					//GL.Disable(EnableCap.Texture2D);
+					//GL.BindTexture(TextureTarget.Texture2D, 1);
+					//GL.BindTexture(TextureTarget.Texture2D, 0);
 				}
 				else
 				{
@@ -111,20 +111,6 @@ namespace DemoScene.Visual.MyVisuals
 					model.Vao.Draw();
 					diffuseTexture.EndUse();
 				}
-
-				/*
-				if (sunMoon)
-				{
-					GL.Enable(EnableCap.PointSprite);
-					GL.Enable(EnableCap.VertexProgramPointSize);
-				}
-
-				if (sunMoon)
-				{
-					GL.Disable(EnableCap.PointSprite);
-					GL.Disable(EnableCap.VertexProgramPointSize);
-				}
-				*/
 			}
 			else
 			{

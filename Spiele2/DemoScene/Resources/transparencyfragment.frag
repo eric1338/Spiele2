@@ -58,5 +58,5 @@ void main()
 	vec3 nv2 = normalize(vec3(pos.x, 0, pos.z) - vec3(playerPosition.x, 0, playerPosition.z));
 
 	float alpha = lambert(nv2, nv);
-	color = vec4(materialColor.rgb, pow(alpha, 32));
+	color = vec4(materialColor.rgb, pow(alpha, 64));
 }

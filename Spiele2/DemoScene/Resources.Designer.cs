@@ -473,6 +473,16 @@ namespace DemoScene {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] sunmoonfragment {
+            get {
+                object obj = ResourceManager.GetObject("sunmoonfragment", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] transparencyfragment {
             get {
                 object obj = ResourceManager.GetObject("transparencyfragment", resourceCulture);

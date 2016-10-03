@@ -51,6 +51,7 @@
     <Compile Include="DemoObjects\DemoLevel.cs" />
     <Compile Include="DemoObjects\Flag.cs" />
     <Compile Include="DemoObjects\IPhysical.cs" />
+    <Compile Include="DemoObjects\LightningBug.cs" />
     <Compile Include="DemoObjects\MovingTetrahedron.cs" />
     <Compile Include="DemoObjects\Particle.cs" />
     <Compile Include="DemoObjects\ParticleSystem.cs" />
@@ -112,6 +113,7 @@
     <None Include="Resources\smokefragment.frag" />
     <None Include="Resources\smokevertex.vert" />
     <None Include="Resources\speculartexfragment.frag" />
+    <None Include="Resources\sunmoonfragment.frag" />
     <None Include="Resources\transparencyfragment.frag" />
     <None Include="Resources\vertex.vert" />
   </ItemGroup>

@@ -50,17 +50,18 @@ void main()
 	vec4 diffuse = materialColor * lightColor4 * lam + lightColor4 * spec;
 
 	vec4 ambient = ambientFactor * 2 * lightColor4 * materialColor;
+	
 
-	color = diffuse + ambient;
+	float lightningBugFactor = max((1.5 - length(pos - lightningBugPosition)) / 1.5, 0);
+	vec4 lightningBugColor = vec4(0.9, 1, 0.4, 1) * lightningBugFactor * 0.4;
+
+	color = diffuse + ambient + materialColor * lightningBugColor;
 	//color = vec4(lam, lam, lam, 1);
 
 	// distance-fog
 	//float na = min(max(2 - (length(playerPosition - vec3(-3, 1, -3) - pos) / 10), 0), 1);
 	//color = vec4(color.x, color.y, color.z, na);
 
-
-	//float lf = max((1.5 - length(pos - lightningBugPosition)) / 1.5, 0);
-	//vec4 lbc = vec4(0.8, 1, 0.2, 1) * lf;
 
 	//color = diffuse * vec4(lightColor, 1) + ambient + materialColor * lbc;
 
