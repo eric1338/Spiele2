@@ -17,7 +17,7 @@ namespace DemoScene.DemoObjects
 		private float lastEmit = 0;
 		private float releaseIntervall;
 
-		private float defaultParticleLifeTimeSpan = 10;
+		private float defaultParticleLifeTimeSpan = 5;
 
 		private float time = 0;
 
@@ -27,9 +27,9 @@ namespace DemoScene.DemoObjects
 		{
 			Particles = new List<Particle>();
 
-			maximumParticles = 100;
-			emitPosition = new Vector3(2, 0, 2);
-			releaseIntervall = 0.1f;
+			maximumParticles = 2000;
+			emitPosition = new Vector3(-20, 0, -20);
+			releaseIntervall = 0.005f;
 		}
 
 
@@ -58,7 +58,12 @@ namespace DemoScene.DemoObjects
 
 		private Particle CreateNewParticle(float time)
 		{
-			Particle particle = new Particle(emitPosition, time, defaultParticleLifeTimeSpan);
+			float x = Util.GetRandomFloat() * 0.5f;
+			float z = Util.GetRandomFloat() * 0.5f;
+
+			Vector3 startPosition = emitPosition + new Vector3(x, 0, z);
+
+			Particle particle = new Particle(startPosition, time, defaultParticleLifeTimeSpan);
 
 			Vector3 randomVector = Util.GetRandomVector3();
 			float randomSpeed = Util.GetRandomFloat() * 0.4f + 0.8f;
@@ -68,7 +73,7 @@ namespace DemoScene.DemoObjects
 			Vector3 emitVector = influenceVector + randomVector;
 			emitVector.Normalize();
 
-			particle.EmitForce = emitVector * randomSpeed;
+			particle.EmitForce = emitVector * randomSpeed * 10;
 
 			return particle;
 		}

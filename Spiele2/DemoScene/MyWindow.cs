@@ -37,7 +37,6 @@ namespace DemoScene
 			GL.LoadIdentity();
 
 			MouseMove += MyWindow_MouseMove;
-			MouseWheel += MyWindow_MouseWheel;
 			KeyUp += MyWindow_KeyUp;
 			KeyDown += MyWindow_KeyDown;
 
@@ -73,6 +72,7 @@ namespace DemoScene
 			inputManager.AddSingleUserActionMapping(Key.Number5, UserAction.ToggleFlagVisual);
 			inputManager.AddSingleUserActionMapping(Key.Number6, UserAction.ToggleTetrahedronSphereVisual);
 			inputManager.AddSingleUserActionMapping(Key.Number7, UserAction.ToggleParticleSystemVisual);
+			inputManager.AddSingleUserActionMapping(Key.X, UserAction.ToggleKeysBoard);
 
 			Textures.Instance.LoadTextures();
 
@@ -87,16 +87,8 @@ namespace DemoScene
 				float h = 10 * e.XDelta / (float) Width;
 				float v = 10 * e.YDelta / (float) Height;
 
-				//visual.OrbitCamera.Heading += h;
-				//visual.OrbitCamera.Tilt += v;
-
 				visual.FirstPersonCamera.ChangeTarget(h, v);
 			}
-		}
-
-		private void MyWindow_MouseWheel(object sender, MouseWheelEventArgs e)
-		{
-			visual.OrbitCamera.Distance -= e.DeltaPrecise;
 		}
 
 		private void MyWindow_KeyUp(object sender, KeyboardKeyEventArgs e)
@@ -170,6 +162,7 @@ namespace DemoScene
 				if (userAction == UserAction.ToggleFlagVisual) visual.flagVisual.ToggleDoRender();
 				if (userAction == UserAction.ToggleTetrahedronSphereVisual) visual.tetrahedronSphereVisual.ToggleDoRender();
 				if (userAction == UserAction.ToggleParticleSystemVisual) visual.particleSystemVisual.ToggleDoRender();
+				if (userAction == UserAction.ToggleKeysBoard) demoLevel.ShowKeys = !demoLevel.ShowKeys;
 			}
 
 			Player player = demoLevel.Player;

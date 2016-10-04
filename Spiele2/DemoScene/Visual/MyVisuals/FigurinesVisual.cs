@@ -36,7 +36,6 @@ namespace DemoScene.Visual.MyVisuals
 			SetSunMoonUniforms(defaultShader);
 
 			GL.Uniform3(defaultShader.GetUniformLocation("lightningBugPosition"), mainVisual.LightningBugPosition);
-
 			GL.Uniform3(defaultShader.GetUniformLocation("playerPosition"), demoLevel.Player.Position);
 
 			foreach (Model figurine in models.Figurines)
@@ -51,6 +50,9 @@ namespace DemoScene.Visual.MyVisuals
 
 			SetDefaultVertexUniforms(specularTextureShader, camera);
 			SetSunMoonUniforms(specularTextureShader);
+
+			GL.Uniform3(defaultShader.GetUniformLocation("lightningBugPosition"), mainVisual.LightningBugPosition);
+			GL.Uniform3(defaultShader.GetUniformLocation("playerPosition"), demoLevel.Player.Position);
 
 			foreach (Model figurine in models.SpecularFigurines)
 			{

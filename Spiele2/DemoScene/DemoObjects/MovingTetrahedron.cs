@@ -65,7 +65,7 @@ namespace DemoScene.DemoObjects
 
 		public Vector3 GetColor()
 		{
-			return new Vector3(GetDistanceFactor(), (1 - GetDistanceFactor()) / 2, 1 - GetDistanceFactor()) * 4;
+			return new Vector3(GetDistanceFactor(), (1 - GetDistanceFactor()) / 2, 1 - GetDistanceFactor());
 		}
 
 	}

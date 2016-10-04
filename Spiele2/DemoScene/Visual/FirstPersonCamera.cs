@@ -23,7 +23,7 @@ namespace DemoScene.Visual
 			this.player = player;
 		}
 
-		private Vector3 GetEyePosition()
+		public Vector3 GetEyePosition()
 		{
 			return player.Position + new Vector3(0, playerHeight, 0);
 		}

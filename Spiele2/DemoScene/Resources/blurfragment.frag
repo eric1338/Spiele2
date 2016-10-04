@@ -35,26 +35,6 @@ float specular(vec3 n, vec3 l, vec3 v, float shininess)
 
 void main()
 {
-	vec3 normal = normalize(n);
-
-	vec3 v = normalize(cameraPosition - pos);
-
-	float lam = lambert(normal, -lightDirection);
-	
-	//float diff = lambert(normal, -lightDirection); // fuer cell
-	
-	vec4 materialColor = texture2D(diffuseTexture, uvs, 0.0);
-
-	vec4 lightColor4 = vec4(lightColor, 1);
-
-	float spec = specular(normal, -lightDirection, v, 100) * specularFactor;
-	vec4 diffuse = materialColor * lightColor4 * lam + lightColor4 * spec;
-
-	vec4 ambient = ambientFactor * 2 * lightColor4 * materialColor;
-
-	//color = diffuse + ambient;
-	//color = vec4(lam, lam, lam, 1);
-
 	float d = 0.001;
 	float ux, uy;
 	float red = 0;
@@ -65,7 +45,7 @@ void main()
 	int sum = 0;
 	vec4 textureColor;
 
-	int degree = 5;
+	int degree = 4;
 
 	for (int i = -degree; i < degree + 1; i++) {
 		for (int j = -degree; j < degree + 1; j++) {
@@ -86,6 +66,25 @@ void main()
 		}
 	}
 	
-	color = vec4(red / sum, green / sum, blue / sum, alpha / sum);
+	vec4 blurColor = vec4(red / sum, green / sum, blue / sum, alpha / sum);
 
+	vec3 normal = normalize(n);
+
+	vec3 v = normalize(cameraPosition - pos);
+
+	float lam = lambert(normal, -lightDirection);
+	
+	vec4 materialColor = texture2D(diffuseTexture, uvs, 0.0);
+
+	vec4 lightColor4 = vec4(lightColor, 1);
+
+	float spec = specular(normal, -lightDirection, v, 100) * specularFactor;
+	vec4 diffuse = blurColor * lightColor4 * lam + lightColor4 * spec;
+
+	vec4 ambient = blurColor * lightColor4  * ambientFactor;
+
+	float lightningBugFactor = max((1.5 - length(pos - lightningBugPosition)) / 1.5, 0);
+	vec4 lightningBugColor = vec4(0.9, 1, 0.4, 1) * lightningBugFactor * 0.4;
+	
+	color = diffuse + ambient + blurColor * lightningBugColor;
 }

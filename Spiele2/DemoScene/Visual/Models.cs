@@ -35,6 +35,9 @@ namespace DemoScene.Visual
 		public List<Model> DaySkybox = new List<Model>();
 		public List<Model> NightSkybox = new List<Model>();
 
+		public Model HelpBoard;
+		public Model KeysBoard;
+
 		public void CreateFigurines(Shader shader)
 		{
 			CreatePlainFigurines(shader);
@@ -43,7 +46,7 @@ namespace DemoScene.Visual
 
 		private void CreatePlainFigurines(Shader shader)
 		{
-			RenderSettings r2d2 = new RenderSettings(Textures.Instance.C3PODiffuse);
+			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
 			r2d2.Position = GetFigurinePosition(4);
 			r2d2.Rotation = GetFigurineRotation(4);
 
@@ -56,7 +59,7 @@ namespace DemoScene.Visual
 			nyra.Rotation = GetFigurineRotation(10);
 			nyra.Scale = 0.15f;
 
-			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.c3po);
+			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.r2d2);
 			Figurines.Add(new Model(r2d2Vao, r2d2));
 
 			VAO statueVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.statue);
@@ -68,7 +71,7 @@ namespace DemoScene.Visual
 
 		public void CreateShinyFigurines(Shader shader)
 		{
-			RenderSettings r2d2 = new RenderSettings(Textures.Instance.C3PODiffuse);
+			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
 			r2d2.Position = GetFigurinePosition(5);
 			r2d2.Rotation = GetFigurineRotation(5);
 			r2d2.SpecularFactor = 1;
@@ -84,7 +87,7 @@ namespace DemoScene.Visual
 			nyra.SpecularFactor = 1;
 			nyra.Scale = 0.15f;
 
-			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.c3po);
+			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.r2d2);
 			Figurines.Add(new Model(r2d2Vao, r2d2));
 
 			VAO statueVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.statue);
@@ -96,8 +99,8 @@ namespace DemoScene.Visual
 
 		public void CreateSpecularFigurines(Shader shader)
 		{
-			RenderSettings r2d2 = new RenderSettings(Textures.Instance.C3PODiffuse);
-			r2d2.SpecularTexture = Textures.Instance.C3POSpecular;
+			RenderSettings r2d2 = new RenderSettings(Textures.Instance.R2D2Diffuse);
+			r2d2.SpecularTexture = Textures.Instance.R2D2Specular;
 			r2d2.Position = GetFigurinePosition(6);
 			r2d2.Rotation = GetFigurineRotation(6);
 			r2d2.SpecularFactor = 1;
@@ -115,7 +118,7 @@ namespace DemoScene.Visual
 			nyra.SpecularFactor = 1;
 			nyra.Scale = 0.15f;
 
-			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.c3po);
+			VAO r2d2Vao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.r2d2);
 			SpecularFigurines.Add(new Model(r2d2Vao, r2d2));
 
 			VAO statueVao = VaoFactory.Instance.CreateFromObjectData(shader, Resources.statue);
@@ -265,6 +268,8 @@ namespace DemoScene.Visual
 		{
 			DaySkybox = GetSkyboxModels(shader, true);
 			NightSkybox = GetSkyboxModels(shader, false);
+
+			CreateBoards(shader);
 		}
 
 		public List<Model> GetSkyboxModels(Shader shader, bool day)
@@ -296,6 +301,25 @@ namespace DemoScene.Visual
 			skyboxModels.Add(Create2DModel(shader, e - y, f - y, g - y, h - y, topTexture));
 
 			return skyboxModels;
+		}
+
+		private void CreateBoards(Shader shader)
+		{
+			float y = 80;
+			float helpBoardLength = 16;
+			float keysBoardLength = 64;
+
+			Vector3 a1 = new Vector3(helpBoardLength, y, helpBoardLength);
+			Vector3 b1 = new Vector3(-helpBoardLength, y, helpBoardLength);
+			Vector3 c1 = new Vector3(-helpBoardLength, y, -helpBoardLength);
+			Vector3 d1 = new Vector3(helpBoardLength, y, -helpBoardLength);
+			Vector3 a2 = new Vector3(keysBoardLength, y, keysBoardLength);
+			Vector3 b2 = new Vector3(-keysBoardLength, y, keysBoardLength);
+			Vector3 c2 = new Vector3(-keysBoardLength, y, -keysBoardLength);
+			Vector3 d2 = new Vector3(keysBoardLength, y, -keysBoardLength);
+
+			HelpBoard = Create2DModel(shader, a1, b1, c1, d1, Textures.Instance.HelpBoard);
+			KeysBoard = Create2DModel(shader, a2, b2, c2, d2, Textures.Instance.KeysBoard);
 		}
 
 		private Model Create2DModel(Shader shader, Vector3 a, Vector3 b, Vector3 c, Vector3 d, Texture texture)

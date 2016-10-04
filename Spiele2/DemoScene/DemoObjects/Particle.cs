@@ -19,7 +19,7 @@ namespace DemoScene.DemoObjects
 		public Vector3 EmitForce { get; set; }
 		public bool HasEmitForceBeenUsed { get; set; } = false;
 
-		public Particle(Vector3 position, float birthTime, float lifeTimeSpan) : base(position, 0.1f)
+		public Particle(Vector3 position, float birthTime, float lifeTimeSpan) : base(position, 5f)
 		{
 			this.birthTime = birthTime;
 			this.lifeTimeSpan = lifeTimeSpan;
@@ -27,7 +27,7 @@ namespace DemoScene.DemoObjects
 
 		public void Update(float time)
 		{
-			float timeActive = birthTime - time;
+			float timeActive = time - birthTime;
 
 			Alpha = 1 - (timeActive / lifeTimeSpan);
 

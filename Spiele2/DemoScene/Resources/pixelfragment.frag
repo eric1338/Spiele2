@@ -2,8 +2,6 @@
 uniform vec3 cameraPosition;
 
 uniform sampler2D diffuseTexture;
-//uniform sampler2D texN;
-//uniform sampler2D texS;
 
 uniform float specularFactor;
 
@@ -34,30 +32,30 @@ float specular(vec3 n, vec3 l, vec3 v, float shininess)
 
 void main()
 {
+	float pixelFactor = 60;
+
+	float uvx = round(uvs.x * pixelFactor) / (pixelFactor);
+	float uvy = round(uvs.y * pixelFactor) / (pixelFactor);
+
+	vec4 pixelColor = texture2D(diffuseTexture, vec2(uvx, uvy), 0.0);
+
 	vec3 normal = normalize(n);
 
 	vec3 v = normalize(cameraPosition - pos);
 
 	float lam = lambert(normal, -lightDirection);
 	
-	//float diff = lambert(normal, -lightDirection); // fuer cell
-	
 	vec4 materialColor = texture2D(diffuseTexture, uvs, 0.0);
 
 	vec4 lightColor4 = vec4(lightColor, 1);
 
 	float spec = specular(normal, -lightDirection, v, 100) * specularFactor;
-	vec4 diffuse = materialColor * lightColor4 * lam + lightColor4 * spec;
+	vec4 diffuse = pixelColor * lightColor4 * lam + lightColor4 * spec;
 
-	vec4 ambient = ambientFactor * 2 * lightColor4 * materialColor;
+	vec4 ambient = pixelColor * lightColor4  * ambientFactor;
 
-	//color = diffuse + ambient;
-	//color = vec4(lam, lam, lam, 1);
-
-	float pixelFactor = 60;
-
-	float uvx = round(uvs.x * pixelFactor) / (pixelFactor);
-	float uvy = round(uvs.y * pixelFactor) / (pixelFactor);
-
-	color = texture2D(diffuseTexture, vec2(uvx, uvy), 0.0);
+	float lightningBugFactor = max((1.5 - length(pos - lightningBugPosition)) / 1.5, 0);
+	vec4 lightningBugColor = vec4(0.9, 1, 0.4, 1) * lightningBugFactor * 0.4;
+	
+	color = diffuse + ambient + pixelColor * lightningBugColor;
 }

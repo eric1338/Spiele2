@@ -127,7 +127,7 @@ namespace DemoScene.Logic
 			{
 				if (!particle.HasEmitForceBeenUsed)
 				{
-					particle.AddForce(particle.EmitForce * 0.0001f);
+					particle.AddForce(particle.EmitForce * 0.005f);
 					particle.HasEmitForceBeenUsed = true;
 				}
 

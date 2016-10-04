@@ -55,7 +55,7 @@ namespace DemoScene.Visual.MyVisuals
 		{
 			GL.Uniform1(shader.GetUniformLocation("time"), mainVisual.Time);
 			GL.UniformMatrix4(shader.GetUniformLocation("camera"), true, ref cam);
-			GL.Uniform3(shader.GetUniformLocation("cameraPosition"), mainVisual.camera.CalcPosition());
+			GL.Uniform3(shader.GetUniformLocation("cameraPosition"), mainVisual.FirstPersonCamera.GetEyePosition());
 		}
 
 		protected void SetSunMoonUniforms(Shader shader)

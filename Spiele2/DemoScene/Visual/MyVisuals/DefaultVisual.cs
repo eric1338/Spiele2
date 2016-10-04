@@ -45,13 +45,7 @@ namespace DemoScene.Visual.MyVisuals
 			SetSunMoonUniforms(defaultShader);
 
 			GL.Uniform3(defaultShader.GetUniformLocation("lightningBugPosition"), mainVisual.LightningBugPosition);
-
 			GL.Uniform3(defaultShader.GetUniformLocation("playerPosition"), demoLevel.Player.Position);
-
-			foreach (Model groundModel in models.Ground)
-			{
-				RenderModel(defaultShader, groundModel);
-			}
 
 			RenderSettings rabbitRenderSettings = models.Rabbit.RenderSettings;
 			Rabbit rabbit = demoLevel.Rabbit;
@@ -61,6 +55,13 @@ namespace DemoScene.Visual.MyVisuals
 
 			RenderModel(defaultShader, models.Rabbit);
 
+			GL.Uniform1(defaultShader.GetUniformLocation("ambientFactor"), demoLevel.SunMoon.GetAmbientFactor() * 1.5f);
+
+			foreach (Model groundModel in models.Ground)
+			{
+				RenderModel(defaultShader, groundModel);
+			}
+
 			defaultShader.End();
 		}
 
@@ -68,8 +69,8 @@ namespace DemoScene.Visual.MyVisuals
 		{
 			SunMoon sunMoon = demoLevel.SunMoon;
 
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.One);
-			GL.BlendEquation(BlendEquationMode.FuncAdd);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+			GL.BlendEquation(BlendEquationMode.FuncSubtract);
 			//GL.DepthMask(false);
 			GL.Enable(EnableCap.Blend);
 			//GL.Enable(EnableCap.PointSprite);
@@ -167,6 +168,12 @@ namespace DemoScene.Visual.MyVisuals
 			{
 				RenderModel(skyboxShader, skyboxModel);
 			}
+
+			GL.Uniform1(skyboxShader.GetUniformLocation("brightness"), 1);
+
+			Model boardModel = demoLevel.ShowKeys ? models.KeysBoard : models.HelpBoard;
+
+			RenderModel(skyboxShader, boardModel);
 
 			skyboxShader.End();
 		}

@@ -18,12 +18,6 @@ namespace DemoScene.Visual
 
 		public FirstPersonCamera FirstPersonCamera { get; set; }
 
-		public CameraOrbit OrbitCamera { get { return camera; } }
-
-		public CameraOrbit camera = new CameraOrbit();
-
-		private Shader defaultShader;
-
 		private DemoLevel demoLevel;
 		private Models models;
 
@@ -51,10 +45,6 @@ namespace DemoScene.Visual
 			this.demoLevel = demoLevel;
 
 			FirstPersonCamera = new FirstPersonCamera(demoLevel.Player);
-			
-			camera.FarClip = 2000;
-			camera.Distance = 5;
-			camera.FovY = 50;
 
 			defaultVisual = new DefaultVisual(this, models, demoLevel);
 			figurinesVisual = new FigurinesVisual(this, models, demoLevel);

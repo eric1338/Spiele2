@@ -37,7 +37,7 @@ namespace DemoScene.DemoObjects
 		{
 			Vector3 lightColor = IsDay() ? sunLightColor : moonLightColor;
 
-			return lightColor * GetIntensity() * 0.25f;
+			return lightColor * GetIntensity() * 0.5f;
 		}
 
 		public float GetIntensity()
@@ -49,14 +49,14 @@ namespace DemoScene.DemoObjects
 
 			float intensity = Math.Abs(straightSunPosition.Y);
 
-			if (!IsDay()) intensity *= 0.6f;
+			if (!IsDay()) intensity *= 0.4f;
 
 			return intensity;
 		}
 
 		public float GetAmbientFactor()
 		{
-			return IsDay() ? 0.9f : 0.4f;
+			return IsDay() ? 0.8f : 0.4f;
 		}
 
 		public void IncreaseAngle()

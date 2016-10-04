@@ -35,5 +35,7 @@ namespace DemoScene.Utils
 		ToggleTetrahedronSphereVisual,
 		ToggleParticleSystemVisual,
 
+		ToggleKeysBoard,
+
 	}
 }

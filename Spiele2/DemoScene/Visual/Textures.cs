@@ -41,6 +41,8 @@ namespace DemoScene.Visual
 		public Texture Moon { get; set; }
 
 		public Texture Smoke { get; set; }
+		public Texture HelpBoard { get; set; }
+		public Texture KeysBoard { get; set; }
 
 		public void LoadTextures()
 		{
@@ -73,6 +75,9 @@ namespace DemoScene.Visual
 			Moon = TextureLoader.FromBitmap(Resources.moon);
 
 			Smoke = TextureLoader.FromBitmap(Resources.smoke);
+
+			HelpBoard = TextureLoader.FromBitmap(Resources.help);
+			KeysBoard = TextureLoader.FromBitmap(Resources.keys);
 
 			_texturesLoaded = true;
 		}

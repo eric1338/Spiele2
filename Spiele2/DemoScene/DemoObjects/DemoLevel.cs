@@ -36,6 +36,8 @@ namespace DemoScene.DemoObjects
 		private float windRotationAngle = -1.57f;
 		private float windRotationDelta = 0.02f;
 
+		public bool ShowKeys { get; set; } = false;
+
 		public DemoLevel()
 		{
 			SunMoon = new SunMoon();
