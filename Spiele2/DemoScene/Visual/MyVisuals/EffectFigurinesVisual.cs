@@ -56,9 +56,9 @@ namespace DemoScene.Visual.MyVisuals
 
 			RenderModel(blurShader, models.BlurFigurine);
 
-			pixelShader.End();
+			blurShader.End();
 
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.One);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 			GL.BlendEquation(BlendEquationMode.FuncAdd);
 			GL.Enable(EnableCap.Blend);
 			transparencyShader.Begin();
@@ -70,7 +70,7 @@ namespace DemoScene.Visual.MyVisuals
 
 			RenderModel(transparencyShader, models.TransparencyFigurine);
 
-			pixelShader.End();
+			transparencyShader.End();
 			GL.Disable(EnableCap.Blend);
 		}
 

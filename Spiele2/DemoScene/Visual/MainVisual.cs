@@ -27,7 +27,6 @@ namespace DemoScene.Visual
 
 		public Vector3 LightningBugPosition;
 
-
 		public DefaultVisual defaultVisual { get; set; }
 		public FigurinesVisual figurinesVisual { get; set; }
 		public EffectFigurinesVisual effectFigurinesVisual { get; set; }

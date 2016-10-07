@@ -12,6 +12,4 @@ out vec4 color;
 void main() 
 {
 	color = texture2D(sunMoonTexture, uvs, 0.0) * brightness;
-
-	//color = texture(sunMoonTexture, gl_PointCoord);
 }
